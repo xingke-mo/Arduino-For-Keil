@@ -17,17 +17,19 @@
 
 #include "stdint.h"
 
-class MillisTaskManager {
+class MillisTaskManager
+{
 public:
     typedef void(*void_TaskFunction_t)(void);//回调函数定义
     typedef uint8_t TaskNum_t;
-    typedef struct {
+    typedef struct
+    {
         bool State; //任务状态
         void_TaskFunction_t Function; //任务函数指针
         uint32_t IntervalTime; //任务触发间隔时间
         uint32_t TimePoint; //任务触发时间点
     } MillisTaskManager_TypeDef; //任务类型定义
-	
+
     MillisTaskManager(TaskNum_t TaskNum_MAX_Set);
     ~MillisTaskManager();
     bool TaskRegister(TaskNum_t ID, void_TaskFunction_t Function, uint32_t TimeSetMs, bool TaskState = true);

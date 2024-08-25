@@ -22,7 +22,7 @@ void loop()
         delay(1);
     }
 }
-
+#if 0
 /**
   * @brief  Main Function
   * @param  None
@@ -34,3 +34,4 @@ int main(void)
     setup();
     for(;;)loop();
 }
+#endif

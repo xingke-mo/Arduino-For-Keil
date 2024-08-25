@@ -48,8 +48,8 @@
   */
 void pwc_reset(void)
 {
-  crm_periph_reset(CRM_PWC_PERIPH_RESET, TRUE);
-  crm_periph_reset(CRM_PWC_PERIPH_RESET, FALSE);
+    crm_periph_reset(CRM_PWC_PERIPH_RESET, TRUE);
+    crm_periph_reset(CRM_PWC_PERIPH_RESET, FALSE);
 }
 
 /**
@@ -60,7 +60,7 @@ void pwc_reset(void)
   */
 void pwc_battery_powered_domain_access(confirm_state new_state)
 {
-  PWC->ctrl_bit.bpwen= new_state;
+    PWC->ctrl_bit.bpwen = new_state;
 }
 
 /**
@@ -78,7 +78,7 @@ void pwc_battery_powered_domain_access(confirm_state new_state)
   */
 void pwc_pvm_level_select(pwc_pvm_voltage_type pvm_voltage)
 {
-  PWC->ctrl_bit.pvmsel= pvm_voltage;
+    PWC->ctrl_bit.pvmsel = pvm_voltage;
 }
 
 /**
@@ -89,7 +89,7 @@ void pwc_pvm_level_select(pwc_pvm_voltage_type pvm_voltage)
   */
 void pwc_power_voltage_monitor_enable(confirm_state new_state)
 {
-  PWC->ctrl_bit.pvmen= new_state;
+    PWC->ctrl_bit.pvmen = new_state;
 }
 
 /**
@@ -106,14 +106,14 @@ void pwc_power_voltage_monitor_enable(confirm_state new_state)
   */
 void pwc_wakeup_pin_enable(uint32_t pin_num, confirm_state new_state)
 {
-  if(new_state == TRUE)
-  {
-    PWC->ctrlsts |= pin_num;
-  }
-  else
-  {
-    PWC->ctrlsts &= ~pin_num;
-  }
+    if(new_state == TRUE)
+    {
+        PWC->ctrlsts |= pin_num;
+    }
+    else
+    {
+        PWC->ctrlsts &= ~pin_num;
+    }
 }
 
 /**
@@ -127,10 +127,15 @@ void pwc_wakeup_pin_enable(uint32_t pin_num, confirm_state new_state)
   */
 void pwc_flag_clear(uint32_t pwc_flag)
 {
-  if(pwc_flag & PWC_STANDBY_FLAG)
-    PWC->ctrl_bit.clsef = TRUE;
-  if(pwc_flag & PWC_WAKEUP_FLAG)
-    PWC->ctrl_bit.clswef = TRUE;
+    if(pwc_flag & PWC_STANDBY_FLAG)
+    {
+        PWC->ctrl_bit.clsef = TRUE;
+    }
+
+    if(pwc_flag & PWC_WAKEUP_FLAG)
+    {
+        PWC->ctrl_bit.clswef = TRUE;
+    }
 }
 
 /**
@@ -144,16 +149,18 @@ void pwc_flag_clear(uint32_t pwc_flag)
   */
 flag_status pwc_flag_get(uint32_t pwc_flag)
 {
-  flag_status status = RESET;
-  if ((PWC->ctrlsts & pwc_flag) == RESET)
-  {
-    status = RESET;
-  }
-  else
-  {
-    status = SET;
-  }
-  return status;
+    flag_status status = RESET;
+
+    if((PWC->ctrlsts & pwc_flag) == RESET)
+    {
+        status = RESET;
+    }
+    else
+    {
+        status = SET;
+    }
+
+    return status;
 }
 
 /**
@@ -166,17 +173,18 @@ flag_status pwc_flag_get(uint32_t pwc_flag)
   */
 void pwc_sleep_mode_enter(pwc_sleep_enter_type pwc_sleep_enter)
 {
-  SCB->SCR &= (uint32_t)~0x4;
-  if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFE)
-  {
-    __SEV();
-    __WFE();
-    __WFE();
-  }
-  else if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFI)
-  {
-    __WFI();
-  }
+    SCB->SCR &= (uint32_t)~0x4;
+
+    if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFE)
+    {
+        __SEV();
+        __WFE();
+        __WFE();
+    }
+    else if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFI)
+    {
+        __WFI();
+    }
 }
 
 /**
@@ -189,18 +197,20 @@ void pwc_sleep_mode_enter(pwc_sleep_enter_type pwc_sleep_enter)
   */
 void pwc_deep_sleep_mode_enter(pwc_deep_sleep_enter_type pwc_deep_sleep_enter)
 {
-  SCB->SCR |= 0x04;
-  if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFE)
-  {
-    __SEV();
-    __WFE();
-    __WFE();
-  }
-  else if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFI)
-  {
-    __WFI();
-  }
-  SCB->SCR &= (uint32_t)~0x4;
+    SCB->SCR |= 0x04;
+
+    if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFE)
+    {
+        __SEV();
+        __WFE();
+        __WFE();
+    }
+    else if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFI)
+    {
+        __WFI();
+    }
+
+    SCB->SCR &= (uint32_t)~0x4;
 }
 
 /**
@@ -213,7 +223,7 @@ void pwc_deep_sleep_mode_enter(pwc_deep_sleep_enter_type pwc_deep_sleep_enter)
   */
 void pwc_voltage_regulate_set(pwc_regulator_type pwc_regulator)
 {
-  PWC->ctrl_bit.vrsel = pwc_regulator;
+    PWC->ctrl_bit.vrsel = pwc_regulator;
 }
 
 /**
@@ -223,16 +233,17 @@ void pwc_voltage_regulate_set(pwc_regulator_type pwc_regulator)
   */
 void pwc_standby_mode_enter(void)
 {
-  PWC->ctrl_bit.clswef = TRUE;
-  PWC->ctrl_bit.lpsel = TRUE;
-  SCB->SCR |= 0x04;
+    PWC->ctrl_bit.clswef = TRUE;
+    PWC->ctrl_bit.lpsel = TRUE;
+    SCB->SCR |= 0x04;
 #if defined (__CC_ARM)
-  __force_stores();
+    __force_stores();
 #endif
-  while(1)
-  {
-    __WFI();
-  }
+
+    while(1)
+    {
+        __WFI();
+    }
 }
 
 /**

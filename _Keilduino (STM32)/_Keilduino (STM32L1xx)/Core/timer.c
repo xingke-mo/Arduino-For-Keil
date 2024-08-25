@@ -26,7 +26,7 @@
 typedef enum
 {
     TIMER2, TIMER3, TIMER4,
-    TIMER5, TIMER6, TIMER7, 
+    TIMER5, TIMER6, TIMER7,
     TIMER9, TIMER10, TIMER11,
     TIMER_MAX
 } TIMERx_Type;
@@ -42,41 +42,41 @@ static Timer_CallbackFunction_t TIMx_Function[TIMER_MAX] = {0};
   */
 void Timer_ClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
 {
-    if (TIMx == TIM2)
+    if(TIMx == TIM2)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, NewState);
     }
-    else if (TIMx == TIM3)
+    else if(TIMx == TIM3)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, NewState);
     }
-    else if (TIMx == TIM4)
+    else if(TIMx == TIM4)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, NewState);
     }
-    else if (TIMx == TIM5)
+    else if(TIMx == TIM5)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, NewState);
     }
-    else if (TIMx == TIM6)
+    else if(TIMx == TIM6)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, NewState);
     }
-    else if (TIMx == TIM7)
+    else if(TIMx == TIM7)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, NewState);
     }
-    else if (TIMx == TIM9)
+    else if(TIMx == TIM9)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, NewState);
     }
-    else if (TIMx == TIM10)
+    else if(TIMx == TIM10)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, NewState);
     }
     else
     {
-        if (TIMx == TIM11)
+        if(TIMx == TIM11)
         {
             RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM11, NewState);
         }
@@ -121,7 +121,9 @@ static int32_t Timer_FreqToArrPsc(
     uint16_t max_error = 0xFFFF;
 
     if(freq == 0 || freq > clock)
+    {
         goto failed;
+    }
 
     /*获取arr和psc目标乘积*/
     prodect = clock / freq;
@@ -140,6 +142,7 @@ static int32_t Timer_FreqToArrPsc(
             /*求误差*/
             int32_t newerr = arr * psc - prodect;
             newerr = CLOCK_ABS(newerr);
+
             if(newerr < max_error)
             {
                 /*保存最小误差*/
@@ -147,9 +150,12 @@ static int32_t Timer_FreqToArrPsc(
                 /*保存arr和psc*/
                 *period = arr;
                 *prescaler = psc;
+
                 /*最佳*/
                 if(max_error == 0)
+                {
                     goto success;
+                }
             }
         }
     }
@@ -195,6 +201,7 @@ static void Timer_TimeToArrPsc(
         arr = prodect / 20000;
         psc = prodect / arr;
     }
+
     *period = arr;
     *prescaler = psc;
 }
@@ -212,7 +219,9 @@ void Timer_SetInterrupt(TIM_TypeDef* TIMx, uint32_t time, Timer_CallbackFunction
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx) || time == 0)
+    {
         return;
+    }
 
     /*将定时中断时间转换为重装值和时钟分频值*/
     Timer_TimeToArrPsc(
@@ -245,7 +254,9 @@ void Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t freq)
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx) || freq == 0)
+    {
         return;
+    }
 
     Timer_FreqToArrPsc(
         freq,
@@ -265,8 +276,11 @@ void Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t freq)
 uint32_t Timer_GetClockOut(TIM_TypeDef* TIMx)
 {
     uint32_t clock = Timer_GetClockMax(TIMx);
+
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return 0;
+    }
 
     return (clock / ((TIMx->ARR + 1) * (TIMx->PSC + 1)));
 }
@@ -283,7 +297,9 @@ void Timer_SetInterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t time)
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     Timer_TimeToArrPsc(
         time,
@@ -318,26 +334,28 @@ void Timer_SetInterruptBase(
     TIMERx_Type TIMERx;
 
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
 #define TIMx_IRQ_DEF(n,x_IRQn)\
-do{\
-    if(TIMx == TIM##n)\
-    {\
-        TIMERx = TIMER##n;\
-        TIMx_IRQn = x_IRQn;\
+    do{\
+        if(TIMx == TIM##n)\
+        {\
+            TIMERx = TIMER##n;\
+            TIMx_IRQn = x_IRQn;\
+        }\
     }\
-}\
-while(0)
+    while(0)
 
-    /*如果提示 
+    /*如果提示
      *identifier "xxx_IRQn" is undefined
      *把未定义的注释掉即可
      */
     TIMx_IRQ_DEF(2, TIM2_IRQn);
     TIMx_IRQ_DEF(3, TIM3_IRQn);
     TIMx_IRQ_DEF(4, TIM4_IRQn);
-//    TIMx_IRQ_DEF(5, TIM5_IRQn);
+    //    TIMx_IRQ_DEF(5, TIM5_IRQn);
     TIMx_IRQ_DEF(6, TIM6_IRQn);
     TIMx_IRQ_DEF(7, TIM7_IRQn);
     TIMx_IRQ_DEF(9, TIM9_IRQn);
@@ -345,7 +363,9 @@ while(0)
     TIMx_IRQ_DEF(11, TIM11_IRQn);
 
     if(TIMx_IRQn == 0)
+    {
         return;
+    }
 
     /*register callback function*/
     TIMx_Function[TIMERx] = function;
@@ -373,13 +393,13 @@ while(0)
 }
 
 #define TIMx_IRQHANDLER(n)\
-do{\
-    if(TIM_GetITStatus(TIM##n, TIM_IT_Update) != RESET)\
-    {\
-        if(TIMx_Function[TIMER##n]) TIMx_Function[TIMER##n]();\
-        TIM_ClearITPendingBit(TIM##n, TIM_IT_Update);\
-    }\
-}while(0)
+    do{\
+        if(TIM_GetITStatus(TIM##n, TIM_IT_Update) != RESET)\
+        {\
+            if(TIMx_Function[TIMER##n]) TIMx_Function[TIMER##n]();\
+            TIM_ClearITPendingBit(TIM##n, TIM_IT_Update);\
+        }\
+    }while(0)
 
 /**
   * @brief  定时中断入口，定时器2

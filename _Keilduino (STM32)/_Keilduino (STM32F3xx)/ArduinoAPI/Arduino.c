@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,8 +31,10 @@
 void pinMode(uint8_t Pin, pinMode_TypeDef pinMode_x)
 {
     if(!IS_PIN(Pin))
+    {
         return;
-    
+    }
+
     if(pinMode_x == PWM)
     {
         PWM_Init(Pin, 1000, 2000);
@@ -40,13 +42,13 @@ void pinMode(uint8_t Pin, pinMode_TypeDef pinMode_x)
     else if(pinMode_x != PWM)
     {
         GPIOx_Init(
-            PIN_MAP[Pin].GPIOx, 
-            PIN_MAP[Pin].GPIO_Pin_x, 
-            pinMode_x, 
+            PIN_MAP[Pin].GPIOx,
+            PIN_MAP[Pin].GPIO_Pin_x,
+            pinMode_x,
             GPIO_Speed_50MHz
         );
     }
-    
+
 }
 
 /**
@@ -58,8 +60,10 @@ void pinMode(uint8_t Pin, pinMode_TypeDef pinMode_x)
 void digitalWrite(uint8_t Pin, uint8_t val)
 {
     if(!IS_PIN(Pin))
+    {
         return;
-    
+    }
+
     val ? digitalWrite_HIGH(Pin) : digitalWrite_LOW(Pin);
 }
 
@@ -71,8 +75,10 @@ void digitalWrite(uint8_t Pin, uint8_t val)
 uint8_t digitalRead(uint8_t Pin)
 {
     if(!IS_PIN(Pin))
+    {
         return 0;
-    
+    }
+
     return digitalRead_FAST(Pin);
 }
 
@@ -85,8 +91,10 @@ uint8_t digitalRead(uint8_t Pin)
 uint16_t analogWrite(uint8_t Pin, uint16_t val)
 {
     if(!IS_PIN(Pin))
+    {
         return 0;
-    
+    }
+
     return (IS_PWM_PIN(Pin) ? pwmWrite(Pin, val) : 0);
 }
 
@@ -122,7 +130,8 @@ void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t value
 {
     uint8_t i;
     digitalWrite_LOW(clockPin);
-    for (i = 0; i < 8; i++)
+
+    for(i = 0; i < 8; i++)
     {
         int bit = bitOrder == LSBFIRST ? i : (7 - i);
         digitalWrite(dataPin, (value >> bit) & 0x1);
@@ -142,10 +151,12 @@ uint32_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint32_t bitOrder)
 {
     uint8_t value = 0 ;
     uint8_t i ;
-    for ( i = 0 ; i < 8 ; ++i )
+
+    for(i = 0 ; i < 8 ; ++i)
     {
         digitalWrite_HIGH(clockPin) ;
-        if (bitOrder == LSBFIRST )
+
+        if(bitOrder == LSBFIRST)
         {
             value |= digitalRead(dataPin) << i ;
         }
@@ -153,6 +164,7 @@ uint32_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint32_t bitOrder)
         {
             value |= digitalRead(dataPin) << (7 - i) ;
         }
+
         digitalWrite_LOW(clockPin);
     }
 
@@ -194,53 +206,64 @@ double fmap(double x, double in_min, double in_max, double out_min, double out_m
   * @param  timeout: 等待脉冲开始的微秒数
   * @retval 脉冲的长度(以微秒计)或0, 如果没有脉冲在超时之前开始
   */
-uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout )
+uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout)
 {
-   // cache the IDR address and bit of the pin in order to speed up the
-   // pulse width measuring loop and achieve finer resolution.  calling
-   // digitalRead() instead yields much coarser resolution.
- 
-   __IO uint16_t *idr = portInputRegister(digitalPinToPort(pin));
-   const uint32_t bit = digitalPinToBitMask(pin);
-   const uint32_t stateMask = (state ? bit:0);
+    // cache the IDR address and bit of the pin in order to speed up the
+    // pulse width measuring loop and achieve finer resolution.  calling
+    // digitalRead() instead yields much coarser resolution.
 
-   uint32_t width = 0; // keep initialization out of time critical area
-   
-   // convert the timeout from microseconds to a number of times through
-   // the initial loop; it takes 16 clock cycles per iteration.
-   uint32_t numloops = 0;
-   uint32_t maxloops =  timeout * ( F_CPU / 16000000);
-   volatile uint32_t dummyWidth=0;
-    
-   if(!IS_PIN(pin))
+    __IO uint16_t *idr = portInputRegister(digitalPinToPort(pin));
+    const uint32_t bit = digitalPinToBitMask(pin);
+    const uint32_t stateMask = (state ? bit : 0);
+
+    uint32_t width = 0; // keep initialization out of time critical area
+
+    // convert the timeout from microseconds to a number of times through
+    // the initial loop; it takes 16 clock cycles per iteration.
+    uint32_t numloops = 0;
+    uint32_t maxloops =  timeout * (F_CPU / 16000000);
+    volatile uint32_t dummyWidth = 0;
+
+    if(!IS_PIN(pin))
+    {
         return 0;
-   
-   // wait for any previous pulse to end
-   while ((*idr & bit) == stateMask)   {
-      if (numloops++ == maxloops)  {
-         return 0;
-      }
-      dummyWidth++;
-   }
-   
-   // wait for the pulse to start
-   while ((*idr & bit) != stateMask)   {
-      if (numloops++ == maxloops) {
-         return 0;
-      }
-      dummyWidth++;
-   }
-   
-   // wait for the pulse to stop
-   while ((*idr & bit) == stateMask) {
-      if (numloops++ == maxloops)  {
-         return 0;
-      }
-      width++;
-   }
+    }
 
-   // Excluding time taking up by the interrupts, it needs 16 clock cycles to look through the last while loop  
-   // 5 is added as a fiddle factor to correct for interrupts etc. But ultimately this would only be accurate if it was done ona hardware timer
-   
-   return (uint32_t)( ( (unsigned long long)(width+5) *  (unsigned long long) 16000000.0) /(unsigned long long)F_CPU ) ;
+    // wait for any previous pulse to end
+    while((*idr & bit) == stateMask)
+    {
+        if(numloops++ == maxloops)
+        {
+            return 0;
+        }
+
+        dummyWidth++;
+    }
+
+    // wait for the pulse to start
+    while((*idr & bit) != stateMask)
+    {
+        if(numloops++ == maxloops)
+        {
+            return 0;
+        }
+
+        dummyWidth++;
+    }
+
+    // wait for the pulse to stop
+    while((*idr & bit) == stateMask)
+    {
+        if(numloops++ == maxloops)
+        {
+            return 0;
+        }
+
+        width++;
+    }
+
+    // Excluding time taking up by the interrupts, it needs 16 clock cycles to look through the last while loop
+    // 5 is added as a fiddle factor to correct for interrupts etc. But ultimately this would only be accurate if it was done ona hardware timer
+
+    return (uint32_t)(((unsigned long long)(width + 5) * (unsigned long long) 16000000.0) / (unsigned long long)F_CPU) ;
 }

@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,13 +43,17 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
     uint8_t Pinx;
 
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = Get_Pinx(Pin);
 
     if(Pinx > 15)
+    {
         return;
-    
+    }
+
     EXTI_Function[Pinx] = function;
 
     //GPIO中断线以及中断初始化配置
@@ -69,24 +73,32 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
         case 0:
             EXTIx_IRQn = EXTI0_IRQn;
             break;
+
         case 1:
             EXTIx_IRQn = EXTI1_IRQn;
             break;
+
         case 2:
             EXTIx_IRQn = EXTI2_TS_IRQn;
             break;
+
         case 3:
             EXTIx_IRQn = EXTI3_IRQn;
             break;
+
         case 4:
             EXTIx_IRQn = EXTI4_IRQn;
             break;
         }
     }
     else if(Pinx >= 5 && Pinx <= 9)
+    {
         EXTIx_IRQn = EXTI9_5_IRQn;
+    }
     else if(Pinx >= 10 && Pinx <= 15)
+    {
         EXTIx_IRQn = EXTI15_10_IRQn;
+    }
 
     NVIC_InitStructure.NVIC_IRQChannel = EXTIx_IRQn;                    //使能所在的外部中断通道
     NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = PreemptionPriority;      //抢占优先级
@@ -119,12 +131,16 @@ void detachInterrupt(uint8_t Pin)
     uint8_t Pinx;
 
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = Get_Pinx(Pin);
 
     if(Pinx > 15)
+    {
         return;
+    }
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
     SYSCFG_EXTILineConfig(Get_EXTI_PortSourceGPIOx(Pin), Get_EXTI_PinSourcex(Pin));//选择GPIO作为外部中断线路
@@ -143,7 +159,11 @@ void EXTI0_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line0) != RESET)
     {
-        if(EXTI_Function[0]) EXTI_Function[0]();
+        if(EXTI_Function[0])
+        {
+            EXTI_Function[0]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line0);
     }
 }
@@ -157,7 +177,11 @@ void EXTI1_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line1) != RESET)
     {
-        if(EXTI_Function[1]) EXTI_Function[1]();
+        if(EXTI_Function[1])
+        {
+            EXTI_Function[1]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line1);
     }
 }
@@ -171,7 +195,11 @@ void EXTI2_TS_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line2) != RESET)
     {
-        if(EXTI_Function[2]) EXTI_Function[2]();
+        if(EXTI_Function[2])
+        {
+            EXTI_Function[2]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line2);
     }
 }
@@ -185,7 +213,11 @@ void EXTI3_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line3) != RESET)
     {
-        if(EXTI_Function[3]) EXTI_Function[3]();
+        if(EXTI_Function[3])
+        {
+            EXTI_Function[3]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line3);
     }
 }
@@ -199,7 +231,11 @@ void EXTI4_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line4) != RESET)
     {
-        if(EXTI_Function[4]) EXTI_Function[4]();
+        if(EXTI_Function[4])
+        {
+            EXTI_Function[4]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line4);
     }
 }
@@ -213,27 +249,51 @@ void EXTI9_5_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line5) != RESET)
     {
-        if(EXTI_Function[5]) EXTI_Function[5]();
+        if(EXTI_Function[5])
+        {
+            EXTI_Function[5]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line5);
     }
+
     if(EXTI_GetITStatus(EXTI_Line6) != RESET)
     {
-        if(EXTI_Function[6]) EXTI_Function[6]();
+        if(EXTI_Function[6])
+        {
+            EXTI_Function[6]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line6);
     }
+
     if(EXTI_GetITStatus(EXTI_Line7) != RESET)
     {
-        if(EXTI_Function[7]) EXTI_Function[7]();
+        if(EXTI_Function[7])
+        {
+            EXTI_Function[7]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line7);
     }
+
     if(EXTI_GetITStatus(EXTI_Line8) != RESET)
     {
-        if(EXTI_Function[8]) EXTI_Function[8]();
+        if(EXTI_Function[8])
+        {
+            EXTI_Function[8]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line8);
     }
+
     if(EXTI_GetITStatus(EXTI_Line9) != RESET)
     {
-        if(EXTI_Function[9]) EXTI_Function[9]();
+        if(EXTI_Function[9])
+        {
+            EXTI_Function[9]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line9);
     }
 }
@@ -247,32 +307,61 @@ void EXTI15_10_IRQHandler(void)
 {
     if(EXTI_GetITStatus(EXTI_Line10) != RESET)
     {
-        if(EXTI_Function[10]) EXTI_Function[10]();
+        if(EXTI_Function[10])
+        {
+            EXTI_Function[10]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line10);
     }
+
     if(EXTI_GetITStatus(EXTI_Line11) != RESET)
     {
-        if(EXTI_Function[11]) EXTI_Function[11]();
+        if(EXTI_Function[11])
+        {
+            EXTI_Function[11]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line11);
     }
+
     if(EXTI_GetITStatus(EXTI_Line12) != RESET)
     {
-        if(EXTI_Function[12]) EXTI_Function[12]();
+        if(EXTI_Function[12])
+        {
+            EXTI_Function[12]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line12);
     }
+
     if(EXTI_GetITStatus(EXTI_Line13) != RESET)
     {
-        if(EXTI_Function[13]) EXTI_Function[13]();
+        if(EXTI_Function[13])
+        {
+            EXTI_Function[13]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line13);
     }
+
     if(EXTI_GetITStatus(EXTI_Line14) != RESET)
     {
-        if(EXTI_Function[14]) EXTI_Function[14]();
+        if(EXTI_Function[14])
+        {
+            EXTI_Function[14]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line14);
     }
+
     if(EXTI_GetITStatus(EXTI_Line15) != RESET)
     {
-        if(EXTI_Function[15]) EXTI_Function[15]();
+        if(EXTI_Function[15])
+        {
+            EXTI_Function[15]();
+        }
+
         EXTI_ClearITPendingBit(EXTI_Line15);
     }
 }

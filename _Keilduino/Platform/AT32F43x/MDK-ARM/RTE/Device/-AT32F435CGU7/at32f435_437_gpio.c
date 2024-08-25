@@ -50,46 +50,46 @@
   */
 void gpio_reset(gpio_type *gpio_x)
 {
-  if(gpio_x == GPIOA)
-  {
-    crm_periph_reset(CRM_GPIOA_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOA_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOB)
-  {
-    crm_periph_reset(CRM_GPIOB_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOB_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOC)
-  {
-    crm_periph_reset(CRM_GPIOC_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOC_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOD)
-  {
-    crm_periph_reset(CRM_GPIOD_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOD_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOE)
-  {
-    crm_periph_reset(CRM_GPIOE_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOE_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOF)
-  {
-    crm_periph_reset(CRM_GPIOF_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOF_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOG)
-  {
-    crm_periph_reset(CRM_GPIOG_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOG_PERIPH_RESET, FALSE);
-  }
-  else if(gpio_x == GPIOH)
-  {
-    crm_periph_reset(CRM_GPIOH_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_GPIOH_PERIPH_RESET, FALSE);
-  }
+    if(gpio_x == GPIOA)
+    {
+        crm_periph_reset(CRM_GPIOA_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOA_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOB)
+    {
+        crm_periph_reset(CRM_GPIOB_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOB_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOC)
+    {
+        crm_periph_reset(CRM_GPIOC_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOC_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOD)
+    {
+        crm_periph_reset(CRM_GPIOD_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOD_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOE)
+    {
+        crm_periph_reset(CRM_GPIOE_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOE_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOF)
+    {
+        crm_periph_reset(CRM_GPIOF_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOF_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOG)
+    {
+        crm_periph_reset(CRM_GPIOG_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOG_PERIPH_RESET, FALSE);
+    }
+    else if(gpio_x == GPIOH)
+    {
+        crm_periph_reset(CRM_GPIOH_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_GPIOH_PERIPH_RESET, FALSE);
+    }
 }
 
 /**
@@ -102,29 +102,30 @@ void gpio_reset(gpio_type *gpio_x)
   */
 void gpio_init(gpio_type *gpio_x, gpio_init_type *gpio_init_struct)
 {
-  uint16_t pinx_value, pin_index = 0;
+    uint16_t pinx_value, pin_index = 0;
 
-  pinx_value = (uint16_t)gpio_init_struct->gpio_pins;
+    pinx_value = (uint16_t)gpio_init_struct->gpio_pins;
 
-  while(pinx_value > 0)
-  {
-    if(pinx_value & 0x01)
+    while(pinx_value > 0)
     {
-      gpio_x->cfgr  &= (uint32_t)~(0x03 << (pin_index * 2));
-      gpio_x->cfgr  |= (uint32_t)(gpio_init_struct->gpio_mode << (pin_index * 2));
+        if(pinx_value & 0x01)
+        {
+            gpio_x->cfgr  &= (uint32_t)~(0x03 << (pin_index * 2));
+            gpio_x->cfgr  |= (uint32_t)(gpio_init_struct->gpio_mode << (pin_index * 2));
 
-      gpio_x->omode &= (uint32_t)~(0x01 << (pin_index));
-      gpio_x->omode |= (uint32_t)(gpio_init_struct->gpio_out_type << (pin_index));
+            gpio_x->omode &= (uint32_t)~(0x01 << (pin_index));
+            gpio_x->omode |= (uint32_t)(gpio_init_struct->gpio_out_type << (pin_index));
 
-      gpio_x->odrvr &= (uint32_t)~(0x03 << (pin_index * 2));
-      gpio_x->odrvr |= (uint32_t)(gpio_init_struct->gpio_drive_strength << (pin_index * 2));
+            gpio_x->odrvr &= (uint32_t)~(0x03 << (pin_index * 2));
+            gpio_x->odrvr |= (uint32_t)(gpio_init_struct->gpio_drive_strength << (pin_index * 2));
 
-      gpio_x->pull  &= (uint32_t)~(0x03 << (pin_index * 2));
-      gpio_x->pull  |= (uint32_t)(gpio_init_struct->gpio_pull << (pin_index * 2));
+            gpio_x->pull  &= (uint32_t)~(0x03 << (pin_index * 2));
+            gpio_x->pull  |= (uint32_t)(gpio_init_struct->gpio_pull << (pin_index * 2));
+        }
+
+        pinx_value >>= 1;
+        pin_index++;
     }
-    pinx_value >>= 1;
-    pin_index++;
-  }
 }
 
 /**
@@ -134,12 +135,12 @@ void gpio_init(gpio_type *gpio_x, gpio_init_type *gpio_init_struct)
   */
 void gpio_default_para_init(gpio_init_type *gpio_init_struct)
 {
-  /* reset gpio init structure parameters values */
-  gpio_init_struct->gpio_pins  = GPIO_PINS_ALL;
-  gpio_init_struct->gpio_mode = GPIO_MODE_INPUT;
-  gpio_init_struct->gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
-  gpio_init_struct->gpio_pull = GPIO_PULL_NONE;
-  gpio_init_struct->gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
+    /* reset gpio init structure parameters values */
+    gpio_init_struct->gpio_pins  = GPIO_PINS_ALL;
+    gpio_init_struct->gpio_mode = GPIO_MODE_INPUT;
+    gpio_init_struct->gpio_out_type = GPIO_OUTPUT_PUSH_PULL;
+    gpio_init_struct->gpio_pull = GPIO_PULL_NONE;
+    gpio_init_struct->gpio_drive_strength = GPIO_DRIVE_STRENGTH_STRONGER;
 }
 
 /**
@@ -169,18 +170,18 @@ void gpio_default_para_init(gpio_init_type *gpio_init_struct)
   */
 flag_status gpio_input_data_bit_read(gpio_type *gpio_x, uint16_t pins)
 {
-  flag_status status = RESET;
+    flag_status status = RESET;
 
-  if(pins != (pins & gpio_x->idt))
-  {
-    status = RESET;
-  }
-  else
-  {
-    status = SET;
-  }
+    if(pins != (pins & gpio_x->idt))
+    {
+        status = RESET;
+    }
+    else
+    {
+        status = SET;
+    }
 
-  return status;
+    return status;
 }
 
 /**
@@ -192,7 +193,7 @@ flag_status gpio_input_data_bit_read(gpio_type *gpio_x, uint16_t pins)
   */
 uint16_t gpio_input_data_read(gpio_type *gpio_x)
 {
-  return ((uint16_t)(gpio_x->idt));
+    return ((uint16_t)(gpio_x->idt));
 }
 
 /**
@@ -222,18 +223,18 @@ uint16_t gpio_input_data_read(gpio_type *gpio_x)
   */
 flag_status gpio_output_data_bit_read(gpio_type *gpio_x, uint16_t pins)
 {
-  flag_status status = RESET;
+    flag_status status = RESET;
 
-  if((gpio_x->odt & pins) != RESET)
-  {
-    status = SET;
-  }
-  else
-  {
-    status = RESET;
-  }
+    if((gpio_x->odt & pins) != RESET)
+    {
+        status = SET;
+    }
+    else
+    {
+        status = RESET;
+    }
 
-  return status;
+    return status;
 }
 
 /**
@@ -245,7 +246,7 @@ flag_status gpio_output_data_bit_read(gpio_type *gpio_x, uint16_t pins)
   */
 uint16_t gpio_output_data_read(gpio_type *gpio_x)
 {
-  return ((uint16_t)(gpio_x->odt));
+    return ((uint16_t)(gpio_x->odt));
 }
 
 /**
@@ -276,7 +277,7 @@ uint16_t gpio_output_data_read(gpio_type *gpio_x)
   */
 void gpio_bits_set(gpio_type *gpio_x, uint16_t pins)
 {
-  gpio_x->scr = pins;
+    gpio_x->scr = pins;
 }
 
 /**
@@ -307,7 +308,7 @@ void gpio_bits_set(gpio_type *gpio_x, uint16_t pins)
   */
 void gpio_bits_reset(gpio_type *gpio_x, uint16_t pins)
 {
-  gpio_x->clr = pins;
+    gpio_x->clr = pins;
 }
 
 /**
@@ -339,14 +340,14 @@ void gpio_bits_reset(gpio_type *gpio_x, uint16_t pins)
   */
 void gpio_bits_write(gpio_type *gpio_x, uint16_t pins, confirm_state bit_state)
 {
-  if(bit_state != FALSE)
-  {
-    gpio_x->scr = pins;
-  }
-  else
-  {
-    gpio_x->clr = pins;
-  }
+    if(bit_state != FALSE)
+    {
+        gpio_x->scr = pins;
+    }
+    else
+    {
+        gpio_x->clr = pins;
+    }
 }
 
 /**
@@ -359,7 +360,7 @@ void gpio_bits_write(gpio_type *gpio_x, uint16_t pins, confirm_state bit_state)
   */
 void gpio_port_write(gpio_type *gpio_x, uint16_t port_value)
 {
-  gpio_x->odt = port_value;
+    gpio_x->odt = port_value;
 }
 
 /**
@@ -390,19 +391,19 @@ void gpio_port_write(gpio_type *gpio_x, uint16_t port_value)
   */
 void gpio_pin_wp_config(gpio_type *gpio_x, uint16_t pins)
 {
-  uint32_t temp = 0x00010000;
+    uint32_t temp = 0x00010000;
 
-  temp |= pins;
-  /* set wpen bit */
-  gpio_x->wpr = temp;
-  /* reset wpen bit */
-  gpio_x->wpr =  pins;
-  /* set wpen bit */
-  gpio_x->wpr = temp;
-  /* read wpen bit*/
-  temp = gpio_x->wpr;
-  /* read wpen bit*/
-  temp = gpio_x->wpr;
+    temp |= pins;
+    /* set wpen bit */
+    gpio_x->wpr = temp;
+    /* reset wpen bit */
+    gpio_x->wpr =  pins;
+    /* set wpen bit */
+    gpio_x->wpr = temp;
+    /* read wpen bit*/
+    temp = gpio_x->wpr;
+    /* read wpen bit*/
+    temp = gpio_x->wpr;
 }
 
 /**
@@ -435,14 +436,14 @@ void gpio_pin_wp_config(gpio_type *gpio_x, uint16_t pins)
   */
 void gpio_pins_huge_driven_config(gpio_type *gpio_x, uint16_t pins, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    gpio_x->hdrv |= pins;
-  }
-  else
-  {
-    gpio_x->hdrv &= ~pins;
-  }
+    if(new_state != FALSE)
+    {
+        gpio_x->hdrv |= pins;
+    }
+    else
+    {
+        gpio_x->hdrv &= ~pins;
+    }
 }
 
 /**
@@ -490,22 +491,23 @@ void gpio_pins_huge_driven_config(gpio_type *gpio_x, uint16_t pins, confirm_stat
   */
 void gpio_pin_mux_config(gpio_type *gpio_x, gpio_pins_source_type gpio_pin_source, gpio_mux_sel_type gpio_mux)
 {
-  uint32_t temp = 0x00;
-  uint32_t temp_2 = 0x00;
+    uint32_t temp = 0x00;
+    uint32_t temp_2 = 0x00;
 
-  temp = ((uint32_t)(gpio_mux) << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
-  if(gpio_pin_source >> 0x03)
-  {
-    gpio_x->muxh &= ~((uint32_t)0xF << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
-    temp_2 = gpio_x->muxh | temp;
-    gpio_x->muxh = temp_2;
-  }
-  else
-  {
-    gpio_x->muxl &= ~((uint32_t)0xF << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
-    temp_2 = gpio_x->muxl | temp;
-    gpio_x->muxl = temp_2;
-  }
+    temp = ((uint32_t)(gpio_mux) << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
+
+    if(gpio_pin_source >> 0x03)
+    {
+        gpio_x->muxh &= ~((uint32_t)0xF << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
+        temp_2 = gpio_x->muxh | temp;
+        gpio_x->muxh = temp_2;
+    }
+    else
+    {
+        gpio_x->muxl &= ~((uint32_t)0xF << ((uint32_t)((uint32_t)gpio_pin_source & (uint32_t)0x07) * 4));
+        temp_2 = gpio_x->muxl | temp;
+        gpio_x->muxl = temp_2;
+    }
 }
 
 /**

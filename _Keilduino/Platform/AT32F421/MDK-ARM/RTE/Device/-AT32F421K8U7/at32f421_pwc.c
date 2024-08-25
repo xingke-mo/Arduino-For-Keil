@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_pwc.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the pwc firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -48,8 +46,8 @@
   */
 void pwc_reset(void)
 {
-  crm_periph_reset(CRM_PWC_PERIPH_RESET, TRUE);
-  crm_periph_reset(CRM_PWC_PERIPH_RESET, FALSE);
+    crm_periph_reset(CRM_PWC_PERIPH_RESET, TRUE);
+    crm_periph_reset(CRM_PWC_PERIPH_RESET, FALSE);
 }
 
 /**
@@ -60,7 +58,7 @@ void pwc_reset(void)
   */
 void pwc_battery_powered_domain_access(confirm_state new_state)
 {
-  PWC->ctrl_bit.bpwen = new_state;
+    PWC->ctrl_bit.bpwen = new_state;
 }
 
 /**
@@ -78,7 +76,7 @@ void pwc_battery_powered_domain_access(confirm_state new_state)
   */
 void pwc_pvm_level_select(pwc_pvm_voltage_type pvm_voltage)
 {
-  PWC->ctrl_bit.pvmsel = pvm_voltage;
+    PWC->ctrl_bit.pvmsel = pvm_voltage;
 }
 
 /**
@@ -89,7 +87,7 @@ void pwc_pvm_level_select(pwc_pvm_voltage_type pvm_voltage)
   */
 void pwc_power_voltage_monitor_enable(confirm_state new_state)
 {
-  PWC->ctrl_bit.pvmen = new_state;
+    PWC->ctrl_bit.pvmen = new_state;
 }
 
 /**
@@ -108,14 +106,14 @@ void pwc_power_voltage_monitor_enable(confirm_state new_state)
   */
 void pwc_wakeup_pin_enable(uint32_t pin_num, confirm_state new_state)
 {
-  if(new_state == TRUE)
-  {
-    PWC->ctrlsts |= pin_num;
-  }
-  else
-  {
-    PWC->ctrlsts &= ~pin_num;
-  }
+    if(new_state == TRUE)
+    {
+        PWC->ctrlsts |= pin_num;
+    }
+    else
+    {
+        PWC->ctrlsts &= ~pin_num;
+    }
 }
 
 /**
@@ -129,10 +127,15 @@ void pwc_wakeup_pin_enable(uint32_t pin_num, confirm_state new_state)
   */
 void pwc_flag_clear(uint32_t pwc_flag)
 {
-  if(pwc_flag & PWC_STANDBY_FLAG)
-    PWC->ctrl_bit.clsef = TRUE;
-  if(pwc_flag & PWC_WAKEUP_FLAG)
-    PWC->ctrl_bit.clswef = TRUE;
+    if(pwc_flag & PWC_STANDBY_FLAG)
+    {
+        PWC->ctrl_bit.clsef = TRUE;
+    }
+
+    if(pwc_flag & PWC_WAKEUP_FLAG)
+    {
+        PWC->ctrl_bit.clswef = TRUE;
+    }
 }
 
 /**
@@ -146,16 +149,18 @@ void pwc_flag_clear(uint32_t pwc_flag)
   */
 flag_status pwc_flag_get(uint32_t pwc_flag)
 {
-  flag_status status = RESET;
-  if ((PWC->ctrlsts & pwc_flag) == RESET)
-  {
-    status = RESET;
-  }
-  else
-  {
-    status = SET;
-  }
-  return status;
+    flag_status status = RESET;
+
+    if((PWC->ctrlsts & pwc_flag) == RESET)
+    {
+        status = RESET;
+    }
+    else
+    {
+        status = SET;
+    }
+
+    return status;
 }
 
 /**
@@ -168,17 +173,18 @@ flag_status pwc_flag_get(uint32_t pwc_flag)
   */
 void pwc_sleep_mode_enter(pwc_sleep_enter_type pwc_sleep_enter)
 {
-  SCB->SCR &= (uint32_t)~0x4;
-  if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFE)
-  {
-    __SEV();
-    __WFE();
-    __WFE();
-  }
-  else if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFI)
-  {
-    __WFI();
-  }
+    SCB->SCR &= (uint32_t)~0x4;
+
+    if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFE)
+    {
+        __SEV();
+        __WFE();
+        __WFE();
+    }
+    else if(pwc_sleep_enter == PWC_SLEEP_ENTER_WFI)
+    {
+        __WFI();
+    }
 }
 
 /**
@@ -191,18 +197,20 @@ void pwc_sleep_mode_enter(pwc_sleep_enter_type pwc_sleep_enter)
   */
 void pwc_deep_sleep_mode_enter(pwc_deep_sleep_enter_type pwc_deep_sleep_enter)
 {
-  SCB->SCR |= 0x04;
-  if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFE)
-  {
-    __SEV();
-    __WFE();
-    __WFE();
-  }
-  else if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFI)
-  {
-    __WFI();
-  }
-  SCB->SCR &= (uint32_t)~0x4;
+    SCB->SCR |= 0x04;
+
+    if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFE)
+    {
+        __SEV();
+        __WFE();
+        __WFE();
+    }
+    else if(pwc_deep_sleep_enter == PWC_DEEP_SLEEP_ENTER_WFI)
+    {
+        __WFI();
+    }
+
+    SCB->SCR &= (uint32_t)~0x4;
 }
 
 /**
@@ -211,28 +219,23 @@ void pwc_deep_sleep_mode_enter(pwc_deep_sleep_enter_type pwc_deep_sleep_enter)
   *         this parameter can be one of the following values:
   *         - PWC_REGULATOR_ON
   *         - PWC_REGULATOR_LOW_POWER
-  *         - PWC_REGULATOR_EXTRA_LOW_POWER
   * @retval none
   */
 void pwc_voltage_regulate_set(pwc_regulator_type pwc_regulator)
 {
-  switch(pwc_regulator)
-  {
-    case 0:
-      PWC->ctrl2_bit.vrexlpen = 0;
-      PWC->ctrl_bit.vrsel = 0;
-      break;
-    case 1:
-      PWC->ctrl2_bit.vrexlpen = 0;
-      PWC->ctrl_bit.vrsel = 1;
-      break;
-    case 2:
-      PWC->ctrl2_bit.vrexlpen = 1;
-      PWC->ctrl_bit.vrsel = 1;
-      break;
+    switch(pwc_regulator)
+    {
+    case PWC_REGULATOR_ON:
+        PWC->ctrl_bit.vrsel = FALSE;
+        break;
+
+    case PWC_REGULATOR_LOW_POWER:
+        PWC->ctrl_bit.vrsel = TRUE;
+        break;
+
     default:
-      break;
-  }
+        break;
+    }
 }
 
 /**
@@ -242,13 +245,17 @@ void pwc_voltage_regulate_set(pwc_regulator_type pwc_regulator)
   */
 void pwc_standby_mode_enter(void)
 {
-  PWC->ctrl_bit.clswef = TRUE;
-  PWC->ctrl_bit.lpsel = TRUE;
-  SCB->SCR |= 0x04;
+    PWC->ctrl_bit.clswef = TRUE;
+    PWC->ctrl_bit.lpsel = TRUE;
+    SCB->SCR |= 0x04;
 #if defined (__CC_ARM)
-  __force_stores();
+    __force_stores();
 #endif
-  __WFI();
+
+    while(1)
+    {
+        __WFI();
+    }
 }
 
 /**

@@ -36,31 +36,39 @@ static IRQn_Type EXTI_GetIRQn(uint8_t Pin)
     IRQn_Type EXTIx_IRQn;
     uint8_t Pinx = GPIO_GetPinNum(Pin);
 
-    if (Pinx <= 4)
+    if(Pinx <= 4)
     {
-        switch (Pinx)
+        switch(Pinx)
         {
         case 0:
             EXTIx_IRQn = EXTI0_IRQn;
             break;
+
         case 1:
             EXTIx_IRQn = EXTI1_IRQn;
             break;
+
         case 2:
             EXTIx_IRQn = EXTI2_IRQn;
             break;
+
         case 3:
             EXTIx_IRQn = EXTI3_IRQn;
             break;
+
         case 4:
             EXTIx_IRQn = EXTI4_IRQn;
             break;
         }
     }
-    else if (Pinx >= 5 && Pinx <= 9)
+    else if(Pinx >= 5 && Pinx <= 9)
+    {
         EXTIx_IRQn = EXTI9_5_IRQn;
-    else if (Pinx >= 10 && Pinx <= 15)
+    }
+    else if(Pinx >= 10 && Pinx <= 15)
+    {
         EXTIx_IRQn = EXTI15_10_IRQn;
+    }
 
     return EXTIx_IRQn;
 }
@@ -80,13 +88,17 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
     NVIC_InitTypeDef NVIC_InitStructure;
     uint8_t Pinx;
 
-    if (!IS_PIN(Pin))
+    if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = GPIO_GetPinNum(Pin);
 
-    if (Pinx > 15)
+    if(Pinx > 15)
+    {
         return;
+    }
 
     EXTI_Function[Pinx] = function;
 
@@ -126,8 +138,10 @@ void attachInterrupt(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_
   */
 void detachInterrupt(uint8_t Pin)
 {
-    if (!IS_PIN(Pin))
+    if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     NVIC_DisableIRQ(EXTI_GetIRQn(Pin));
 }

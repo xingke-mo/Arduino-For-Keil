@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.2.3
   * @date    10-July-2015
-  * @brief   This file contains all the functions prototypes for the SYSCFG firmware 
+  * @brief   This file contains all the functions prototypes for the SYSCFG firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32F30x_SYSCFG_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /*!< Includes ----------------------------------------------------------------*/
@@ -50,11 +50,11 @@
 
 /** @defgroup SYSCFG_Exported_Constants
   * @{
-  */ 
-  
-/** @defgroup SYSCFG_EXTI_Port_Sources 
+  */
+
+/** @defgroup SYSCFG_EXTI_Port_Sources
   * @{
-  */ 
+  */
 #define EXTI_PortSourceGPIOA       ((uint8_t)0x00)
 #define EXTI_PortSourceGPIOB       ((uint8_t)0x01)
 #define EXTI_PortSourceGPIOC       ((uint8_t)0x02)
@@ -65,20 +65,20 @@
 #define EXTI_PortSourceGPIOH       ((uint8_t)0x07)
 
 #define IS_EXTI_PORT_SOURCE(PORTSOURCE) (((PORTSOURCE) == EXTI_PortSourceGPIOA) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOB) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOC) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOD) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOE) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOF)|| \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOG)|| \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOH)) 
+        ((PORTSOURCE) == EXTI_PortSourceGPIOB) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOC) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOD) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOE) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOF)|| \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOG)|| \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOH))
 /**
   * @}
   */
 
-/** @defgroup SYSCFG_EXTI_Pin_sources 
+/** @defgroup SYSCFG_EXTI_Pin_sources
   * @{
-  */ 
+  */
 #define EXTI_PinSource0            ((uint8_t)0x00)
 #define EXTI_PinSource1            ((uint8_t)0x01)
 #define EXTI_PinSource2            ((uint8_t)0x02)
@@ -116,9 +116,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_Memory_Remap_Config 
+/** @defgroup SYSCFG_Memory_Remap_Config
   * @{
-  */ 
+  */
 #define SYSCFG_MemoryRemap_Flash                ((uint8_t)0x00)
 #define SYSCFG_MemoryRemap_SystemMemory         ((uint8_t)0x01)
 #define SYSCFG_MemoryRemap_SRAM                 ((uint8_t)0x03)
@@ -134,9 +134,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_DMA_Remap_Config 
+/** @defgroup SYSCFG_DMA_Remap_Config
   * @{
-  */ 
+  */
 #define SYSCFG_DMARemap_TIM17              SYSCFG_CFGR1_TIM17_DMA_RMP        /*!< Remap TIM17 DMA requests from channel1 to channel2 */
 #define SYSCFG_DMARemap_TIM16              SYSCFG_CFGR1_TIM16_DMA_RMP        /*!< Remap TIM16 DMA requests from channel3 to channel4 */
 #define SYSCFG_DMARemap_ADC2ADC4           SYSCFG_CFGR1_ADC24_DMA_RMP        /*!< Remap ADC2 and ADC4 DMA requests */
@@ -164,10 +164,10 @@
 #define SYSCFG_DMARemapCh4_ADC2            ((uint32_t)0x80000300)            /* Remap ADC2 DMA1 Ch4 requests */
 #define SYSCFG_DMARemapCh2_ADC2            ((uint32_t)0x80000200)            /* Remap ADC2 DMA1 Ch2 requests */
 
-/* SYSCFG_DMA_Remap_Legacy */ 
+/* SYSCFG_DMA_Remap_Legacy */
 #define SYSCFG_DMARemap_TIM6DAC1           SYSCFG_DMARemap_TIM6DAC1Ch1       /*!< Remap TIM6/DAC1 DMA requests */
 #define SYSCFG_DMARemap_TIM7DAC2           SYSCFG_DMARemap_TIM7DAC1Ch2       /*!< Remap TIM7/DAC2 DMA requests */
-    
+
 #define IS_SYSCFG_DMA_REMAP(REMAP) (((REMAP) == SYSCFG_DMARemap_TIM17)    || \
                                     ((REMAP) == SYSCFG_DMARemap_TIM16)    || \
                                     ((REMAP) == SYSCFG_DMARemap_ADC2ADC4) || \
@@ -193,9 +193,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_Trigger_Remap_Config 
+/** @defgroup SYSCFG_Trigger_Remap_Config
   * @{
-  */ 
+  */
 #define SYSCFG_TriggerRemap_DACTIM3              SYSCFG_CFGR1_DAC1_TRIG1_RMP     /*!< Remap DAC trigger to TIM3 */
 #define SYSCFG_TriggerRemap_TIM1TIM17            SYSCFG_CFGR1_TIM1_ITR3_RMP      /*!< Remap TIM1 ITR3 to TIM17 OC */
 #define SYSCFG_TriggerRemap_DACHRTIM1_TRIG1      ((uint32_t)0x80010000)          /*!< Remap DAC trigger to HRTIM1 TRIG1 */
@@ -210,9 +210,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_EncoderRemap_Config 
+/** @defgroup SYSCFG_EncoderRemap_Config
   * @{
-  */ 
+  */
 #define SYSCFG_EncoderRemap_No              ((uint32_t)0x00000000)      /*!< No redirection */
 #define SYSCFG_EncoderRemap_TIM2            SYSCFG_CFGR1_ENCODER_MODE_0 /*!< Timer 2 IC1 and IC2 connected to TIM15 IC1 and IC2 */
 #define SYSCFG_EncoderRemap_TIM3            SYSCFG_CFGR1_ENCODER_MODE_1 /*!< Timer 3 IC1 and IC2 connected to TIM15 IC1 and IC2 */
@@ -227,9 +227,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_I2C_FastModePlus_Config 
+/** @defgroup SYSCFG_I2C_FastModePlus_Config
   * @{
-  */ 
+  */
 #define SYSCFG_I2CFastModePlus_PB6       SYSCFG_CFGR1_I2C_PB6_FMP  /*!< Enable Fast Mode Plus on PB6 */
 #define SYSCFG_I2CFastModePlus_PB7       SYSCFG_CFGR1_I2C_PB7_FMP  /*!< Enable Fast Mode Plus on PB7 */
 #define SYSCFG_I2CFastModePlus_PB8       SYSCFG_CFGR1_I2C_PB8_FMP  /*!< Enable Fast Mode Plus on PB8 */
@@ -250,9 +250,9 @@
   * @}
   */
 
-/** @defgroup SYSCFG_FPU_Interrupt_Config 
+/** @defgroup SYSCFG_FPU_Interrupt_Config
   * @{
-  */ 
+  */
 #define SYSCFG_IT_IXC              SYSCFG_CFGR1_FPU_IE_5  /*!< Inexact Interrupt enable (interrupt disabled by default) */
 #define SYSCFG_IT_IDC              SYSCFG_CFGR1_FPU_IE_4  /*!< Input denormal Interrupt enable */
 #define SYSCFG_IT_OFC              SYSCFG_CFGR1_FPU_IE_3  /*!< Overflow Interrupt enable */
@@ -328,24 +328,24 @@
                                                                                  1: Remap (TIM20_CC2) */
 
 #define IS_SYSCFG_ADC_TRIGGER_REMAP(RMP) (((RMP) == REMAPADCTRIGGER_ADC12_EXT2)   || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_EXT3)   || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_EXT5)   || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_EXT13)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_EXT15)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_JEXT3)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_JEXT6)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC12_JEXT13) || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_EXT5)   || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_EXT6)   || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_EXT15)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_JEXT5)  || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_JEXT11) || \
-                                          ((RMP) == REMAPADCTRIGGER_ADC34_JEXT14))
-                                      
+        ((RMP) == REMAPADCTRIGGER_ADC12_EXT3)   || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_EXT5)   || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_EXT13)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_EXT15)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_JEXT3)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_JEXT6)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC12_JEXT13) || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_EXT5)   || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_EXT6)   || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_EXT15)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_JEXT5)  || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_JEXT11) || \
+        ((RMP) == REMAPADCTRIGGER_ADC34_JEXT14))
+
 /**
   * @}
   */
-  
+
 /** @defgroup SYSCFG_SRAMWRP_Config
   * @{
   */
@@ -372,7 +372,7 @@
   * @}
   */
 
-/** @defgroup SYSCFG_flags_definition 
+/** @defgroup SYSCFG_flags_definition
   * @{
   */
 
@@ -394,7 +394,7 @@
 /*  Function used to set the SYSCFG configuration to the default reset state **/
 void SYSCFG_DeInit(void);
 
-/* SYSCFG configuration functions *********************************************/ 
+/* SYSCFG configuration functions *********************************************/
 void SYSCFG_MemoryRemapConfig(uint32_t SYSCFG_MemoryRemap);
 void SYSCFG_DMAChannelRemapConfig(uint32_t SYSCFG_DMARemap, FunctionalState NewState);
 void SYSCFG_TriggerRemapConfig(uint32_t SYSCFG_TriggerRemap, FunctionalState NewState);
@@ -418,10 +418,10 @@ void SYSCFG_ClearFlag(uint32_t SYSCFG_Flag);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

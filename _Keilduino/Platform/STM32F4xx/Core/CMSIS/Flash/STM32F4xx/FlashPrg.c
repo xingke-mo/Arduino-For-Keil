@@ -56,22 +56,24 @@ typedef          unsigned long     u32;
 #define FLASH           ((FLASH_TypeDef*) FLASH_BASE)
 
 // Independent WATCHDOG
-typedef struct {
-  vu32 KR;
-  vu32 PR;
-  vu32 RLR;
-  vu32 SR;
+typedef struct
+{
+    vu32 KR;
+    vu32 PR;
+    vu32 RLR;
+    vu32 SR;
 } IWDG_TypeDef;
 
 // Flash Registers
-typedef struct {
-  vu32 ACR;
-  vu32 KEYR;
-  vu32 OPTKEYR;
-  vu32 SR;
-  vu32 CR;
-  vu32 OPTCR;
-  vu32 OPTCR1;
+typedef struct
+{
+    vu32 ACR;
+    vu32 KEYR;
+    vu32 OPTKEYR;
+    vu32 SR;
+    vu32 CR;
+    vu32 OPTCR;
+    vu32 OPTCR1;
 } FLASH_TypeDef;
 
 
@@ -125,37 +127,47 @@ typedef struct {
  *    Return Value:   Sector Number
  */
 #if defined FLASH_MEM
-unsigned long GetSecNum (unsigned long adr) {
-  unsigned long n;
+unsigned long GetSecNum(unsigned long adr)
+{
+    unsigned long n;
 
 #if defined STM32F4xx_1024dual
-  n = (adr >> 12) & 0x0007F;                            // Only bits 12..18
+    n = (adr >> 12) & 0x0007F;                            // Only bits 12..18
 #else
-  n = (adr >> 12) & 0x000FF;                            // Only bits 12..19
+    n = (adr >> 12) & 0x000FF;                            // Only bits 12..19
 #endif
 
-  if      (n >= 0x20) {
-    n = 4 + (n >> 5);                                   // 128kB Sector
-  }
-  else if (n >= 0x10) {
-    n = 3 + (n >> 4);                                   //  64kB Sector
-  }
-  else                {
-    n = 0 + (n >> 2);                                   //  16kB Sector
-  }
+    if(n >= 0x20)
+    {
+        n = 4 + (n >> 5);                                   // 128kB Sector
+    }
+    else if(n >= 0x10)
+    {
+        n = 3 + (n >> 4);                                   //  64kB Sector
+    }
+    else
+    {
+        n = 0 + (n >> 2);                                   //  16kB Sector
+    }
 
 #if   defined STM32F4xx_2048                            // always dual bank
-  if (adr & 0x00100000) {
-    n |= (1U << 4);                                     // Sector in second half, bit 4 selects the bank
-  }
+
+    if(adr & 0x00100000)
+    {
+        n |= (1U << 4);                                     // Sector in second half, bit 4 selects the bank
+    }
+
 #elif defined STM32F4xx_1024dual
-  if (adr & 0x00080000) {
-    n |= (1U << 4);                                     // Sector in second half, bit 4 selects the bank
-  }
+
+    if(adr & 0x00080000)
+    {
+        n |= (1U << 4);                                     // Sector in second half, bit 4 selects the bank
+    }
+
 #endif
 
 
-  return (n);                                           // Sector Number
+    return (n);                                           // Sector Number
 }
 #endif // FLASH_MEM
 
@@ -169,41 +181,45 @@ unsigned long GetSecNum (unsigned long adr) {
  */
 
 #if defined FLASH_MEM || defined FLASH_OTP
-int Init (unsigned long adr, unsigned long clk, unsigned long fnc) {
+int Init(unsigned long adr, unsigned long clk, unsigned long fnc)
+{
 
-  FLASH->KEYR = FLASH_KEY1;                             // Unlock Flash
-  FLASH->KEYR = FLASH_KEY2;
+    FLASH->KEYR = FLASH_KEY1;                             // Unlock Flash
+    FLASH->KEYR = FLASH_KEY2;
 
-  FLASH->ACR  = 0x00000000;                             // Zero Wait State, no Cache, no Prefetch
-  FLASH->SR  |= FLASH_PGERR;                            // Reset Error Flags
+    FLASH->ACR  = 0x00000000;                             // Zero Wait State, no Cache, no Prefetch
+    FLASH->SR  |= FLASH_PGERR;                            // Reset Error Flags
 
-  if ((FLASH->OPTCR & 0x20) == 0x00) {                  // Test if IWDG is running (IWDG in HW mode)
-    // Set IWDG time out to ~32.768 second
-    IWDG->KR  = 0x5555;                                 // Enable write access to IWDG_PR and IWDG_RLR
-    IWDG->PR  = 0x06;                                   // Set prescaler to 256
-    IWDG->RLR = 4095;                                   // Set reload value to 4095
-  }
+    if((FLASH->OPTCR & 0x20) == 0x00)                     // Test if IWDG is running (IWDG in HW mode)
+    {
+        // Set IWDG time out to ~32.768 second
+        IWDG->KR  = 0x5555;                                 // Enable write access to IWDG_PR and IWDG_RLR
+        IWDG->PR  = 0x06;                                   // Set prescaler to 256
+        IWDG->RLR = 4095;                                   // Set reload value to 4095
+    }
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_MEM || FLASH_OTP
 
 #ifdef FLASH_OPT
-int Init (unsigned long adr, unsigned long clk, unsigned long fnc) {
+int Init(unsigned long adr, unsigned long clk, unsigned long fnc)
+{
 
-  FLASH->OPTKEYR  = FLASH_OPTKEY1;                      // Unlock Option Bytes
-  FLASH->OPTKEYR  = FLASH_OPTKEY2;
+    FLASH->OPTKEYR  = FLASH_OPTKEY1;                      // Unlock Option Bytes
+    FLASH->OPTKEYR  = FLASH_OPTKEY2;
 
-  FLASH->SR      |= FLASH_PGERR;                        // Reset Error Flags
+    FLASH->SR      |= FLASH_PGERR;                        // Reset Error Flags
 
-  if ((FLASH->OPTCR & 0x20) == 0x00) {                  // Test if IWDG is running (IWDG in HW mode)
-    // Set IWDG time out to ~32.768 second
-    IWDG->KR  = 0x5555;                                 // Enable write access to IWDG_PR and IWDG_RLR
-    IWDG->PR  = 0x06;                                   // Set prescaler to 256
-    IWDG->RLR = 4095;                                   // Set reload value to 4095
-  }
+    if((FLASH->OPTCR & 0x20) == 0x00)                     // Test if IWDG is running (IWDG in HW mode)
+    {
+        // Set IWDG time out to ~32.768 second
+        IWDG->KR  = 0x5555;                                 // Enable write access to IWDG_PR and IWDG_RLR
+        IWDG->PR  = 0x06;                                   // Set prescaler to 256
+        IWDG->RLR = 4095;                                   // Set reload value to 4095
+    }
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_OPT
 
@@ -215,20 +231,22 @@ int Init (unsigned long adr, unsigned long clk, unsigned long fnc) {
  */
 
 #if defined FLASH_MEM || defined FLASH_OTP
-int UnInit (unsigned long fnc) {
+int UnInit(unsigned long fnc)
+{
 
-  FLASH->CR |=  FLASH_LOCK;                             // Lock Flash
+    FLASH->CR |=  FLASH_LOCK;                             // Lock Flash
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_MEM || FLASH_OTP
 
 #ifdef FLASH_OPT
-int UnInit (unsigned long fnc) {
+int UnInit(unsigned long fnc)
+{
 
-  FLASH->OPTCR |= FLASH_OPTLOCK;                        // Lock Option Bytes
+    FLASH->OPTCR |= FLASH_OPTLOCK;                        // Lock Option Bytes
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_OPT
 
@@ -239,50 +257,54 @@ int UnInit (unsigned long fnc) {
  */
 
 #if defined FLASH_MEM
-int EraseChip (void) {
+int EraseChip(void)
+{
 
-  FLASH->CR |=  FLASH_MER;                              // Mass Erase Enabled (sectors  0..11)
+    FLASH->CR |=  FLASH_MER;                              // Mass Erase Enabled (sectors  0..11)
 #ifdef STM32F4xx_2048
-  FLASH->CR |=  FLASH_MER1;                             // Mass Erase Enabled (sectors 12..23)
+    FLASH->CR |=  FLASH_MER1;                             // Mass Erase Enabled (sectors 12..23)
 #endif
 
-  FLASH->CR |=  FLASH_STRT;                             // Start Erase
+    FLASH->CR |=  FLASH_STRT;                             // Start Erase
 
-  while (FLASH->SR & FLASH_BSY) {
-    IWDG->KR = 0xAAAA;                                  // Reload IWDG
-  }
+    while(FLASH->SR & FLASH_BSY)
+    {
+        IWDG->KR = 0xAAAA;                                  // Reload IWDG
+    }
 
-  FLASH->CR &= ~FLASH_MER;                              // Mass Erase Disabled
+    FLASH->CR &= ~FLASH_MER;                              // Mass Erase Disabled
 #ifdef STM32F4xx_2048
-  FLASH->CR &= ~FLASH_MER1;                             // Mass Erase Disabled
+    FLASH->CR &= ~FLASH_MER1;                             // Mass Erase Disabled
 #endif
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_MEM
 
 #ifdef FLASH_OPT
-int EraseChip (void) {
+int EraseChip(void)
+{
 
-  FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
+    FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
 
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  FLASH->OPTCR1 = 0x0FFF0000;                           // Default value
+    FLASH->OPTCR1 = 0x0FFF0000;                           // Default value
 #endif
-  FLASH->OPTCR  = 0x0FFFAAEC;                           // Default value without LOCK
-//FLASH->OPTCR |= 0x0FFF0000;                           // reset Write protection
-//FLASH->OPTCR |= 0x0000AA00;                           // reset Read protection
-//FLASH->OPTCR |= 0x000000E0;                           // reset User Option bytes
-//FLASH->OPTCR |= 0x0000000C;                           // reset BOR level
-  FLASH->OPTCR |= FLASH_OPTSTRT;                        // program values
+    FLASH->OPTCR  = 0x0FFFAAEC;                           // Default value without LOCK
+    //FLASH->OPTCR |= 0x0FFF0000;                           // reset Write protection
+    //FLASH->OPTCR |= 0x0000AA00;                           // reset Read protection
+    //FLASH->OPTCR |= 0x000000E0;                           // reset User Option bytes
+    //FLASH->OPTCR |= 0x0000000C;                           // reset BOR level
+    FLASH->OPTCR |= FLASH_OPTSTRT;                        // program values
 
-  if (FLASH->SR & FLASH_PGERR) {                        // Check for Error
-    FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
-    return (1);                                         // Failed
-  }
+    if(FLASH->SR & FLASH_PGERR)                           // Check for Error
+    {
+        FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
+        return (1);                                         // Failed
+    }
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_OPT
 
@@ -294,38 +316,42 @@ int EraseChip (void) {
  */
 
 #ifdef FLASH_MEM
-int EraseSector (unsigned long adr) {
-  unsigned long n;
+int EraseSector(unsigned long adr)
+{
+    unsigned long n;
 
-  n = GetSecNum(adr);                                   // Get Sector Number
-  FLASH->SR |= FLASH_PGERR;                             // Reset Error Flags
+    n = GetSecNum(adr);                                   // Get Sector Number
+    FLASH->SR |= FLASH_PGERR;                             // Reset Error Flags
 
-  FLASH->CR  =  FLASH_SER;                              // Sector Erase Enabled
-  FLASH->CR |=  ((n << FLASH_SNB_POS) & FLASH_SNB_MSK); // Sector Number
-  FLASH->CR |=  FLASH_STRT;                             // Start Erase
+    FLASH->CR  =  FLASH_SER;                              // Sector Erase Enabled
+    FLASH->CR |= ((n << FLASH_SNB_POS) & FLASH_SNB_MSK);  // Sector Number
+    FLASH->CR |=  FLASH_STRT;                             // Start Erase
 
-  while (FLASH->SR & FLASH_BSY) {
-    IWDG->KR = 0xAAAA;                                  // Reload IWDG
-  }
+    while(FLASH->SR & FLASH_BSY)
+    {
+        IWDG->KR = 0xAAAA;                                  // Reload IWDG
+    }
 
-  FLASH->CR &= ~FLASH_SER;                              // Page Erase Disabled
+    FLASH->CR &= ~FLASH_SER;                              // Page Erase Disabled
 
-  if (FLASH->SR & FLASH_PGERR) {                        // Check for Error
-    FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
-    return (1);                                         // Failed
-  }
+    if(FLASH->SR & FLASH_PGERR)                           // Check for Error
+    {
+        FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
+        return (1);                                         // Failed
+    }
 
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif // FLASH_MEM
 
 #if defined FLASH_OPT || defined FLASH_OTP
-int EraseSector (unsigned long adr) {
-  /* erase sector is not needed for
-     Flash Option bytes
-     Flash One Time Probrammable bytes
-  */
-  return (0);                                           // Done
+int EraseSector(unsigned long adr)
+{
+    /* erase sector is not needed for
+       Flash Option bytes
+       Flash One Time Probrammable bytes
+    */
+    return (0);                                           // Done
 }
 #endif
 
@@ -339,33 +365,37 @@ int EraseSector (unsigned long adr) {
  */
 
 #if defined FLASH_MEM || defined FLASH_OTP
-int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
+int ProgramPage(unsigned long adr, unsigned long sz, unsigned char *buf)
+{
 
-  sz = (sz + 3) & ~3;                                   // Adjust size for Words
+    sz = (sz + 3) & ~3;                                   // Adjust size for Words
 
-  FLASH->SR |= FLASH_PGERR;                             // Reset Error Flags
-  FLASH->CR  =  0;                                      // Reset CR
+    FLASH->SR |= FLASH_PGERR;                             // Reset Error Flags
+    FLASH->CR  =  0;                                      // Reset CR
 
-  while (sz) {
-    FLASH->CR |= (FLASH_PG              |               // Programming Enabled
-                  FLASH_PSIZE_Word);                    // Programming Enabled (Word)
+    while(sz)
+    {
+        FLASH->CR |= (FLASH_PG              |               // Programming Enabled
+                      FLASH_PSIZE_Word);                    // Programming Enabled (Word)
 
-    M32(adr) = *((u32 *)buf);                           // Program Double Word
-    while (FLASH->SR & FLASH_BSY);
+        M32(adr) = *((u32 *)buf);                           // Program Double Word
 
-    FLASH->CR &= ~FLASH_PG;                             // Programming Disabled
+        while(FLASH->SR & FLASH_BSY);
 
-    if (FLASH->SR & FLASH_PGERR) {                      // Check for Error
-      FLASH->SR |= FLASH_PGERR;                         // Reset Error Flags
-      return (1);                                       // Failed
+        FLASH->CR &= ~FLASH_PG;                             // Programming Disabled
+
+        if(FLASH->SR & FLASH_PGERR)                         // Check for Error
+        {
+            FLASH->SR |= FLASH_PGERR;                         // Reset Error Flags
+            return (1);                                       // Failed
+        }
+
+        adr += 4;                                           // Go to next Word
+        buf += 4;
+        sz  -= 4;
     }
 
-    adr += 4;                                           // Go to next Word
-    buf += 4;
-    sz  -= 4;
-  }
-
-  return (0);                                           // Done
+    return (0);                                           // Done
 }
 #endif  // FLASH_MEM || FLASH_OTP
 
@@ -378,55 +408,61 @@ int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
     defined STM32F411xx       || \
     defined STM32F401xx       || \
     defined STM32F446xx
-int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
-  u32 optcr;
+int ProgramPage(unsigned long adr, unsigned long sz, unsigned char *buf)
+{
+    u32 optcr;
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  u32 optcr1;
+    u32 optcr1;
 #endif
 
-  optcr  = *((u32 *)(buf + 0));
+    optcr  = *((u32 *)(buf + 0));
 #if defined STM32F42xxx_43xxx || defined STM32F469xx_479xx
-  optcr1 = *((u32 *)(buf + 4));
+    optcr1 = *((u32 *)(buf + 4));
 #endif
 
-  FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
+    FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
 
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  FLASH->OPTCR1 = (optcr1 & 0x0FFF0000);                 // program values
+    FLASH->OPTCR1 = (optcr1 & 0x0FFF0000);                 // program values
 #endif
-  FLASH->OPTCR  = (optcr  & 0x0FFFFFFC) | FLASH_OPTSTRT; // program values
-  while (FLASH->SR & FLASH_BSY);
+    FLASH->OPTCR  = (optcr  & 0x0FFFFFFC) | FLASH_OPTSTRT; // program values
 
-  if (FLASH->SR & FLASH_PGERR) {                        // Check for Error
-    FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
-    return (1);                                         // Failed
-  }
+    while(FLASH->SR & FLASH_BSY);
 
-  return (0);                                           // Done
+    if(FLASH->SR & FLASH_PGERR)                           // Check for Error
+    {
+        FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
+        return (1);                                         // Failed
+    }
+
+    return (0);                                           // Done
 }
 #else
-int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
-  u16 user, wrp;
-  u32 optcr;
+int ProgramPage(unsigned long adr, unsigned long sz, unsigned char *buf)
+{
+    u16 user, wrp;
+    u32 optcr;
 
-  user = *((u16 *)(buf + 0));
-  wrp  = *((u16 *)(buf + 8));
+    user = *((u16 *)(buf + 0));
+    wrp  = *((u16 *)(buf + 8));
 
-  optcr = ((wrp & 0x0FFF) << 16) | (user & 0xFFFC);
+    optcr = ((wrp & 0x0FFF) << 16) | (user & 0xFFFC);
 
-  FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
+    FLASH->SR    |= FLASH_PGERR;                          // Reset Error Flags
 
-  FLASH->OPTCR  = optcr | FLASH_OPTSTRT;                // program values
-  while (FLASH->SR & FLASH_BSY);
+    FLASH->OPTCR  = optcr | FLASH_OPTSTRT;                // program values
 
-  if (FLASH->SR & FLASH_PGERR) {                        // Check for Error
-    FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
-    return (1);                                         // Failed
-  }
+    while(FLASH->SR & FLASH_BSY);
 
-  return (0);                                           // Done
+    if(FLASH->SR & FLASH_PGERR)                           // Check for Error
+    {
+        FLASH->SR |= FLASH_PGERR;                           // Reset Error Flags
+        return (1);                                         // Failed
+    }
+
+    return (0);                                           // Done
 }
 #endif
 #endif //  FLASH_OPT
@@ -449,33 +485,38 @@ int ProgramPage (unsigned long adr, unsigned long sz, unsigned char *buf) {
     defined STM32F411xx       || \
     defined STM32F401xx       || \
     defined STM32F446xx
-unsigned long Verify (unsigned long adr, unsigned long sz, unsigned char *buf) {
-  u32 optcr;
+unsigned long Verify(unsigned long adr, unsigned long sz, unsigned char *buf)
+{
+    u32 optcr;
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  u32 optcr1;
+    u32 optcr1;
 #endif
 
-  optcr  = *((u32 *)(buf + 0));
+    optcr  = *((u32 *)(buf + 0));
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  optcr1 = *((u32 *)(buf + 4));
+    optcr1 = *((u32 *)(buf + 4));
 #endif
 
-  /* check FLASH_OPTCR */
-  if ((optcr  & 0x0FFFFFFC) != (FLASH->OPTCR  & 0x0FFFFFFC)) {
-    return (adr + 0);
-  }
+    /* check FLASH_OPTCR */
+    if((optcr  & 0x0FFFFFFC) != (FLASH->OPTCR  & 0x0FFFFFFC))
+    {
+        return (adr + 0);
+    }
 
 #if defined STM32F42xxx_43xxx || \
     defined STM32F469xx_479xx
-  /* check FLASH_OPTCR1 */
-  if ((optcr1 & 0x0FFF0000) != (FLASH->OPTCR1 & 0x0FFF0000)) {
-    return (adr + 1);
-  }
+
+    /* check FLASH_OPTCR1 */
+    if((optcr1 & 0x0FFF0000) != (FLASH->OPTCR1 & 0x0FFF0000))
+    {
+        return (adr + 1);
+    }
+
 #endif
 
-  return (adr + sz);
+    return (adr + sz);
 }
 #endif
 #endif // FLASH_OPT

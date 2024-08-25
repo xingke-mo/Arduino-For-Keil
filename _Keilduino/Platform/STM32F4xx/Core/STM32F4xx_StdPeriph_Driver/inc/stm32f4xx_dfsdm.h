@@ -31,7 +31,7 @@
 #define __STM32F4XX_DFSDM_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #if defined(STM32F412xG) || defined(STM32F413_423xx)
@@ -48,53 +48,53 @@
 
 /* Exported types ------------------------------------------------------------*/
 
-/** 
+/**
   * @brief  DFSDM Transceiver init structure definition
   */
 typedef struct
 {
-  uint32_t DFSDM_Interface;                 /*!< Selects the serial interface type and input clock phase.
+    uint32_t DFSDM_Interface;                 /*!< Selects the serial interface type and input clock phase.
                                             This parameter can be a value of @ref DFSDM_Interface_Selection */
 
-  uint32_t DFSDM_Clock;                     /*!< Specifies the clock source for the serial interface transceiver.
+    uint32_t DFSDM_Clock;                     /*!< Specifies the clock source for the serial interface transceiver.
                                             This parameter can be a value of @ref DFSDM_Clock_Selection */
 
-  uint32_t DFSDM_Input;                     /*!< Specifies the Input mode for the serial interface transceiver.
+    uint32_t DFSDM_Input;                     /*!< Specifies the Input mode for the serial interface transceiver.
                                             This parameter can be a value of @ref DFSDM_Input_Selection */
 
-  uint32_t DFSDM_Redirection;               /*!< Specifies if the channel input is redirected from channel channel (y+1).
+    uint32_t DFSDM_Redirection;               /*!< Specifies if the channel input is redirected from channel channel (y+1).
                                             This parameter can be a value of @ref DFSDM_Redirection_Selection */
 
-  uint32_t DFSDM_PackingMode;               /*!< Specifies the packing mode for the serial interface transceiver.
+    uint32_t DFSDM_PackingMode;               /*!< Specifies the packing mode for the serial interface transceiver.
                                             This parameter can be a value of @ref DFSDM_Pack_Selection */
 
-  uint32_t DFSDM_DataRightShift;            /*!< Defines the final data right bit shift.
+    uint32_t DFSDM_DataRightShift;            /*!< Defines the final data right bit shift.
                                             This parameter can be a value between 0 and 31 */
 
-  uint32_t DFSDM_Offset;                    /*!< Sets the calibration offset.
+    uint32_t DFSDM_Offset;                    /*!< Sets the calibration offset.
                                             This parameter can be a value between 0 and 0xFFFFFF */
 
-  uint32_t DFSDM_CLKAbsenceDetector;        /*!< Enables or disables the Clock Absence Detector.
+    uint32_t DFSDM_CLKAbsenceDetector;        /*!< Enables or disables the Clock Absence Detector.
                                             This parameter can be a value of @ref DFSDM_Clock_Absence_Detector_state */
 
-  uint32_t DFSDM_ShortCircuitDetector;      /*!< Enables or disables the Short Circuit Detector.
+    uint32_t DFSDM_ShortCircuitDetector;      /*!< Enables or disables the Short Circuit Detector.
                                             This parameter can be a value of @ref DFSDM_Short_Circuit_Detector_state */
-}DFSDM_TransceiverInitTypeDef;
+} DFSDM_TransceiverInitTypeDef;
 
-/** 
-  * @brief  DFSDM filter analog parameters structure definition  
+/**
+  * @brief  DFSDM filter analog parameters structure definition
   */
 typedef struct
 {
-  uint32_t DFSDM_SincOrder;                  /*!< Sets the Sinc Filter Order .
+    uint32_t DFSDM_SincOrder;                  /*!< Sets the Sinc Filter Order .
                                              This parameter can be a value of @ref DFSDM_Sinc_Order */
 
-  uint32_t DFSDM_FilterOversamplingRatio;    /*!< Sets the Sinc Filter Oversampling Ratio.
+    uint32_t DFSDM_FilterOversamplingRatio;    /*!< Sets the Sinc Filter Oversampling Ratio.
                                              This parameter can be a value between 1 and 1024 */
 
-  uint32_t DFSDM_IntegratorOversamplingRatio;/*!< Sets the Integrator Oversampling Ratio.
+    uint32_t DFSDM_IntegratorOversamplingRatio;/*!< Sets the Integrator Oversampling Ratio.
                                              This parameter can be a value between 1 and 256 */
-}DFSDM_FilterInitTypeDef;
+} DFSDM_FilterInitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup DFSDM_Interface_Selection
@@ -106,9 +106,9 @@ typedef struct
 #define DFSDM_Interface_Manchester2      ((uint32_t)0x00000003)  /*!<  DFSDM Manchester coded input, rising edge = logic 1, falling edge = logic 0 */
 
 #define IS_DFSDM_INTERFACE(INTERFACE)    (((INTERFACE) == DFSDM_Interface_SPI_RisingEdge) || \
-                                         ((INTERFACE) == DFSDM_Interface_SPI_FallingEdge) || \
-                                         ((INTERFACE) == DFSDM_Interface_Manchester1)     || \
-                                         ((INTERFACE) == DFSDM_Interface_Manchester2))
+        ((INTERFACE) == DFSDM_Interface_SPI_FallingEdge) || \
+        ((INTERFACE) == DFSDM_Interface_Manchester1)     || \
+        ((INTERFACE) == DFSDM_Interface_Manchester2))
 /**
   * @}
   */
@@ -124,9 +124,9 @@ typedef struct
                                                                        and clock change is on every falling edge of DFSDM_CKOUT output signal */
 
 #define IS_DFSDM_CLOCK(CLOCK)            (((CLOCK) == DFSDM_Clock_External)          || \
-                                         ((CLOCK) == DFSDM_Clock_Internal)           || \
-                                         ((CLOCK) == DFSDM_Clock_InternalDiv2_Mode1) || \
-                                         ((CLOCK) == DFSDM_Clock_InternalDiv2_Mode2))
+        ((CLOCK) == DFSDM_Clock_Internal)           || \
+        ((CLOCK) == DFSDM_Clock_InternalDiv2_Mode1) || \
+        ((CLOCK) == DFSDM_Clock_InternalDiv2_Mode2))
 /**
   * @}
   */
@@ -140,8 +140,8 @@ typedef struct
                                                                and clock change is on every rising edge of DFSDM_CKOUT output signal */
 
 #define IS_DFSDM_Input_MODE(INPUT)      (((INPUT) == DFSDM_Input_External) || \
-                                         ((INPUT) == DFSDM_Input_ADC)      || \
-                                         ((INPUT) == DFSDM_Input_Internal))
+        ((INPUT) == DFSDM_Input_ADC)      || \
+        ((INPUT) == DFSDM_Input_Internal))
 /**
   * @}
   */
@@ -153,7 +153,7 @@ typedef struct
 #define DFSDM_Redirection_Enabled         DFSDM_CHCFGR1_CHINSEL  /*!< DFSDM Channel serial inputs are taken from pins of the channel (y+1) modulo 8 */
 
 #define IS_DFSDM_Redirection_STATE(STATE)      (((STATE) == DFSDM_Redirection_Disabled) || \
-                                                ((STATE) == DFSDM_Redirection_Enabled))
+        ((STATE) == DFSDM_Redirection_Enabled))
 /**
   * @}
   */
@@ -170,8 +170,8 @@ typedef struct
                                                                         - second sample INDAT1[15:0]   - assigned to channel (y+1) */
 
 #define IS_DFSDM_PACK_MODE(MODE)        (((MODE) == DFSDM_PackingMode_Standard)    || \
-                                         ((MODE) == DFSDM_PackingMode_Interleaved) || \
-                                         ((MODE) == DFSDM_PackingMode_Dual))
+        ((MODE) == DFSDM_PackingMode_Interleaved) || \
+        ((MODE) == DFSDM_PackingMode_Dual))
 /**
   * @}
   */
@@ -183,7 +183,7 @@ typedef struct
 #define DFSDM_CLKAbsenceDetector_Disable    ((uint32_t)0x00000000)  /*!<  DFSDM Clock Absence Detector is Disabled */
 
 #define IS_DFSDM_CLK_DETECTOR_STATE(STATE)  (((STATE) == DFSDM_CLKAbsenceDetector_Enable) || \
-                                             ((STATE) == DFSDM_CLKAbsenceDetector_Disable))
+        ((STATE) == DFSDM_CLKAbsenceDetector_Disable))
 /**
   * @}
   */
@@ -195,7 +195,7 @@ typedef struct
 #define DFSDM_ShortCircuitDetector_Disable  ((uint32_t)0x00000000)  /*!<  DFSDM Short Circuit Detector is Disabled */
 
 #define IS_DFSDM_SC_DETECTOR_STATE(STATE)  (((STATE) == DFSDM_ShortCircuitDetector_Enable) || \
-                                            ((STATE) == DFSDM_ShortCircuitDetector_Disable))
+        ((STATE) == DFSDM_ShortCircuitDetector_Disable))
 /**
   * @}
   */
@@ -211,11 +211,11 @@ typedef struct
 #define DFSDM_SincOrder_Sinc5           ((uint32_t)0xA0000000)  /*!<  DFSDM Sinc filter order = 5 */
 
 #define IS_DFSDM_SINC_ORDER(ORDER)        (((ORDER) == DFSDM_SincOrder_FastSinc) || \
-                                          ((ORDER) == DFSDM_SincOrder_Sinc1)     || \
-                                          ((ORDER) == DFSDM_SincOrder_Sinc2)     || \
-                                          ((ORDER) == DFSDM_SincOrder_Sinc3)     || \
-                                          ((ORDER) == DFSDM_SincOrder_Sinc4)     || \
-                                          ((ORDER) == DFSDM_SincOrder_Sinc5))
+        ((ORDER) == DFSDM_SincOrder_Sinc1)     || \
+        ((ORDER) == DFSDM_SincOrder_Sinc2)     || \
+        ((ORDER) == DFSDM_SincOrder_Sinc3)     || \
+        ((ORDER) == DFSDM_SincOrder_Sinc4)     || \
+        ((ORDER) == DFSDM_SincOrder_Sinc5))
 /**
   * @}
   */
@@ -229,9 +229,9 @@ typedef struct
 #define DFSDM_SCDBreak_3                 ((uint32_t)0x00008000)  /*!<  DFSDM Break 3 signal assigned to short circuit detector */
 
 #define IS_DFSDM_SCD_BREAK_SIGNAL(RANK)    (((RANK) == DFSDM_SCDBreak_0) || \
-                                           ((RANK) == DFSDM_SCDBreak_1)  || \
-                                           ((RANK) == DFSDM_SCDBreak_2)  || \
-                                           ((RANK) == DFSDM_SCDBreak_3))
+        ((RANK) == DFSDM_SCDBreak_1)  || \
+        ((RANK) == DFSDM_SCDBreak_2)  || \
+        ((RANK) == DFSDM_SCDBreak_3))
 /**
   * @}
   */
@@ -245,9 +245,9 @@ typedef struct
 #define DFSDM_AWDSincOrder_Sinc3           ((uint32_t)0x00C00000)  /*!<  DFSDM sinc3 filter */
 
 #define IS_DFSDM_AWD_SINC_ORDER(ORDER)    (((ORDER) == DFSDM_AWDSincOrder_Fast)  || \
-                                           ((ORDER) == DFSDM_AWDSincOrder_Sinc1) || \
-                                           ((ORDER) == DFSDM_AWDSincOrder_Sinc2) || \
-                                           ((ORDER) == DFSDM_AWDSincOrder_Sinc3))
+        ((ORDER) == DFSDM_AWDSincOrder_Sinc1) || \
+        ((ORDER) == DFSDM_AWDSincOrder_Sinc2) || \
+        ((ORDER) == DFSDM_AWDSincOrder_Sinc3))
 /**
   * @}
   */
@@ -265,13 +265,13 @@ typedef struct
 #define DFSDM_AWDChannel7               ((uint32_t)0x00800000)  /*!<  DFSDM AWDx guard channel 7 */
 
 #define IS_DFSDM_AWD_CHANNEL(CHANNEL)    (((CHANNEL) == DFSDM_AWDChannel0) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel1) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel2) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel3) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel4) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel5) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel6) || \
-                                          ((CHANNEL) == DFSDM_AWDChannel7))
+        ((CHANNEL) == DFSDM_AWDChannel1) || \
+        ((CHANNEL) == DFSDM_AWDChannel2) || \
+        ((CHANNEL) == DFSDM_AWDChannel3) || \
+        ((CHANNEL) == DFSDM_AWDChannel4) || \
+        ((CHANNEL) == DFSDM_AWDChannel5) || \
+        ((CHANNEL) == DFSDM_AWDChannel6) || \
+        ((CHANNEL) == DFSDM_AWDChannel7))
 /**
   * @}
   */
@@ -283,7 +283,7 @@ typedef struct
 #define DFSDM_Threshold_High              ((uint8_t)0x08)  /*!<  DFSDM High threshold */
 
 #define IS_DFSDM_Threshold(THR)          (((THR) == DFSDM_Threshold_Low) || \
-                                          ((THR) == DFSDM_Threshold_High))
+        ((THR) == DFSDM_Threshold_High))
 /**
   * @}
   */
@@ -295,7 +295,7 @@ typedef struct
 #define DFSDM_AWDFastMode_Enable          ((uint32_t)0x40000000)  /*!<  DFSDM Fast mode for AWD is enabled */
 
 #define IS_DFSDM_AWD_MODE(MODE)          (((MODE) == DFSDM_AWDFastMode_Disable) || \
-                                          ((MODE) == DFSDM_AWDFastMode_Enable))
+        ((MODE) == DFSDM_AWDFastMode_Enable))
 /**
   * @}
   */
@@ -307,7 +307,7 @@ typedef struct
 #define DFSDM_ClkOutSource_AudioClock      DFSDM_CHCFGR1_CKOUTSRC  /*!<  DFSDM Source for output clock is comming from audio clock */
 
 #define IS_DFSDM_CLOCK_OUT_SOURCE(SRC)    (((SRC) == DFSDM_ClkOutSource_SysClock) || \
-                                           ((SRC) == DFSDM_ClkOutSource_AudioClock))
+        ((SRC) == DFSDM_ClkOutSource_AudioClock))
 /**
   * @}
   */
@@ -319,7 +319,7 @@ typedef struct
 #define DFSDM_DMAConversionMode_Injected    ((uint32_t)0x00000000)  /*!<  DFSDM Injected mode */
 
 #define IS_DFSDM_CONVERSION_MODE(MODE)    (((MODE) == DFSDM_DMAConversionMode_Regular) || \
-                                           ((MODE) == DFSDM_DMAConversionMode_Injected))
+        ((MODE) == DFSDM_DMAConversionMode_Injected))
 /**
   * @}
   */
@@ -337,13 +337,13 @@ typedef struct
 #define DFSDM_ExtremChannel7              ((uint32_t)0x00008000)  /*!<  DFSDM Extreme detector guard channel 7 */
 
 #define IS_DFSDM_EXTREM_CHANNEL(CHANNEL) (((CHANNEL) == DFSDM_ExtremChannel0) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel1) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel2) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel3) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel4) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel5) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel6) || \
-                                          ((CHANNEL) == DFSDM_ExtremChannel7))
+        ((CHANNEL) == DFSDM_ExtremChannel1) || \
+        ((CHANNEL) == DFSDM_ExtremChannel2) || \
+        ((CHANNEL) == DFSDM_ExtremChannel3) || \
+        ((CHANNEL) == DFSDM_ExtremChannel4) || \
+        ((CHANNEL) == DFSDM_ExtremChannel5) || \
+        ((CHANNEL) == DFSDM_ExtremChannel6) || \
+        ((CHANNEL) == DFSDM_ExtremChannel7))
 /**
   * @}
   */
@@ -361,13 +361,13 @@ typedef struct
 #define DFSDM_InjectedChannel7            ((uint32_t)0x00000080)  /*!<  DFSDM channel 7 is selected as injected channel */
 
 #define IS_DFSDM_INJECT_CHANNEL(CHANNEL) (((CHANNEL) == DFSDM_InjectedChannel0) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel1) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel2) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel3) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel4) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel5) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel6) || \
-                                          ((CHANNEL) == DFSDM_InjectedChannel7))
+        ((CHANNEL) == DFSDM_InjectedChannel1) || \
+        ((CHANNEL) == DFSDM_InjectedChannel2) || \
+        ((CHANNEL) == DFSDM_InjectedChannel3) || \
+        ((CHANNEL) == DFSDM_InjectedChannel4) || \
+        ((CHANNEL) == DFSDM_InjectedChannel5) || \
+        ((CHANNEL) == DFSDM_InjectedChannel6) || \
+        ((CHANNEL) == DFSDM_InjectedChannel7))
 /**
   * @}
   */
@@ -385,13 +385,13 @@ typedef struct
 #define DFSDM_RegularChannel7             ((uint32_t)0x07000000)  /*!<  DFSDM channel 7 is selected as regular channel */
 
 #define IS_DFSDM_REGULAR_CHANNEL(CHANNEL) (((CHANNEL) == DFSDM_RegularChannel0) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel1) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel2) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel3) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel4) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel5) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel6) || \
-                                           ((CHANNEL) == DFSDM_RegularChannel7))
+        ((CHANNEL) == DFSDM_RegularChannel1) || \
+        ((CHANNEL) == DFSDM_RegularChannel2) || \
+        ((CHANNEL) == DFSDM_RegularChannel3) || \
+        ((CHANNEL) == DFSDM_RegularChannel4) || \
+        ((CHANNEL) == DFSDM_RegularChannel5) || \
+        ((CHANNEL) == DFSDM_RegularChannel6) || \
+        ((CHANNEL) == DFSDM_RegularChannel7))
 /**
   * @}
   */
@@ -412,16 +412,16 @@ typedef struct
 #define DFSDM_Trigger_EXTI15             ((uint32_t)0x00000700)  /*!<  DFSDM External trigger 1 */
 
 #define IS_DFSDM0_INJ_TRIGGER(TRIG)      (((TRIG) == DFSDM_Trigger_TIM1_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_TIM1_TRGO2) || \
-                                          ((TRIG) == DFSDM_Trigger_TIM8_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_TIM8_TRGO2) || \
-                                          ((TRIG) == DFSDM_Trigger_TIM4_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_TIM6_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_TIM7_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_EXTI15)     || \
-                                          ((TRIG) == DFSDM_Trigger_TIM3_TRGO)  || \
-                                          ((TRIG) == DFSDM_Trigger_TIM16_OC1)  || \
-                                          ((TRIG) == DFSDM_Trigger_EXTI11))  
+        ((TRIG) == DFSDM_Trigger_TIM1_TRGO2) || \
+        ((TRIG) == DFSDM_Trigger_TIM8_TRGO)  || \
+        ((TRIG) == DFSDM_Trigger_TIM8_TRGO2) || \
+        ((TRIG) == DFSDM_Trigger_TIM4_TRGO)  || \
+        ((TRIG) == DFSDM_Trigger_TIM6_TRGO)  || \
+        ((TRIG) == DFSDM_Trigger_TIM7_TRGO)  || \
+        ((TRIG) == DFSDM_Trigger_EXTI15)     || \
+        ((TRIG) == DFSDM_Trigger_TIM3_TRGO)  || \
+        ((TRIG) == DFSDM_Trigger_TIM16_OC1)  || \
+        ((TRIG) == DFSDM_Trigger_EXTI11))
 
 #define IS_DFSDM1_INJ_TRIGGER(TRIG)      IS_DFSDM0_INJ_TRIGGER(TRIG)
 /**
@@ -437,9 +437,9 @@ typedef struct
 #define DFSDM_TriggerEdge_BothEdges       ((uint32_t)0x00006000)  /*!<  DFSDM Both edges make a request to launch an injected conversion */
 
 #define IS_DFSDM_TRIGGER_EDGE(EDGE)      (((EDGE) == DFSDM_TriggerEdge_Disabled) || \
-                                          ((EDGE) == DFSDM_TriggerEdge_Rising) || \
-                                          ((EDGE) == DFSDM_TriggerEdge_Falling) || \
-                                          ((EDGE) == DFSDM_TriggerEdge_BothEdges))
+        ((EDGE) == DFSDM_TriggerEdge_Rising) || \
+        ((EDGE) == DFSDM_TriggerEdge_Falling) || \
+        ((EDGE) == DFSDM_TriggerEdge_BothEdges))
 /**
   * @}
   */
@@ -451,7 +451,7 @@ typedef struct
 #define DFSDM_InjectConvMode_Scan          ((uint32_t)0x00000010)  /*!<  DFSDM Each rising edge makes a request to launch an injected conversion */
 
 #define IS_DFSDM_INJ_CONV_MODE(MODE)      (((MODE) == DFSDM_InjectConvMode_Single) || \
-                                           ((MODE) == DFSDM_InjectConvMode_Scan))
+        ((MODE) == DFSDM_InjectConvMode_Scan))
 /**
   * @}
   */
@@ -468,12 +468,12 @@ typedef struct
 #define DFSDM_IT_CKAB                            DFSDM_FLTCR2_CKABIE
 
 #define IS_DFSDM_IT(IT)                         (((IT) == DFSDM_IT_JEOC) || \
-                                                 ((IT) == DFSDM_IT_REOC) || \
-                                                 ((IT) == DFSDM_IT_JOVR) || \
-                                                 ((IT) == DFSDM_IT_ROVR) || \
-                                                 ((IT) == DFSDM_IT_AWD)  || \
-                                                 ((IT) == DFSDM_IT_SCD)  || \
-                                                 ((IT) == DFSDM_IT_CKAB))
+        ((IT) == DFSDM_IT_REOC) || \
+        ((IT) == DFSDM_IT_JOVR) || \
+        ((IT) == DFSDM_IT_ROVR) || \
+        ((IT) == DFSDM_IT_AWD)  || \
+        ((IT) == DFSDM_IT_SCD)  || \
+        ((IT) == DFSDM_IT_CKAB))
 /**
   * @}
   */
@@ -490,12 +490,12 @@ typedef struct
 #define DFSDM_FLAG_RCIP                          DFSDM_FLTISR_RCIP
 
 #define IS_DFSDM_FLAG(FLAG)                     (((FLAG) == DFSDM_FLAG_JEOC) || \
-                                                 ((FLAG) == DFSDM_FLAG_REOC) || \
-                                                 ((FLAG) == DFSDM_FLAG_JOVR) || \
-                                                 ((FLAG) == DFSDM_FLAG_ROVR) || \
-                                                 ((FLAG) == DFSDM_FLAG_AWD)  || \
-                                                 ((FLAG) == DFSDM_FLAG_JCIP) || \
-                                                 ((FLAG) == DFSDM_FLAG_RCIP))
+        ((FLAG) == DFSDM_FLAG_REOC) || \
+        ((FLAG) == DFSDM_FLAG_JOVR) || \
+        ((FLAG) == DFSDM_FLAG_ROVR) || \
+        ((FLAG) == DFSDM_FLAG_AWD)  || \
+        ((FLAG) == DFSDM_FLAG_JCIP) || \
+        ((FLAG) == DFSDM_FLAG_RCIP))
 /**
   * @}
   */
@@ -513,13 +513,13 @@ typedef struct
 #define DFSDM_FLAG_CLKAbsence_Channel7           ((uint32_t)0x00800000)
 
 #define IS_DFSDM_CLK_ABS_FLAG(FLAG)             (((FLAG) == DFSDM_FLAG_CLKAbsence_Channel0) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel1) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel2) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel3) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel4) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel5) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel6) || \
-                                                 ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel7))
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel1) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel2) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel3) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel4) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel5) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel6) || \
+        ((FLAG) == DFSDM_FLAG_CLKAbsence_Channel7))
 /**
   * @}
   */
@@ -537,13 +537,13 @@ typedef struct
 #define DFSDM_FLAG_SCD_Channel7                  ((uint32_t)0x80000000)
 
 #define IS_DFSDM_SCD_FLAG(FLAG)                 (((FLAG) == DFSDM_FLAG_SCD_Channel0) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel1) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel2) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel3) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel4) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel5) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel6) || \
-                                                 ((FLAG) == DFSDM_FLAG_SCD_Channel7))
+        ((FLAG) == DFSDM_FLAG_SCD_Channel1) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel2) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel3) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel4) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel5) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel6) || \
+        ((FLAG) == DFSDM_FLAG_SCD_Channel7))
 /**
   * @}
   */
@@ -555,7 +555,7 @@ typedef struct
 #define DFSDM_CLEARF_ROVR                          DFSDM_FLTICR_CLRROVRF
 
 #define IS_DFSDM_CLEAR_FLAG(FLAG)                (((FLAG) == DFSDM_CLEARF_JOVR) || \
-                                                  ((FLAG) == DFSDM_CLEARF_ROVR))
+        ((FLAG) == DFSDM_CLEARF_ROVR))
 /**
   * @}
   */
@@ -573,13 +573,13 @@ typedef struct
 #define DFSDM_CLEARF_CLKAbsence_Channel7           ((uint32_t)0x00800000)
 
 #define IS_DFSDM_CLK_ABS_CLEARF(FLAG)           (((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel0) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel1) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel2) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel3) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel4) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel5) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel6) || \
-                                                 ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel7))
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel1) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel2) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel3) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel4) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel5) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel6) || \
+        ((FLAG) == DFSDM_CLEARF_CLKAbsence_Channel7))
 /**
   * @}
   */
@@ -597,13 +597,13 @@ typedef struct
 #define DFSDM_CLEARF_SCD_Channel7           ((uint32_t)0x80000000)
 
 #define IS_DFSDM_SCD_CHANNEL_FLAG(FLAG)         (((FLAG) == DFSDM_CLEARF_SCD_Channel0) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel1) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel2) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel3) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel4) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel5) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel6) || \
-                                                 ((FLAG) == DFSDM_CLEARF_SCD_Channel7))
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel1) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel2) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel3) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel4) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel5) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel6) || \
+        ((FLAG) == DFSDM_CLEARF_SCD_Channel7))
 /**
   * @}
   */
@@ -621,13 +621,13 @@ typedef struct
 #define DFSDM_IT_CLKAbsence_Channel7           ((uint32_t)0x00800000)
 
 #define IS_DFSDM_CLK_ABS_IT(IT)               (((IT) == DFSDM_IT_CLKAbsence_Channel0) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel1) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel2) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel3) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel4) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel5) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel6) || \
-                                               ((IT) == DFSDM_IT_CLKAbsence_Channel7))
+        ((IT) == DFSDM_IT_CLKAbsence_Channel1) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel2) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel3) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel4) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel5) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel6) || \
+        ((IT) == DFSDM_IT_CLKAbsence_Channel7))
 /**
   * @}
   */
@@ -645,13 +645,13 @@ typedef struct
 #define DFSDM_IT_SCD_Channel7                  ((uint32_t)0x80000000)
 
 #define IS_DFSDM_SCD_IT(IT)                   (((IT) == DFSDM_IT_SCD_Channel0) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel1) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel2) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel3) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel4) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel5) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel6) || \
-                                               ((IT) == DFSDM_IT_SCD_Channel7))
+        ((IT) == DFSDM_IT_SCD_Channel1) || \
+        ((IT) == DFSDM_IT_SCD_Channel2) || \
+        ((IT) == DFSDM_IT_SCD_Channel3) || \
+        ((IT) == DFSDM_IT_SCD_Channel4) || \
+        ((IT) == DFSDM_IT_SCD_Channel5) || \
+        ((IT) == DFSDM_IT_SCD_Channel6) || \
+        ((IT) == DFSDM_IT_SCD_Channel7))
 /**
   * @}
   */
@@ -662,42 +662,42 @@ typedef struct
 
 #if defined(STM32F413_423xx)
 #define IS_DFSDM_ALL_CHANNEL(CHANNEL)   (((CHANNEL) == DFSDM1_Channel0) || \
-                                         ((CHANNEL) == DFSDM1_Channel1) || \
-                                         ((CHANNEL) == DFSDM1_Channel2) || \
-                                         ((CHANNEL) == DFSDM1_Channel3) || \
-                                         ((CHANNEL) == DFSDM2_Channel0) || \
-                                         ((CHANNEL) == DFSDM2_Channel1) || \
-                                         ((CHANNEL) == DFSDM2_Channel2) || \
-                                         ((CHANNEL) == DFSDM2_Channel3) || \
-                                         ((CHANNEL) == DFSDM2_Channel4) || \
-                                         ((CHANNEL) == DFSDM2_Channel5) || \
-                                         ((CHANNEL) == DFSDM2_Channel6) || \
-                                         ((CHANNEL) == DFSDM2_Channel7))
+        ((CHANNEL) == DFSDM1_Channel1) || \
+        ((CHANNEL) == DFSDM1_Channel2) || \
+        ((CHANNEL) == DFSDM1_Channel3) || \
+        ((CHANNEL) == DFSDM2_Channel0) || \
+        ((CHANNEL) == DFSDM2_Channel1) || \
+        ((CHANNEL) == DFSDM2_Channel2) || \
+        ((CHANNEL) == DFSDM2_Channel3) || \
+        ((CHANNEL) == DFSDM2_Channel4) || \
+        ((CHANNEL) == DFSDM2_Channel5) || \
+        ((CHANNEL) == DFSDM2_Channel6) || \
+        ((CHANNEL) == DFSDM2_Channel7))
 
 #define IS_DFSDM_ALL_FILTER(FILTER)     (((FILTER) == DFSDM1_0) || \
-                                         ((FILTER) == DFSDM1_1) || \
-                                         ((FILTER) == DFSDM2_0) || \
-                                         ((FILTER) == DFSDM2_1) || \
-                                         ((FILTER) == DFSDM2_2) || \
-                                         ((FILTER) == DFSDM2_3))
+        ((FILTER) == DFSDM1_1) || \
+        ((FILTER) == DFSDM2_0) || \
+        ((FILTER) == DFSDM2_1) || \
+        ((FILTER) == DFSDM2_2) || \
+        ((FILTER) == DFSDM2_3))
 
 #define IS_DFSDM_SYNC_FILTER(FILTER)    (((FILTER) == DFSDM1_0) || \
-                                         ((FILTER) == DFSDM1_1) || \
-                                         ((FILTER) == DFSDM2_0) || \
-                                         ((FILTER) == DFSDM2_1) || \
-                                         ((FILTER) == DFSDM2_2) || \
-                                         ((FILTER) == DFSDM2_3))
+        ((FILTER) == DFSDM1_1) || \
+        ((FILTER) == DFSDM2_0) || \
+        ((FILTER) == DFSDM2_1) || \
+        ((FILTER) == DFSDM2_2) || \
+        ((FILTER) == DFSDM2_3))
 #else
 #define IS_DFSDM_ALL_CHANNEL(CHANNEL)   (((CHANNEL) == DFSDM1_Channel0) || \
-                                         ((CHANNEL) == DFSDM1_Channel1) || \
-                                         ((CHANNEL) == DFSDM1_Channel2) || \
-                                         ((CHANNEL) == DFSDM1_Channel3))
+        ((CHANNEL) == DFSDM1_Channel1) || \
+        ((CHANNEL) == DFSDM1_Channel2) || \
+        ((CHANNEL) == DFSDM1_Channel3))
 
 #define IS_DFSDM_ALL_FILTER(FILTER)     (((FILTER) == DFSDM1_0) || \
-                                         ((FILTER) == DFSDM1_1))
+        ((FILTER) == DFSDM1_1))
 
 #define IS_DFSDM_SYNC_FILTER(FILTER)    (((FILTER) == DFSDM1_0) || \
-                                         ((FILTER) == DFSDM1_1))
+        ((FILTER) == DFSDM1_1))
 #endif /* STM32F413_423xx */
 
 

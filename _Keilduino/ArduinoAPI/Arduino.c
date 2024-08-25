@@ -42,6 +42,7 @@ void pinMode(uint8_t pin, PinMode_TypeDef mode)
         {
             return;
         }
+
         pinMode(pin, INPUT_ANALOG);
         ADC_DMA_Register(PIN_MAP[pin].ADC_Channel);
         break;
@@ -149,13 +150,15 @@ uint16_t analogRead_DMA(uint8_t pin)
 void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t value)
 {
     int i;
+
     if(!(IS_PIN(dataPin) && IS_PIN(clockPin)))
     {
         return;
     }
 
     digitalWrite_LOW(clockPin);
-    for (i = 0; i < 8; i++)
+
+    for(i = 0; i < 8; i++)
     {
         int bit = bitOrder == LSBFIRST ? i : (7 - i);
         digitalWrite(dataPin, (value >> bit) & 0x1);
@@ -181,10 +184,11 @@ uint32_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint32_t bitOrder)
         return 0;
     }
 
-    for (i = 0; i < 8; ++i)
+    for(i = 0; i < 8; ++i)
     {
         digitalWrite_HIGH(clockPin);
-        if (bitOrder == LSBFIRST )
+
+        if(bitOrder == LSBFIRST)
         {
             value |= digitalRead(dataPin) << i;
         }
@@ -192,6 +196,7 @@ uint32_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint32_t bitOrder)
         {
             value |= digitalRead(dataPin) << (7 - i);
         }
+
         digitalWrite_LOW(clockPin);
     }
 
@@ -221,46 +226,51 @@ uint32_t pulseIn(uint32_t pin, uint32_t state, uint32_t timeout)
       * the initial loop; it takes 16 clock cycles per iteration.
       */
     uint32_t numloops = 0;
-    uint32_t maxloops =  timeout * ( F_CPU / 16000000);
+    uint32_t maxloops =  timeout * (F_CPU / 16000000);
     volatile uint32_t dummyWidth = 0;
 
     if(!IS_PIN(pin))
+    {
         return 0;
+    }
 
     /* wait for any previous pulse to end */
-    while ((*idr & bit) == stateMask)
+    while((*idr & bit) == stateMask)
     {
-        if (numloops++ == maxloops)
+        if(numloops++ == maxloops)
         {
             return 0;
         }
+
         dummyWidth++;
     }
 
     /* wait for the pulse to start */
-    while ((*idr & bit) != stateMask)
+    while((*idr & bit) != stateMask)
     {
-        if (numloops++ == maxloops)
+        if(numloops++ == maxloops)
         {
             return 0;
         }
+
         dummyWidth++;
     }
 
     /* wait for the pulse to stop */
-    while ((*idr & bit) == stateMask)
+    while((*idr & bit) == stateMask)
     {
-        if (numloops++ == maxloops)
+        if(numloops++ == maxloops)
         {
             return 0;
         }
+
         width++;
     }
 
     /** Excluding time taking up by the interrupts, it needs 16 clock cycles to look through the last while loop
       * 5 is added as a fiddle factor to correct for interrupts etc. But ultimately this would only be accurate if it was done ona hardware timer
       */
-    return (uint32_t)( ( (unsigned long long)(width + 5) *  (unsigned long long) 16000000.0) / (unsigned long long)F_CPU );
+    return (uint32_t)(((unsigned long long)(width + 5) * (unsigned long long) 16000000.0) / (unsigned long long)F_CPU);
 }
 
 /**

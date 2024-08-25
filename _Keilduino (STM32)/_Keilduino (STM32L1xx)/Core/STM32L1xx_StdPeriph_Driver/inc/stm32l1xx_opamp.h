@@ -17,21 +17,21 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L1xx_OPAMP_H
 #define __STM32L1xx_OPAMP_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -50,7 +50,7 @@
 
 /** @defgroup OPAMP_Exported_Constants
   * @{
-  */ 
+  */
 
 /** @defgroup OPAMP_Selection
   * @{
@@ -66,7 +66,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_Switches
   * @{
@@ -98,7 +98,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_Trimming
   * @{
@@ -112,7 +112,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_Input
   * @{
@@ -126,7 +126,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_TrimValue
   * @{
@@ -150,7 +150,7 @@
 
 /**
   * @}
-  */ 
+  */
 /**
   * @}
   */
@@ -178,7 +178,7 @@ FlagStatus OPAMP_GetFlagStatus(uint32_t OPAMP_Selection);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

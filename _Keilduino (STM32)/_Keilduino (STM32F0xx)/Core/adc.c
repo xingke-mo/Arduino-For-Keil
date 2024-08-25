@@ -49,6 +49,7 @@ static int16_t ADC_DMA_SearchChannel(uint32_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -61,27 +62,36 @@ int16_t ADC_DMA_Register(uint32_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static uint8_t IsInit = 0;
+
     if(!IsInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFFFFFFFF;
         }
+
         IsInit = 1;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return -1;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return -2;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return -3;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -111,7 +121,7 @@ void ADC_DMA_Init(void)
 
     // 配置 DMA 初始化结构体
     // 外设基址为：ADC 数据寄存器地址
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) (&(ADC1->DR));
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->DR));
 
     // 存储器地址
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_DMA_ConvertedValue;
@@ -149,7 +159,7 @@ void ADC_DMA_Init(void)
     // 使能 DMA 通道
     DMA_Cmd(DMA1_Channel1, ENABLE);
 
-    /* ADC1 DeInit */  
+    /* ADC1 DeInit */
     ADC_DeInit(ADC1);
 
     /* ADC1 Periph clock enable */
@@ -224,11 +234,16 @@ uint16_t ADC_DMA_GetValue(uint32_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }
@@ -242,6 +257,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
 {
     ADC_InitTypeDef ADC_InitStructure;
     ADC_DeInit(ADCx);
+
     if(ADCx == ADC1)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
@@ -250,6 +266,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
     {
         return;
     }
+
     ADC_StructInit(&ADC_InitStructure);//初始化ADC结构
     ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;//12位精度
     ADC_InitStructure.ADC_ContinuousConvMode = ENABLE; //规定模式装换工作在连续模式
@@ -259,6 +276,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
     ADC_Init(ADCx, &ADC_InitStructure);
     ADC_GetCalibrationFactor(ADCx);
     ADC_Cmd(ADCx, ENABLE);
+
     while(!ADC_GetFlagStatus(ADCx, ADC_FLAG_ADEN));
 }
 
@@ -276,8 +294,10 @@ uint16_t ADCx_GetValue(ADC_TypeDef* ADCx, uint32_t ADC_Channel)
     ADC_ChannelConfig(ADCx, ADC_Channel, ADC_SampleTime_41_5Cycles);
     //ADC1 regular Software Start Conv
     ADC_StartOfConversion(ADCx);
+
     //Wait for end of conversion
     while(ADC_GetFlagStatus(ADCx, ADC_FLAG_EOC) == RESET);
+
     //Get value
     ADCConvertedValue = ADC_GetConversionValue(ADCx);
     //Stop conversion and return ADC value.

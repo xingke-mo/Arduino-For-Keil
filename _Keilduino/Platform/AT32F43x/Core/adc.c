@@ -52,6 +52,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -107,12 +108,16 @@ void ADCx_Init(adc_type* ADCx)
     adc_interrupt_enable(ADCx, ADC_OCCO_INT, FALSE);
 
     adc_enable(ADCx, TRUE);
+
     while(adc_flag_get(ADCx, ADC_RDY_FLAG) == RESET);
 
     /* adc calibration */
     adc_calibration_init(ADCx);
+
     while(adc_calibration_init_status_get(ADCx));
+
     adc_calibration_start(ADCx);
+
     while(adc_calibration_status_get(ADCx));
 }
 
@@ -127,6 +132,7 @@ uint16_t ADCx_GetValue(adc_type* ADCx, uint16_t ADC_Channel)
     adc_ordinary_channel_set(ADCx, (adc_channel_select_type)ADC_Channel, 1, ADC_SAMPLETIME_47_5);
 
     adc_ordinary_software_trigger_enable(ADCx, TRUE);
+
     while(!adc_flag_get(ADCx, ADC_OCCE_FLAG));
 
     return adc_ordinary_conversion_data_get(ADCx);
@@ -141,27 +147,36 @@ ADC_DMA_Res_Type ADC_DMA_Register(uint8_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static bool isInit = false;
+
     if(!isInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFF;
         }
+
         isInit = true;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return ADC_DMA_RES_NOT_ADC_CHANNEL;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return ADC_DMA_RES_DUPLICATE_REGISTRATION;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return ADC_DMA_RES_MAX_NUM_OF_REGISTRATIONS_EXCEEDED;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -205,7 +220,7 @@ void ADC_DMA_Init(void)
     dma_init_structure.memory_base_addr = (uint32_t)ADC_DMA_ConvertedValue;
     dma_init_structure.memory_data_width = DMA_MEMORY_DATA_WIDTH_HALFWORD;
     dma_init_structure.memory_inc_enable = TRUE;
-    dma_init_structure.peripheral_base_addr = (uint32_t) (&(ADC1->odt));
+    dma_init_structure.peripheral_base_addr = (uint32_t)(&(ADC1->odt));
     dma_init_structure.peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_HALFWORD;
     dma_init_structure.peripheral_inc_enable = FALSE;
     dma_init_structure.priority = DMA_PRIORITY_HIGH;
@@ -256,11 +271,15 @@ void ADC_DMA_Init(void)
     adc_interrupt_enable(ADC1, ADC_OCCO_INT, FALSE);
 
     adc_enable(ADC1, TRUE);
+
     while(adc_flag_get(ADC1, ADC_RDY_FLAG) == RESET);
 
     adc_calibration_init(ADC1);
+
     while(adc_calibration_init_status_get(ADC1));
+
     adc_calibration_start(ADC1);
+
     while(adc_calibration_status_get(ADC1));
 }
 
@@ -274,11 +293,16 @@ uint16_t ADC_DMA_GetValue(uint8_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }

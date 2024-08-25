@@ -51,7 +51,7 @@
   */
 void nvic_system_reset(void)
 {
-  NVIC_SystemReset();
+    NVIC_SystemReset();
 }
 
 /**
@@ -63,14 +63,14 @@ void nvic_system_reset(void)
   */
 void nvic_irq_enable(IRQn_Type irqn, uint32_t preempt_priority, uint32_t sub_priority)
 {
-  uint32_t temp_priority = 0;
+    uint32_t temp_priority = 0;
 
-  /* encode priority */
-  temp_priority = NVIC_EncodePriority(NVIC_GetPriorityGrouping(), preempt_priority, sub_priority);
-  /* set priority */
-  NVIC_SetPriority(irqn, temp_priority);
-  /* enable irqn */
-  NVIC_EnableIRQ(irqn);
+    /* encode priority */
+    temp_priority = NVIC_EncodePriority(NVIC_GetPriorityGrouping(), preempt_priority, sub_priority);
+    /* set priority */
+    NVIC_SetPriority(irqn, temp_priority);
+    /* enable irqn */
+    NVIC_EnableIRQ(irqn);
 }
 
 /**
@@ -80,7 +80,7 @@ void nvic_irq_enable(IRQn_Type irqn, uint32_t preempt_priority, uint32_t sub_pri
   */
 void nvic_irq_disable(IRQn_Type irqn)
 {
-  NVIC_DisableIRQ(irqn);
+    NVIC_DisableIRQ(irqn);
 }
 
 /**
@@ -96,8 +96,8 @@ void nvic_irq_disable(IRQn_Type irqn)
   */
 void nvic_priority_group_config(nvic_priority_group_type priority_group)
 {
-  /* set the prigroup[10:8] bits according to nvic_prioritygroup value */
-  NVIC_SetPriorityGrouping(priority_group);
+    /* set the prigroup[10:8] bits according to nvic_prioritygroup value */
+    NVIC_SetPriorityGrouping(priority_group);
 }
 
 /**
@@ -111,7 +111,7 @@ void nvic_priority_group_config(nvic_priority_group_type priority_group)
   */
 void nvic_vector_table_set(uint32_t base, uint32_t offset)
 {
-  SCB->VTOR = base | (offset & (uint32_t)0x1FFFFF80);
+    SCB->VTOR = base | (offset & (uint32_t)0x1FFFFF80);
 }
 
 /**
@@ -126,14 +126,14 @@ void nvic_vector_table_set(uint32_t base, uint32_t offset)
   */
 void nvic_lowpower_mode_config(nvic_lowpower_mode_type lp_mode, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    SCB->SCR |= lp_mode;
-  }
-  else
-  {
-    SCB->SCR &= (uint32_t)(~(uint32_t)lp_mode);
-  }
+    if(new_state != FALSE)
+    {
+        SCB->SCR |= lp_mode;
+    }
+    else
+    {
+        SCB->SCR &= (uint32_t)(~(uint32_t)lp_mode);
+    }
 }
 
 /**
@@ -146,14 +146,14 @@ void nvic_lowpower_mode_config(nvic_lowpower_mode_type lp_mode, confirm_state ne
   */
 void systick_clock_source_config(systick_clock_source_type source)
 {
-  if(source == SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV)
-  {
-    SysTick->CTRL |= SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV;
-  }
-  else
-  {
-    SysTick->CTRL &= ~(uint32_t)SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV;
-  }
+    if(source == SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV)
+    {
+        SysTick->CTRL |= SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV;
+    }
+    else
+    {
+        SysTick->CTRL &= ~(uint32_t)SYSTICK_CLOCK_SOURCE_AHBCLK_NODIV;
+    }
 }
 
 /**

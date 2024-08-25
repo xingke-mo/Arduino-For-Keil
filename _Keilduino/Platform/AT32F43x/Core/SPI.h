@@ -45,10 +45,10 @@
 #define SPI_I2S_GET_FLAG(spix, SPI_I2S_FLAG) (spix->sts & SPI_I2S_FLAG)
 #define SPI_I2S_RXDATA(spix)                 (spix->dt)
 #define SPI_I2S_RXDATA_VOLATILE(spix)               \
-do {                                                \
-    volatile uint16_t vn = SPI_I2S_RXDATA(spix);    \
-    (void)vn;                                       \
-} while(0)
+    do {                                                \
+        volatile uint16_t vn = SPI_I2S_RXDATA(spix);    \
+        (void)vn;                                       \
+    } while(0)
 #define SPI_I2S_TXDATA(spix, data)           (spix->dt = (data))
 #define SPI_I2S_WAIT_RX(spix)                do{ while (!SPI_I2S_GET_FLAG(spix, SPI_I2S_RDBF_FLAG)); } while(0)
 #define SPI_I2S_WAIT_TX(spix)                do{ while (!SPI_I2S_GET_FLAG(spix, SPI_I2S_TDBE_FLAG)); } while(0)
@@ -150,7 +150,7 @@ public:
     uint8_t send(uint8_t data);
     uint8_t send(uint8_t *data, uint32_t length);
     uint8_t recv(void);
-    
+
     spi_type* getSPI()
     {
         return SPIx;

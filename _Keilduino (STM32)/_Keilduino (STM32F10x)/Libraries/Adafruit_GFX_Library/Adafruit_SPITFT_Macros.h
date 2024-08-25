@@ -47,63 +47,66 @@
 #define SPI_OBJECT  SPI
 
 #if defined (__AVR__) ||  defined(TEENSYDUINO) ||  defined(ARDUINO_ARCH_STM32F1)
-    #define HSPI_SET_CLOCK() SPI_OBJECT.setClockDivider(SPI_CLOCK_DIV2);
+#define HSPI_SET_CLOCK() SPI_OBJECT.setClockDivider(SPI_CLOCK_DIV2);
 #elif defined (__arm__)
-    #define HSPI_SET_CLOCK() SPI_OBJECT.setClockDivider(11);
+#define HSPI_SET_CLOCK() SPI_OBJECT.setClockDivider(11);
 #elif defined(ESP8266) || defined(ESP32)
-    #define HSPI_SET_CLOCK() SPI_OBJECT.setFrequency(_freq);
+#define HSPI_SET_CLOCK() SPI_OBJECT.setFrequency(_freq);
 #elif defined(RASPI)
-    #define HSPI_SET_CLOCK() SPI_OBJECT.setClock(_freq);
+#define HSPI_SET_CLOCK() SPI_OBJECT.setClock(_freq);
 #elif defined(ARDUINO_ARCH_STM32F1)
-    #define HSPI_SET_CLOCK() SPI_OBJECT.setClock(_freq);
+#define HSPI_SET_CLOCK() SPI_OBJECT.setClock(_freq);
 #else
-    #define HSPI_SET_CLOCK()
+#define HSPI_SET_CLOCK()
 #endif
 
 #ifdef SPI_HAS_TRANSACTION
-    #define HSPI_BEGIN_TRANSACTION() SPI_OBJECT.beginTransaction(SPISettings(_freq, MSBFIRST, SPI_MODE0))
-    #define HSPI_END_TRANSACTION()   SPI_OBJECT.endTransaction()
+#define HSPI_BEGIN_TRANSACTION() SPI_OBJECT.beginTransaction(SPISettings(_freq, MSBFIRST, SPI_MODE0))
+#define HSPI_END_TRANSACTION()   SPI_OBJECT.endTransaction()
 #else
-    #define HSPI_BEGIN_TRANSACTION() HSPI_SET_CLOCK(); SPI_OBJECT.setBitOrder(MSBFIRST); SPI_OBJECT.setDataMode(SPI_MODE0)
-    #define HSPI_END_TRANSACTION()
+#define HSPI_BEGIN_TRANSACTION() HSPI_SET_CLOCK(); SPI_OBJECT.setBitOrder(MSBFIRST); SPI_OBJECT.setDataMode(SPI_MODE0)
+#define HSPI_END_TRANSACTION()
 #endif
 
 #ifdef ESP32
-    #define SPI_HAS_WRITE_PIXELS
+#define SPI_HAS_WRITE_PIXELS
 #endif
 #if defined(ESP8266) || defined(ESP32)
-    // Optimized SPI (ESP8266 and ESP32)
-    #define HSPI_READ()              SPI_OBJECT.transfer(0)
-    #define HSPI_WRITE(b)            SPI_OBJECT.write(b)
-    #define HSPI_WRITE16(s)          SPI_OBJECT.write16(s)
-    #define HSPI_WRITE32(l)          SPI_OBJECT.write32(l)
-    #ifdef SPI_HAS_WRITE_PIXELS
-        #define SPI_MAX_PIXELS_AT_ONCE  32
-        #define HSPI_WRITE_PIXELS(c,l)   SPI_OBJECT.writePixels(c,l)
-    #else
-        #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){ SPI_WRITE16(((uint16_t*)(c))[i]); }
-    #endif
+// Optimized SPI (ESP8266 and ESP32)
+#define HSPI_READ()              SPI_OBJECT.transfer(0)
+#define HSPI_WRITE(b)            SPI_OBJECT.write(b)
+#define HSPI_WRITE16(s)          SPI_OBJECT.write16(s)
+#define HSPI_WRITE32(l)          SPI_OBJECT.write32(l)
+#ifdef SPI_HAS_WRITE_PIXELS
+#define SPI_MAX_PIXELS_AT_ONCE  32
+#define HSPI_WRITE_PIXELS(c,l)   SPI_OBJECT.writePixels(c,l)
 #else
-    // Standard Byte-by-Byte SPI
+#define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<((l)/2); i++){ SPI_WRITE16(((uint16_t*)(c))[i]); }
+#endif
+#else
+// Standard Byte-by-Byte SPI
 
-    #if defined (__AVR__) || defined(TEENSYDUINO)
+#if defined (__AVR__) || defined(TEENSYDUINO)
 static inline uint8_t _avr_spi_read(void) __attribute__((always_inline));
-static inline uint8_t _avr_spi_read(void) {
+static inline uint8_t _avr_spi_read(void)
+{
     uint8_t r = 0;
     SPDR = r;
+
     while(!(SPSR & _BV(SPIF)));
+
     r = SPDR;
     return r;
 }
-        #define HSPI_WRITE(b)            {SPDR = (b); while(!(SPSR & _BV(SPIF)));}
-        #define HSPI_READ()              _avr_spi_read()
-    #else
-        #define HSPI_WRITE(b)            SPI_OBJECT.transfer((uint8_t)(b))
-        #define HSPI_READ()              HSPI_WRITE(0)
-    #endif
-    #define HSPI_WRITE16(s)          HSPI_WRITE((s) >> 8); HSPI_WRITE(s)
-    #define HSPI_WRITE32(l)          HSPI_WRITE((l) >> 24); HSPI_WRITE((l) >> 16); HSPI_WRITE((l) >> 8); HSPI_WRITE(l)
-    #define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<(l); i+=2){ HSPI_WRITE(((uint8_t*)(c))[i+1]); HSPI_WRITE(((uint8_t*)(c))[i]); }
+#define HSPI_WRITE(b)            {SPDR = (b); while(!(SPSR & _BV(SPIF)));}
+#define HSPI_READ()              _avr_spi_read()
+#else
+#define HSPI_WRITE(b)            SPI_OBJECT.transfer((uint8_t)(b))
+#define HSPI_READ()              HSPI_WRITE(0)
+#endif
+#define HSPI_WRITE16(s)          HSPI_WRITE((s) >> 8); HSPI_WRITE(s)
+#define HSPI_WRITE32(l)          HSPI_WRITE((l) >> 24); HSPI_WRITE((l) >> 16); HSPI_WRITE((l) >> 8); HSPI_WRITE(l)
+#define HSPI_WRITE_PIXELS(c,l)   for(uint32_t i=0; i<(l); i+=2){ HSPI_WRITE(((uint8_t*)(c))[i+1]); HSPI_WRITE(((uint8_t*)(c))[i]); }
 #endif
 
 #define SPI_BEGIN()             if(_sclk < 0){SPI_OBJECT.begin();}

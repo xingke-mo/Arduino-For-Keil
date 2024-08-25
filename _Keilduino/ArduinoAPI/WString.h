@@ -205,20 +205,20 @@ public:
     {
         return !equals(cstr);
     }
-    unsigned char operator <  (const String &rhs) const;
-    unsigned char operator >  (const String &rhs) const;
+    unsigned char operator < (const String &rhs) const;
+    unsigned char operator > (const String &rhs) const;
     unsigned char operator <= (const String &rhs) const;
     unsigned char operator >= (const String &rhs) const;
     unsigned char equalsIgnoreCase(const String &s) const;
-    unsigned char startsWith( const String &prefix) const;
+    unsigned char startsWith(const String &prefix) const;
     unsigned char startsWith(const String &prefix, unsigned int offset) const;
     unsigned char endsWith(const String &suffix) const;
 
     // character access
     char charAt(unsigned int index) const;
     void setCharAt(unsigned int index, char c);
-    char operator [] (unsigned int index) const;
-    char& operator [] (unsigned int index);
+    char operator [](unsigned int index) const;
+    char& operator [](unsigned int index);
     void getBytes(unsigned char *buf, unsigned int bufsize, unsigned int index = 0) const;
     void toCharArray(char *buf, unsigned int bufsize, unsigned int index = 0) const
     {
@@ -246,19 +246,19 @@ public:
     }
 
     // search
-    int indexOf( char ch ) const;
-    int indexOf( char ch, unsigned int fromIndex ) const;
-    int indexOf( const String &str ) const;
-    int indexOf( const String &str, unsigned int fromIndex ) const;
-    int lastIndexOf( char ch ) const;
-    int lastIndexOf( char ch, unsigned int fromIndex ) const;
-    int lastIndexOf( const String &str ) const;
-    int lastIndexOf( const String &str, unsigned int fromIndex ) const;
-    String substring( unsigned int beginIndex ) const
+    int indexOf(char ch) const;
+    int indexOf(char ch, unsigned int fromIndex) const;
+    int indexOf(const String &str) const;
+    int indexOf(const String &str, unsigned int fromIndex) const;
+    int lastIndexOf(char ch) const;
+    int lastIndexOf(char ch, unsigned int fromIndex) const;
+    int lastIndexOf(const String &str) const;
+    int lastIndexOf(const String &str, unsigned int fromIndex) const;
+    String substring(unsigned int beginIndex) const
     {
         return substring(beginIndex, len);
     };
-    String substring( unsigned int beginIndex, unsigned int endIndex ) const;
+    String substring(unsigned int beginIndex, unsigned int endIndex) const;
 
     // modification
     void replace(char find, char replace);

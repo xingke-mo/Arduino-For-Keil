@@ -88,9 +88,9 @@ static int fast_isqrt(int n)
         dm >>= 2;
     }
 
-    while (dm)
+    while(dm)
     {
-        if (x >= cm + dm)
+        if(x >= cm + dm)
         {
             x -= cm + dm;
             cm = (cm >> 1) + dm;
@@ -99,6 +99,7 @@ static int fast_isqrt(int n)
         {
             cm >>= 1;
         }
+
         dm >>= 2;
     }
 
@@ -214,6 +215,7 @@ static void Timer_TimeFactorization(
         fct1 = prodect / 20000;
         fct2 = prodect / fct1;
     }
+
     *factor1 = fct1;
     *factor2 = fct2;
 }
@@ -279,7 +281,9 @@ bool Timer_SetInterruptFreqUpdate(tmr_type* TIMx, uint32_t Freq)
     int32_t error;
 
     if(Freq == 0)
+    {
         return false;
+    }
 
     bool success = Timer_FreqFactorization(
                        Freq,
@@ -306,6 +310,7 @@ bool Timer_SetInterruptFreqUpdate(tmr_type* TIMx, uint32_t Freq)
 uint32_t Timer_GetClockMax(tmr_type* TIMx)
 {
     static crm_clocks_freq_type crm_clocks_freq_struct = {0};
+
     if(!crm_clocks_freq_struct.sclk_freq)
     {
         crm_clocks_freq_get(&crm_clocks_freq_struct);
@@ -370,15 +375,15 @@ void Timer_SetInterruptBase(
     TIMER_Type TIMERx = TIMER1;
 
 #define TMRx_IRQ_DEF(n,x_IRQn)\
-do{\
-    if(TIMx == TIM##n)\
-    {\
-        TIMERx = TIMER##n;\
-        TMRx_IRQn = x_IRQn;\
-        goto match;\
+    do{\
+        if(TIMx == TIM##n)\
+        {\
+            TIMERx = TIMER##n;\
+            TMRx_IRQn = x_IRQn;\
+            goto match;\
+        }\
     }\
-}\
-while(0)
+    while(0)
 
     /*如果编译器提示：identifier "xxx_IRQn" is undefined
      *把未定义的注释掉即可
@@ -435,18 +440,23 @@ void Timer_SetCompare(tmr_type* TIMx, uint8_t TimerChannel, uint32_t Compare)
     case 1:
         tmr_channel_value_set(TIMx, TMR_SELECT_CHANNEL_1, Compare);
         break;
+
     case 2:
         tmr_channel_value_set(TIMx, TMR_SELECT_CHANNEL_2, Compare);
         break;
+
     case 3:
         tmr_channel_value_set(TIMx, TMR_SELECT_CHANNEL_3, Compare);
         break;
+
     case 4:
         tmr_channel_value_set(TIMx, TMR_SELECT_CHANNEL_4, Compare);
         break;
+
     case 5:
         tmr_channel_value_set(TIMx, TMR_SELECT_CHANNEL_5, Compare);
         break;
+
     default:
         break;
     }
@@ -461,23 +471,29 @@ void Timer_SetCompare(tmr_type* TIMx, uint8_t TimerChannel, uint32_t Compare)
 uint16_t Timer_GetCompare(tmr_type* TIMx, uint8_t TimerChannel)
 {
     uint16_t retval = 0;
+
     switch(TimerChannel)
     {
     case 1:
         retval = tmr_channel_value_get(TIMx, TMR_SELECT_CHANNEL_1);
         break;
+
     case 2:
         retval = tmr_channel_value_get(TIMx, TMR_SELECT_CHANNEL_2);
         break;
+
     case 3:
         retval = tmr_channel_value_get(TIMx, TMR_SELECT_CHANNEL_3);
         break;
+
     case 4:
         retval = tmr_channel_value_get(TIMx, TMR_SELECT_CHANNEL_4);
         break;
+
     case 5:
         retval = tmr_channel_value_get(TIMx, TMR_SELECT_CHANNEL_5);
         break;
+
     default:
         break;
     }
@@ -584,16 +600,16 @@ gpio_mux_sel_type Timer_GetGPIO_MUX(uint8_t Pin)
 }
 
 #define TMRx_IRQHANDLER(n) \
-do{\
-    if (tmr_flag_get(TMR##n, TMR_OVF_FLAG) != RESET)\
-    {\
-        if(Timer_CallbackFunction[TIMER##n])\
+    do{\
+        if (tmr_flag_get(TMR##n, TMR_OVF_FLAG) != RESET)\
         {\
-            Timer_CallbackFunction[TIMER##n]();\
+            if(Timer_CallbackFunction[TIMER##n])\
+            {\
+                Timer_CallbackFunction[TIMER##n]();\
+            }\
+            tmr_flag_clear(TMR##n, TMR_OVF_FLAG);\
         }\
-        tmr_flag_clear(TMR##n, TMR_OVF_FLAG);\
-    }\
-}while(0)
+    }while(0)
 
 /**
   * @brief  定时中断入口，定时器1、10

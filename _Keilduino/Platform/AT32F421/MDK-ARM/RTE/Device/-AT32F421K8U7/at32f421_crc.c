@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_crc.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the crc firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -48,8 +46,8 @@
   */
 void crc_data_reset(void)
 {
-  /* reset crc generator */
-  CRC->ctrl_bit.rst = 0x1;
+    /* reset crc generator */
+    CRC->ctrl_bit.rst = 0x1;
 }
 
 /**
@@ -59,8 +57,8 @@ void crc_data_reset(void)
   */
 uint32_t crc_one_word_calculate(uint32_t data)
 {
-  CRC->dt = data;
-  return (CRC->dt);
+    CRC->dt = data;
+    return (CRC->dt);
 }
 
 /**
@@ -71,14 +69,14 @@ uint32_t crc_one_word_calculate(uint32_t data)
   */
 uint32_t crc_block_calculate(uint32_t *pbuffer, uint32_t length)
 {
-  uint32_t index = 0;
+    uint32_t index = 0;
 
-  for(index = 0; index < length; index++)
-  {
-    CRC->dt = pbuffer[index];
-  }
+    for(index = 0; index < length; index++)
+    {
+        CRC->dt = pbuffer[index];
+    }
 
-  return (CRC->dt);
+    return (CRC->dt);
 }
 
 /**
@@ -88,7 +86,7 @@ uint32_t crc_block_calculate(uint32_t *pbuffer, uint32_t length)
   */
 uint32_t crc_data_get(void)
 {
-  return (CRC->dt);
+    return (CRC->dt);
 }
 
 /**
@@ -98,7 +96,7 @@ uint32_t crc_data_get(void)
   */
 void crc_common_data_set(uint8_t cdt_value)
 {
-  CRC->cdt_bit.cdt = cdt_value;
+    CRC->cdt_bit.cdt = cdt_value;
 }
 
 /**
@@ -106,9 +104,9 @@ void crc_common_data_set(uint8_t cdt_value)
   * @param  none
   * @retval 8-bit value of the common data register
   */
-uint8_t crc_common_date_get(void)
+uint8_t crc_common_data_get(void)
 {
-  return (CRC->cdt_bit.cdt);
+    return (CRC->cdt_bit.cdt);
 }
 
 /**
@@ -118,7 +116,7 @@ uint8_t crc_common_date_get(void)
   */
 void crc_init_data_set(uint32_t value)
 {
-  CRC->idt = value;
+    CRC->idt = value;
 }
 
 /**
@@ -133,7 +131,7 @@ void crc_init_data_set(uint32_t value)
   */
 void crc_reverse_input_data_set(crc_reverse_input_type value)
 {
-  CRC->ctrl_bit.revid = value;
+    CRC->ctrl_bit.revid = value;
 }
 
 /**
@@ -146,7 +144,53 @@ void crc_reverse_input_data_set(crc_reverse_input_type value)
   */
 void crc_reverse_output_data_set(crc_reverse_output_type value)
 {
-  CRC->ctrl_bit.revod = value;
+    CRC->ctrl_bit.revod = value;
+}
+
+/**
+  * @brief  config crc polynomial value
+  * @param  value
+  *         32-bit new data of crc poly value
+  * @retval none.
+  */
+void crc_poly_value_set(uint32_t value)
+{
+    CRC->poly = value;
+}
+
+/**
+  * @brief  return crc polynomial value
+  * @param  none
+  * @retval 32-bit value of the polynomial value.
+  */
+uint32_t crc_poly_value_get(void)
+{
+    return (CRC->poly);
+}
+
+/**
+  * @brief  config crc polynomial data size
+  * @param  size
+  *         this parameter can be one of the following values:
+  *         - CRC_POLY_SIZE_32B
+  *         - CRC_POLY_SIZE_16B
+  *         - CRC_POLY_SIZE_8B
+  *         - CRC_POLY_SIZE_7B
+  * @retval none.
+  */
+void crc_poly_size_set(crc_poly_size_type size)
+{
+    CRC->ctrl_bit.poly_size = size;
+}
+
+/**
+  * @brief  return crc polynomial data size
+  * @param  none
+  * @retval polynomial data size.
+  */
+crc_poly_size_type crc_poly_size_get(void)
+{
+    return (crc_poly_size_type)(CRC->ctrl_bit.poly_size);
 }
 
 /**

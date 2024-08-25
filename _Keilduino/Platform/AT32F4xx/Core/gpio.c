@@ -192,20 +192,48 @@ void GPIOx_Init(
     uint32_t RCC_APB2PERIPH_GPIOx;
     GPIOMode_Type GPIO_Mode_x;
 
-    if(GPIOx == GPIOA)     RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOA;
-    else if(GPIOx == GPIOB)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOB;
-    else if(GPIOx == GPIOC)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOC;
-    else if(GPIOx == GPIOD)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOD;
+    if(GPIOx == GPIOA)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOA;
+    }
+    else if(GPIOx == GPIOB)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOB;
+    }
+    else if(GPIOx == GPIOC)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOC;
+    }
+    else if(GPIOx == GPIOD)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOD;
+    }
+
 #ifdef GPIOE
-    else if(GPIOx == GPIOE)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOE;
+    else if(GPIOx == GPIOE)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOE;
+    }
+
 #endif /*GPIOE*/
 #ifdef GPIOF
-    else if(GPIOx == GPIOF)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOF;
+    else if(GPIOx == GPIOF)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOF;
+    }
+
 #endif /*GPIOF*/
 #ifdef GPIOG
-    else if(GPIOx == GPIOG)RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOG;
+    else if(GPIOx == GPIOG)
+    {
+        RCC_APB2PERIPH_GPIOx = RCC_APB2PERIPH_GPIOG;
+    }
+
 #endif /*GPIOG*/
-    else return;
+    else
+    {
+        return;
+    }
 
     if(Mode == INPUT)
     {
@@ -312,11 +340,13 @@ uint8_t GPIO_GetPortNum(uint8_t Pin)
 uint8_t GPIO_GetPinSource(uint16_t GPIO_Pin_x)
 {
     uint8_t PinSource = 0;
+
     while(GPIO_Pin_x > 1)
     {
         GPIO_Pin_x >>= 1;
         PinSource++;
     }
+
     return PinSource;
 }
 

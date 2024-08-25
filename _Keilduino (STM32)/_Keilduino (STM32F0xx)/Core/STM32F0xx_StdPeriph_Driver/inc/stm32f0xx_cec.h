@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.0.1
   * @date    20-April-2012
-  * @brief   This file contains all the functions prototypes for the CEC firmware 
+  * @brief   This file contains all the functions prototypes for the CEC firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32F0XX_CEC_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -45,28 +45,28 @@
   * @{
   */
 /* Exported types ------------------------------------------------------------*/
-  
-/** 
-  * @brief CEC Init structure definition 
+
+/**
+  * @brief CEC Init structure definition
   */
 typedef struct
 {
-  uint32_t CEC_SignalFreeTime;     /*!< Specifies the CEC Signal Free Time configuration.
+    uint32_t CEC_SignalFreeTime;     /*!< Specifies the CEC Signal Free Time configuration.
                                    This parameter can be a value of @ref CEC_Signal_Free_Time */
-  uint32_t CEC_RxTolerance;        /*!< Specifies the CEC Reception Tolerance.
+    uint32_t CEC_RxTolerance;        /*!< Specifies the CEC Reception Tolerance.
                                    This parameter can be a value of @ref CEC_RxTolerance */
-  uint32_t CEC_StopReception;      /*!< Specifies the CEC Stop Reception.
+    uint32_t CEC_StopReception;      /*!< Specifies the CEC Stop Reception.
                                    This parameter can be a value of @ref CEC_Stop_Reception */
-  uint32_t CEC_BitRisingError;     /*!< Specifies the CEC Bit Rising Error generation.
+    uint32_t CEC_BitRisingError;     /*!< Specifies the CEC Bit Rising Error generation.
                                    This parameter can be a value of @ref CEC_Bit_Rising_Error_Generation */
-  uint32_t CEC_LongBitPeriodError; /*!< Specifies the CEC Long Bit Error generation.
+    uint32_t CEC_LongBitPeriodError; /*!< Specifies the CEC Long Bit Error generation.
                                    This parameter can be a value of @ref CEC_Long_Bit_Error_Generation */
-  uint32_t CEC_BRDNoGen;           /*!< Specifies the CEC Broadcast Error generation.
+    uint32_t CEC_BRDNoGen;           /*!< Specifies the CEC Broadcast Error generation.
                                    This parameter can be a value of @ref CEC_BDR_No_Gen */
-  uint32_t CEC_SFTOption;          /*!< Specifies the CEC Signal Free Time option.
+    uint32_t CEC_SFTOption;          /*!< Specifies the CEC Signal Free Time option.
                                    This parameter can be a value of @ref CEC_SFT_Option */
 
-}CEC_InitTypeDef;
+} CEC_InitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 
@@ -117,7 +117,7 @@ typedef struct
 #define CEC_StopReception_On            CEC_CFGR_BRESTP        /*!< RX Stop on bit Rising Error (BRE)    */
 
 #define IS_CEC_STOP_RECEPTION(RECEPTION) (((RECEPTION) == CEC_StopReception_On) || \
-                                          ((RECEPTION) == CEC_StopReception_Off))
+        ((RECEPTION) == CEC_StopReception_Off))
 /**
   * @}
   */
@@ -141,7 +141,7 @@ typedef struct
 #define CEC_LongBitPeriodError_On       CEC_CFGR_LREGEN         /*!< Long Bit Period Error generation turned On  */
 
 #define IS_CEC_LONG_BIT_PERIOD_ERROR(ERROR) (((ERROR) == CEC_LongBitPeriodError_Off) || \
-                                             ((ERROR) == CEC_LongBitPeriodError_On))
+        ((ERROR) == CEC_LongBitPeriodError_On))
 /**
   * @}
   */
@@ -166,7 +166,7 @@ typedef struct
 #define CEC_SFTOption_On               CEC_CFGR_SFTOPT         /*!< SFT option turned On                    */
 
 #define IS_CEC_SFT_OPTION(OPTION) (((OPTION) == CEC_SFTOption_Off) || \
-                                  ((OPTION) == CEC_SFTOption_On))
+                                   ((OPTION) == CEC_SFTOption_On))
 /**
   * @}
   */

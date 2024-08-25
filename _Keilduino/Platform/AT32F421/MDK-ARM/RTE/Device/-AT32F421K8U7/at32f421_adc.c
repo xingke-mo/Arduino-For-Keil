@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_adc.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the adc firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -50,11 +48,11 @@
   */
 void adc_reset(adc_type *adc_x)
 {
-  if(adc_x == ADC1)
-  {
-    crm_periph_reset(CRM_ADC1_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_ADC1_PERIPH_RESET, FALSE);
-  }
+    if(adc_x == ADC1)
+    {
+        crm_periph_reset(CRM_ADC1_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_ADC1_PERIPH_RESET, FALSE);
+    }
 }
 
 /**
@@ -69,7 +67,7 @@ void adc_reset(adc_type *adc_x)
   */
 void adc_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl2_bit.adcen = new_state;
+    adc_x->ctrl2_bit.adcen = new_state;
 }
 
 
@@ -85,15 +83,15 @@ void adc_enable(adc_type *adc_x, confirm_state new_state)
   *         - ADC_LEFT_ALIGNMENT
   * @param  ordinary_channel_length: configure the adc ordinary channel sequence length.
   *         this parameter can be:
-  *         - (0x1~0xf)
+  *         - (0x1~0x10)
   * @retval none
   */
 void adc_base_default_para_init(adc_base_config_type *adc_base_struct)
 {
-  adc_base_struct->sequence_mode = FALSE;
-  adc_base_struct->repeat_mode = FALSE;
-  adc_base_struct->data_align = ADC_RIGHT_ALIGNMENT;
-  adc_base_struct->ordinary_channel_length = 1;
+    adc_base_struct->sequence_mode = FALSE;
+    adc_base_struct->repeat_mode = FALSE;
+    adc_base_struct->data_align = ADC_RIGHT_ALIGNMENT;
+    adc_base_struct->ordinary_channel_length = 1;
 }
 
 /**
@@ -111,15 +109,15 @@ void adc_base_default_para_init(adc_base_config_type *adc_base_struct)
   *         - ADC_LEFT_ALIGNMENT
   * @param  ordinary_channel_length: configure the adc ordinary channel sequence length.
   *         this parameter can be:
-  *         - (0x1~0xf)
+  *         - (0x1~0x10)
   * @retval none
   */
 void adc_base_config(adc_type *adc_x, adc_base_config_type *adc_base_struct)
 {
-  adc_x->ctrl1_bit.sqen = adc_base_struct->sequence_mode;
-  adc_x->ctrl2_bit.rpen = adc_base_struct->repeat_mode;
-  adc_x->ctrl2_bit.dtalign = adc_base_struct->data_align;
-  adc_x->osq1_bit.oclen = adc_base_struct->ordinary_channel_length - 1;
+    adc_x->ctrl1_bit.sqen = adc_base_struct->sequence_mode;
+    adc_x->ctrl2_bit.rpen = adc_base_struct->repeat_mode;
+    adc_x->ctrl2_bit.dtalign = adc_base_struct->data_align;
+    adc_x->osq1_bit.oclen = adc_base_struct->ordinary_channel_length - 1;
 }
 
 /**
@@ -133,7 +131,7 @@ void adc_base_config(adc_type *adc_x, adc_base_config_type *adc_base_struct)
   */
 void adc_dma_mode_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl2_bit.ocdmaen = new_state;
+    adc_x->ctrl2_bit.ocdmaen = new_state;
 }
 
 /**
@@ -152,14 +150,14 @@ void adc_dma_mode_enable(adc_type *adc_x, confirm_state new_state)
   */
 void adc_interrupt_enable(adc_type *adc_x, uint32_t adc_int, confirm_state new_state)
 {
-  if(new_state == TRUE)
-  {
-    adc_x->ctrl1 |= adc_int;
-  }
-  else if(new_state == FALSE)
-  {
-    adc_x->ctrl1 &= ~adc_int;
-  }
+    if(new_state == TRUE)
+    {
+        adc_x->ctrl1 |= adc_int;
+    }
+    else if(new_state == FALSE)
+    {
+        adc_x->ctrl1 &= ~adc_int;
+    }
 }
 
 /**
@@ -171,7 +169,7 @@ void adc_interrupt_enable(adc_type *adc_x, uint32_t adc_int, confirm_state new_s
   */
 void adc_calibration_init(adc_type *adc_x)
 {
-  adc_x->ctrl2_bit.adcalinit = TRUE;
+    adc_x->ctrl2_bit.adcalinit = TRUE;
 }
 
 /**
@@ -183,14 +181,14 @@ void adc_calibration_init(adc_type *adc_x)
   */
 flag_status adc_calibration_init_status_get(adc_type *adc_x)
 {
-  if(adc_x->ctrl2_bit.adcalinit)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if(adc_x->ctrl2_bit.adcalinit)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -202,7 +200,7 @@ flag_status adc_calibration_init_status_get(adc_type *adc_x)
   */
 void adc_calibration_start(adc_type *adc_x)
 {
-  adc_x->ctrl2_bit.adcal = TRUE;
+    adc_x->ctrl2_bit.adcal = TRUE;
 }
 
 /**
@@ -214,14 +212,14 @@ void adc_calibration_start(adc_type *adc_x)
   */
 flag_status adc_calibration_status_get(adc_type *adc_x)
 {
-  if(adc_x->ctrl2_bit.adcal)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if(adc_x->ctrl2_bit.adcal)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -242,10 +240,10 @@ flag_status adc_calibration_status_get(adc_type *adc_x)
   */
 void adc_voltage_monitor_enable(adc_type *adc_x, adc_voltage_monitoring_type adc_voltage_monitoring)
 {
-  adc_x->ctrl1_bit.ocvmen = FALSE;
-  adc_x->ctrl1_bit.pcvmen = FALSE;
-  adc_x->ctrl1_bit.vmsgen = FALSE;
-  adc_x->ctrl1 |= adc_voltage_monitoring;
+    adc_x->ctrl1_bit.ocvmen = FALSE;
+    adc_x->ctrl1_bit.pcvmen = FALSE;
+    adc_x->ctrl1_bit.vmsgen = FALSE;
+    adc_x->ctrl1 |= adc_voltage_monitoring;
 }
 
 /**
@@ -263,8 +261,8 @@ void adc_voltage_monitor_enable(adc_type *adc_x, adc_voltage_monitoring_type adc
   */
 void adc_voltage_monitor_threshold_value_set(adc_type *adc_x, uint16_t adc_high_threshold, uint16_t adc_low_threshold)
 {
-  adc_x->vmhb_bit.vmhb = adc_high_threshold;
-  adc_x->vmlb_bit.vmlb = adc_low_threshold;
+    adc_x->vmhb_bit.vmhb = adc_high_threshold;
+    adc_x->vmlb_bit.vmlb = adc_low_threshold;
 }
 
 /**
@@ -283,7 +281,7 @@ void adc_voltage_monitor_threshold_value_set(adc_type *adc_x, uint16_t adc_high_
   */
 void adc_voltage_monitor_single_channel_select(adc_type *adc_x, adc_channel_select_type adc_channel)
 {
-  adc_x->ctrl1_bit.vmcsel = adc_channel;
+    adc_x->ctrl1_bit.vmcsel = adc_channel;
 }
 
 /**
@@ -315,118 +313,44 @@ void adc_voltage_monitor_single_channel_select(adc_type *adc_x, adc_channel_sele
   */
 void adc_ordinary_channel_set(adc_type *adc_x, adc_channel_select_type adc_channel, uint8_t adc_sequence, adc_sampletime_select_type adc_sampletime)
 {
-  switch(adc_channel)
-  {
-    case ADC_CHANNEL_0:
-      adc_x->spt2_bit.cspt0 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_1:
-      adc_x->spt2_bit.cspt1 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_2:
-      adc_x->spt2_bit.cspt2 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_3:
-      adc_x->spt2_bit.cspt3 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_4:
-      adc_x->spt2_bit.cspt4 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_5:
-      adc_x->spt2_bit.cspt5 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_6:
-      adc_x->spt2_bit.cspt6 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_7:
-      adc_x->spt2_bit.cspt7 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_8:
-      adc_x->spt2_bit.cspt8 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_9:
-      adc_x->spt2_bit.cspt9 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_10:
-      adc_x->spt1_bit.cspt10 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_11:
-      adc_x->spt1_bit.cspt11 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_12:
-      adc_x->spt1_bit.cspt12 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_13:
-      adc_x->spt1_bit.cspt13 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_14:
-      adc_x->spt1_bit.cspt14 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_15:
-      adc_x->spt1_bit.cspt15 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_16:
-      adc_x->spt1_bit.cspt16 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_17:
-      adc_x->spt1_bit.cspt17 = adc_sampletime;
-      break;
-    default:
-      break;
-  }
-  switch(adc_sequence)
-  {
-    case 1:
-      adc_x->osq3_bit.osn1 = adc_channel;
-      break;
-    case 2:
-      adc_x->osq3_bit.osn2 = adc_channel;
-      break;
-    case 3:
-      adc_x->osq3_bit.osn3 = adc_channel;
-      break;
-    case 4:
-      adc_x->osq3_bit.osn4 = adc_channel;
-      break;
-    case 5:
-      adc_x->osq3_bit.osn5 = adc_channel;
-      break;
-    case 6:
-      adc_x->osq3_bit.osn6 = adc_channel;
-      break;
-    case 7:
-      adc_x->osq2_bit.osn7 = adc_channel;
-      break;
-    case 8:
-      adc_x->osq2_bit.osn8 = adc_channel;
-      break;
-    case 9:
-      adc_x->osq2_bit.osn9 = adc_channel;
-      break;
-    case 10:
-      adc_x->osq2_bit.osn10 = adc_channel;
-      break;
-    case 11:
-      adc_x->osq2_bit.osn11 = adc_channel;
-      break;
-    case 12:
-      adc_x->osq2_bit.osn12 = adc_channel;
-      break;
-    case 13:
-      adc_x->osq1_bit.osn13 = adc_channel;
-      break;
-    case 14:
-      adc_x->osq1_bit.osn14 = adc_channel;
-      break;
-    case 15:
-      adc_x->osq1_bit.osn15 = adc_channel;
-      break;
-    case 16:
-      adc_x->osq1_bit.osn16 = adc_channel;
-      break;
-    default:
-      break;
-  }
+    uint32_t tmp_reg;
+
+    if(adc_channel < ADC_CHANNEL_10)
+    {
+        tmp_reg = adc_x->spt2;
+        tmp_reg &= ~(0x07 << 3 * adc_channel);
+        tmp_reg |= adc_sampletime << 3 * adc_channel;
+        adc_x->spt2 = tmp_reg;
+    }
+    else
+    {
+        tmp_reg = adc_x->spt1;
+        tmp_reg &= ~(0x07 << 3 * (adc_channel - ADC_CHANNEL_10));
+        tmp_reg |= adc_sampletime << 3 * (adc_channel - ADC_CHANNEL_10);
+        adc_x->spt1 = tmp_reg;
+    }
+
+    if(adc_sequence >= 13)
+    {
+        tmp_reg = adc_x->osq1;
+        tmp_reg &= ~(0x01F << 5 * (adc_sequence - 13));
+        tmp_reg |= adc_channel << 5 * (adc_sequence - 13);
+        adc_x->osq1 = tmp_reg;
+    }
+    else if(adc_sequence >= 7)
+    {
+        tmp_reg = adc_x->osq2;
+        tmp_reg &= ~(0x01F << 5 * (adc_sequence - 7));
+        tmp_reg |= adc_channel << 5 * (adc_sequence - 7);
+        adc_x->osq2 = tmp_reg;
+    }
+    else
+    {
+        tmp_reg = adc_x->osq3;
+        tmp_reg &= ~(0x01F << 5 * (adc_sequence - 1));
+        tmp_reg |= adc_channel << 5 * (adc_sequence - 1);
+        adc_x->osq3 = tmp_reg;
+    }
 }
 
 /**
@@ -441,7 +365,7 @@ void adc_ordinary_channel_set(adc_type *adc_x, adc_channel_select_type adc_chann
   */
 void adc_preempt_channel_length_set(adc_type *adc_x, uint8_t adc_channel_lenght)
 {
-  adc_x->psq_bit.pclen =  adc_channel_lenght - 1;
+    adc_x->psq_bit.pclen =  adc_channel_lenght - 1;
 }
 
 /**
@@ -473,84 +397,47 @@ void adc_preempt_channel_length_set(adc_type *adc_x, uint8_t adc_channel_lenght)
   */
 void adc_preempt_channel_set(adc_type *adc_x, adc_channel_select_type adc_channel, uint8_t adc_sequence, adc_sampletime_select_type adc_sampletime)
 {
-  uint16_t sequence_index=0;
-  switch(adc_channel)
-  {
-    case ADC_CHANNEL_0:
-      adc_x->spt2_bit.cspt0 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_1:
-      adc_x->spt2_bit.cspt1 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_2:
-      adc_x->spt2_bit.cspt2 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_3:
-      adc_x->spt2_bit.cspt3 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_4:
-      adc_x->spt2_bit.cspt4 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_5:
-      adc_x->spt2_bit.cspt5 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_6:
-      adc_x->spt2_bit.cspt6 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_7:
-      adc_x->spt2_bit.cspt7 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_8:
-      adc_x->spt2_bit.cspt8 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_9:
-      adc_x->spt2_bit.cspt9 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_10:
-      adc_x->spt1_bit.cspt10 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_11:
-      adc_x->spt1_bit.cspt11 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_12:
-      adc_x->spt1_bit.cspt12 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_13:
-      adc_x->spt1_bit.cspt13 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_14:
-      adc_x->spt1_bit.cspt14 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_15:
-      adc_x->spt1_bit.cspt15 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_16:
-      adc_x->spt1_bit.cspt16 = adc_sampletime;
-      break;
-    case ADC_CHANNEL_17:
-      adc_x->spt1_bit.cspt17 = adc_sampletime;
-      break;
-    default:
-      break;
-  }
-  sequence_index = adc_sequence + 3 - adc_x->psq_bit.pclen;
-  switch(sequence_index)
-  {
+    uint32_t tmp_reg;
+    uint8_t sequence_index;
+
+    if(adc_channel < ADC_CHANNEL_10)
+    {
+        tmp_reg = adc_x->spt2;
+        tmp_reg &= ~(0x07 << 3 * adc_channel);
+        tmp_reg |= adc_sampletime << 3 * adc_channel;
+        adc_x->spt2 = tmp_reg;
+    }
+    else
+    {
+        tmp_reg = adc_x->spt1;
+        tmp_reg &= ~(0x07 << 3 * (adc_channel - ADC_CHANNEL_10));
+        tmp_reg |= adc_sampletime << 3 * (adc_channel - ADC_CHANNEL_10);
+        adc_x->spt1 = tmp_reg;
+    }
+
+    sequence_index = adc_sequence + 3 - adc_x->psq_bit.pclen;
+
+    switch(sequence_index)
+    {
     case 1:
-      adc_x->psq_bit.psn1 = adc_channel;
-      break;
+        adc_x->psq_bit.psn1 = adc_channel;
+        break;
+
     case 2:
-      adc_x->psq_bit.psn2 = adc_channel;
-      break;
+        adc_x->psq_bit.psn2 = adc_channel;
+        break;
+
     case 3:
-      adc_x->psq_bit.psn3 = adc_channel;
-      break;
+        adc_x->psq_bit.psn3 = adc_channel;
+        break;
+
     case 4:
-      adc_x->psq_bit.psn4 = adc_channel;
-      break;
+        adc_x->psq_bit.psn4 = adc_channel;
+        break;
+
     default:
-      break;
-  }
+        break;
+    }
 }
 
 /**
@@ -570,17 +457,16 @@ void adc_preempt_channel_set(adc_type *adc_x, adc_channel_select_type adc_channe
   */
 void adc_ordinary_conversion_trigger_set(adc_type *adc_x, adc_ordinary_trig_select_type adc_ordinary_trig, confirm_state new_state)
 {
-  if(adc_ordinary_trig > 7)
-  {
-    adc_x->ctrl2_bit.octesel_h = 1;
-    adc_x->ctrl2_bit.octesel_l = adc_ordinary_trig & 0x7;
-  }
-  else
-  {
-    adc_x->ctrl2_bit.octesel_h = 0;
-    adc_x->ctrl2_bit.octesel_l = adc_ordinary_trig & 0x7;
-  }
-  adc_x->ctrl2_bit.octen = new_state;
+    if(adc_ordinary_trig > 7)
+    {
+        adc_x->ctrl2_bit.octesel = adc_ordinary_trig & 0x7;
+    }
+    else
+    {
+        adc_x->ctrl2_bit.octesel = adc_ordinary_trig & 0x7;
+    }
+
+    adc_x->ctrl2_bit.octen = new_state;
 }
 
 /**
@@ -600,17 +486,16 @@ void adc_ordinary_conversion_trigger_set(adc_type *adc_x, adc_ordinary_trig_sele
   */
 void adc_preempt_conversion_trigger_set(adc_type *adc_x, adc_preempt_trig_select_type adc_preempt_trig, confirm_state new_state)
 {
-  if(adc_preempt_trig > 7)
-  {
-    adc_x->ctrl2_bit.pctesel_h = 1;
-    adc_x->ctrl2_bit.pctesel_l = adc_preempt_trig & 0x7;
-  }
-  else
-  {
-    adc_x->ctrl2_bit.pctesel_h = 0;
-    adc_x->ctrl2_bit.pctesel_l = adc_preempt_trig & 0x7;
-  }
-  adc_x->ctrl2_bit.pcten = new_state;
+    if(adc_preempt_trig > 7)
+    {
+        adc_x->ctrl2_bit.pctesel = adc_preempt_trig & 0x7;
+    }
+    else
+    {
+        adc_x->ctrl2_bit.pctesel = adc_preempt_trig & 0x7;
+    }
+
+    adc_x->ctrl2_bit.pcten = new_state;
 }
 
 
@@ -632,23 +517,27 @@ void adc_preempt_conversion_trigger_set(adc_type *adc_x, adc_preempt_trig_select
   */
 void adc_preempt_offset_value_set(adc_type *adc_x, adc_preempt_channel_type adc_preempt_channel, uint16_t adc_offset_value)
 {
-  switch(adc_preempt_channel)
-  {
+    switch(adc_preempt_channel)
+    {
     case ADC_PREEMPT_CHANNEL_1:
-      adc_x->pcdto1_bit.pcdto1 = adc_offset_value;
-      break;
+        adc_x->pcdto1_bit.pcdto1 = adc_offset_value;
+        break;
+
     case ADC_PREEMPT_CHANNEL_2:
-      adc_x->pcdto2_bit.pcdto2 = adc_offset_value;
-      break;
+        adc_x->pcdto2_bit.pcdto2 = adc_offset_value;
+        break;
+
     case ADC_PREEMPT_CHANNEL_3:
-      adc_x->pcdto3_bit.pcdto3 = adc_offset_value;
-      break;
+        adc_x->pcdto3_bit.pcdto3 = adc_offset_value;
+        break;
+
     case ADC_PREEMPT_CHANNEL_4:
-      adc_x->pcdto4_bit.pcdto4 = adc_offset_value;
-      break;
+        adc_x->pcdto4_bit.pcdto4 = adc_offset_value;
+        break;
+
     default:
-      break;
-  }
+        break;
+    }
 }
 
 /**
@@ -664,7 +553,7 @@ void adc_preempt_offset_value_set(adc_type *adc_x, adc_preempt_channel_type adc_
 void adc_ordinary_part_count_set(adc_type *adc_x, uint8_t adc_channel_count)
 {
 
-  adc_x->ctrl1_bit.ocpcnt =  adc_channel_count - 1;
+    adc_x->ctrl1_bit.ocpcnt =  adc_channel_count - 1;
 }
 
 /**
@@ -678,7 +567,7 @@ void adc_ordinary_part_count_set(adc_type *adc_x, uint8_t adc_channel_count)
   */
 void adc_ordinary_part_mode_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl1_bit.ocpen = new_state;
+    adc_x->ctrl1_bit.ocpen = new_state;
 }
 
 /**
@@ -692,7 +581,7 @@ void adc_ordinary_part_mode_enable(adc_type *adc_x, confirm_state new_state)
   */
 void adc_preempt_part_mode_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl1_bit.pcpen = new_state;
+    adc_x->ctrl1_bit.pcpen = new_state;
 }
 
 /**
@@ -706,7 +595,7 @@ void adc_preempt_part_mode_enable(adc_type *adc_x, confirm_state new_state)
   */
 void adc_preempt_auto_mode_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl1_bit.pcautoen = new_state;
+    adc_x->ctrl1_bit.pcautoen = new_state;
 }
 
 /**
@@ -718,7 +607,7 @@ void adc_preempt_auto_mode_enable(adc_type *adc_x, confirm_state new_state)
   */
 void adc_tempersensor_vintrv_enable(confirm_state new_state)
 {
-  ADC1->ctrl2_bit.itsrven = new_state;
+    ADC1->ctrl2_bit.itsrven = new_state;
 }
 
 /**
@@ -732,7 +621,7 @@ void adc_tempersensor_vintrv_enable(confirm_state new_state)
   */
 void adc_ordinary_software_trigger_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl2_bit.ocswtrg = new_state;
+    adc_x->ctrl2_bit.ocswtrg = new_state;
 }
 
 /**
@@ -744,14 +633,14 @@ void adc_ordinary_software_trigger_enable(adc_type *adc_x, confirm_state new_sta
   */
 flag_status adc_ordinary_software_trigger_status_get(adc_type *adc_x)
 {
-  if(adc_x->ctrl2_bit.ocswtrg)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if(adc_x->ctrl2_bit.ocswtrg)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -765,7 +654,7 @@ flag_status adc_ordinary_software_trigger_status_get(adc_type *adc_x)
   */
 void adc_preempt_software_trigger_enable(adc_type *adc_x, confirm_state new_state)
 {
-  adc_x->ctrl2_bit.pcswtrg = new_state;
+    adc_x->ctrl2_bit.pcswtrg = new_state;
 }
 
 /**
@@ -777,14 +666,14 @@ void adc_preempt_software_trigger_enable(adc_type *adc_x, confirm_state new_stat
   */
 flag_status adc_preempt_software_trigger_status_get(adc_type *adc_x)
 {
-  if(adc_x->ctrl2_bit.pcswtrg)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if(adc_x->ctrl2_bit.pcswtrg)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -796,7 +685,7 @@ flag_status adc_preempt_software_trigger_status_get(adc_type *adc_x)
   */
 uint16_t adc_ordinary_conversion_data_get(adc_type *adc_x)
 {
-  return (uint16_t)(adc_x->odt_bit.odt);
+    return (uint16_t)(adc_x->odt_bit.odt);
 }
 
 /**
@@ -806,33 +695,39 @@ uint16_t adc_ordinary_conversion_data_get(adc_type *adc_x)
   *         ADC1.
   * @param  adc_preempt_channel: select the preempt channel.
   *         this parameter can be one of the following values:
-  *         - ADC_PREEMPTED_CHANNEL_1
-  *         - ADC_PREEMPTED_CHANNEL_2
-  *         - ADC_PREEMPTED_CHANNEL_3
-  *         - ADC_PREEMPTED_CHANNEL_4
+  *         - ADC_PREEMPT_CHANNEL_1
+  *         - ADC_PREEMPT_CHANNEL_2
+  *         - ADC_PREEMPT_CHANNEL_3
+  *         - ADC_PREEMPT_CHANNEL_4
   * @retval the conversion data for selection preempt channel.
   */
 uint16_t adc_preempt_conversion_data_get(adc_type *adc_x, adc_preempt_channel_type adc_preempt_channel)
 {
-  uint16_t preempt_conv_data_index = 0;
-  switch(adc_preempt_channel)
-  {
+    uint16_t preempt_conv_data_index = 0;
+
+    switch(adc_preempt_channel)
+    {
     case ADC_PREEMPT_CHANNEL_1:
-      preempt_conv_data_index = (uint16_t)(adc_x->pdt1_bit.pdt1);
-      break;
+        preempt_conv_data_index = (uint16_t)(adc_x->pdt1_bit.pdt1);
+        break;
+
     case ADC_PREEMPT_CHANNEL_2:
-      preempt_conv_data_index = (uint16_t)(adc_x->pdt2_bit.pdt2);
-      break;
+        preempt_conv_data_index = (uint16_t)(adc_x->pdt2_bit.pdt2);
+        break;
+
     case ADC_PREEMPT_CHANNEL_3:
-      preempt_conv_data_index = (uint16_t)(adc_x->pdt3_bit.pdt3);
-      break;
+        preempt_conv_data_index = (uint16_t)(adc_x->pdt3_bit.pdt3);
+        break;
+
     case ADC_PREEMPT_CHANNEL_4:
-      preempt_conv_data_index = (uint16_t)(adc_x->pdt4_bit.pdt4);
-      break;
+        preempt_conv_data_index = (uint16_t)(adc_x->pdt4_bit.pdt4);
+        break;
+
     default:
-      break;
-  }
-  return preempt_conv_data_index;
+        break;
+    }
+
+    return preempt_conv_data_index;
 }
 
 /**
@@ -851,17 +746,67 @@ uint16_t adc_preempt_conversion_data_get(adc_type *adc_x, adc_preempt_channel_ty
   */
 flag_status adc_flag_get(adc_type *adc_x, uint8_t adc_flag)
 {
-  flag_status status = RESET;
+    flag_status status = RESET;
 
-  if((adc_x->sts & adc_flag) == RESET)
-  {
-    status = RESET;
-  }
-  else
-  {
-    status = SET;
-  }
-  return status;
+    if((adc_x->sts & adc_flag) == RESET)
+    {
+        status = RESET;
+    }
+    else
+    {
+        status = SET;
+    }
+
+    return status;
+}
+
+/**
+  * @brief  get interrupt flag of the specified adc peripheral.
+  * @param  adc_x: select the adc peripheral.
+  *         this parameter can be one of the following values:
+  *         ADC1.
+  * @param  adc_flag: select the adc flag.
+  *         this parameter can be one of the following values:
+  *         - ADC_VMOR_FLAG
+  *         - ADC_CCE_FLAG
+  *         - ADC_PCCE_FLAG
+  * @retval the new state of adc flag status(SET or RESET).
+  */
+flag_status adc_interrupt_flag_get(adc_type *adc_x, uint8_t adc_flag)
+{
+    flag_status status = RESET;
+
+    switch(adc_flag)
+    {
+    case ADC_VMOR_FLAG:
+        if(adc_x->sts_bit.vmor && adc_x->ctrl1_bit.vmorien)
+        {
+            status = SET;
+        }
+
+        break;
+
+    case ADC_CCE_FLAG:
+        if(adc_x->sts_bit.cce && adc_x->ctrl1_bit.cceien)
+        {
+            status = SET;
+        }
+
+        break;
+
+    case ADC_PCCE_FLAG:
+        if(adc_x->sts_bit.pcce && adc_x->ctrl1_bit.pcceien)
+        {
+            status = SET;
+        }
+
+        break;
+
+    default:
+        break;
+    }
+
+    return status;
 }
 
 /**
@@ -880,7 +825,7 @@ flag_status adc_flag_get(adc_type *adc_x, uint8_t adc_flag)
   */
 void adc_flag_clear(adc_type *adc_x, uint32_t adc_flag)
 {
-  adc_x->sts = ~adc_flag;
+    adc_x->sts = ~adc_flag;
 }
 
 /**

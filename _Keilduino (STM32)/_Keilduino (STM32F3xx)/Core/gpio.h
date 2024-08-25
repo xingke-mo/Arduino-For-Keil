@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,7 +35,8 @@ extern "C" {
 
 #define ADC_Channel_X 0xFFFFFFFF
 
-typedef enum {
+typedef enum
+{
     PA0, PA1, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9, PA10, PA11, PA12, PA13, PA14, PA15,
     PB0, PB1, PB2, PB3, PB4, PB5, PB6, PB7, PB8, PB9, PB10, PB11, PB12, PB13, PB14, PB15,
     PC0, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10, PC11, PC12, PC13, PC14, PC15,
@@ -45,7 +46,8 @@ typedef enum {
     PIN_MAX
 } Pxx_TypeDef;
 
-typedef struct STM32_PinInfo {
+typedef struct STM32_PinInfo
+{
     GPIO_TypeDef* GPIOx;
     TIM_TypeDef* TIMx;
     ADC_TypeDef* ADCx;

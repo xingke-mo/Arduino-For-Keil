@@ -69,7 +69,8 @@
 #define SERVO_DEFAULT_MAX_ANGLE         180
 
 /** Class for interfacing with RC servomotors. */
-class Servo {
+class Servo
+{
 public:
     /**
      * @brief Construct a new Servo instance.
@@ -113,17 +114,20 @@ public:
      * @return true if successful, false when pin doesn't support PWM.
      */
     bool attach(uint8 pin,
-                uint16 minPulseWidth=SERVO_DEFAULT_MIN_PW,
-                uint16 maxPulseWidth=SERVO_DEFAULT_MAX_PW,
-                int16 minAngle=SERVO_DEFAULT_MIN_ANGLE,
-                int16 maxAngle=SERVO_DEFAULT_MAX_ANGLE);
+                uint16 minPulseWidth = SERVO_DEFAULT_MIN_PW,
+                uint16 maxPulseWidth = SERVO_DEFAULT_MAX_PW,
+                int16 minAngle = SERVO_DEFAULT_MIN_ANGLE,
+                int16 maxAngle = SERVO_DEFAULT_MAX_ANGLE);
 
     /**
      * @brief Check if this instance is attached to a servo.
      * @return true if this instance is attached to a servo, false otherwise.
      * @see Servo::attachedPin()
      */
-    bool attached() const { return this->pin != NOT_ATTACHED; }
+    bool attached() const
+    {
+        return this->pin != NOT_ATTACHED;
+    }
 
     /**
      * @brief Get the pin this instance is attached to.
@@ -131,7 +135,10 @@ public:
      *         otherwise.
      * @see Servo::attach()
      */
-    int attachedPin() const { return this->pin; }
+    int attachedPin() const
+    {
+        return this->pin;
+    }
 
     /**
      * @brief Stop driving the servo pulse train.

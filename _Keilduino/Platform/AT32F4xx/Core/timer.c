@@ -59,17 +59,20 @@ void Timer_ClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR5, NewState);
     }
+
 #ifdef TMR12
     else if(TIMx == TIM6)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR6, NewState);
     }
+
 #endif
 #ifdef TMR7
     else if(TIMx == TIM7)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR7, NewState);
     }
+
 #endif
     else if(TIMx == TIM8)
     {
@@ -87,29 +90,34 @@ void Timer_ClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2PERIPH_TMR11, NewState);
     }
+
 #ifdef TMR12
     else if(TIMx == TIM12)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR12, NewState);
     }
+
 #endif
 #ifdef TMR13
     else if(TIMx == TIM13)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR13, NewState);
     }
+
 #endif
 #ifdef TMR14
     else if(TIMx == TIM14)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1PERIPH_TMR14, NewState);
     }
+
 #endif
 #ifdef TMR15
     else if(TIMx == TIM15)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2PERIPH_TMR15, NewState);
     }
+
 #endif
 }
 
@@ -237,6 +245,7 @@ static void Timer_TimeFactorization(
         fct1 = prodect / 20000;
         fct2 = prodect / fct1;
     }
+
     *factor1 = fct1;
     *factor2 = fct2;
 }
@@ -302,7 +311,9 @@ bool Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t Freq)
     int32_t error;
 
     if(!IS_TMR_ALL_PERIPH(TIMx) || Freq == 0)
+    {
         return false;
+    }
 
     bool success = Timer_FreqFactorization(
                        Freq,
@@ -330,8 +341,11 @@ bool Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t Freq)
 uint32_t Timer_GetClockOut(TIM_TypeDef* TIMx)
 {
     uint32_t clock = TIMER_GET_CLOCK_MAX(TIMx);
+
     if(!IS_TMR_ALL_PERIPH(TIMx))
+    {
         return 0;
+    }
 
     return (clock / ((TIMx->AR + 1) * (TIMx->DIV + 1)));
 }
@@ -348,7 +362,9 @@ void Timer_SetInterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t Time)
     uint32_t clock = TIMER_GET_CLOCK_MAX(TIMx);
 
     if(!IS_TMR_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     Timer_TimeFactorization(
         Time,
@@ -391,15 +407,15 @@ void Timer_SetInterruptBase(
     }
 
 #define TMRx_IRQ_DEF(n,x_IRQn)\
-do{\
-    if(TIMx == TIM##n)\
-    {\
-        TIMERx = TIMER##n;\
-        TMRx_IRQn = x_IRQn;\
-        goto match;\
+    do{\
+        if(TIMx == TIM##n)\
+        {\
+            TIMERx = TIMER##n;\
+            TMRx_IRQn = x_IRQn;\
+            goto match;\
+        }\
     }\
-}\
-while(0)
+    while(0)
 
     /*如果编译器提示：identifier "xxx_IRQn" is undefined
      *把未定义的注释掉即可
@@ -486,15 +502,19 @@ void Timer_SetCompare(TIM_TypeDef* TIMx, uint8_t TimerChannel, uint32_t Compare)
     case 1:
         TMR_SetCompare1(TIMx, Compare);
         break;
+
     case 2:
         TMR_SetCompare2(TIMx, Compare);
         break;
+
     case 3:
         TMR_SetCompare3(TIMx, Compare);
         break;
+
     case 4:
         TMR_SetCompare4(TIMx, Compare);
         break;
+
     default:
         break;
     }
@@ -509,23 +529,29 @@ void Timer_SetCompare(TIM_TypeDef* TIMx, uint8_t TimerChannel, uint32_t Compare)
 uint16_t Timer_GetCompare(TIM_TypeDef* TIMx, uint8_t TimerChannel)
 {
     uint16_t compare = 0;
+
     switch(TimerChannel)
     {
     case 1:
         compare = TMR_GetCapture1(TIMx);
         break;
+
     case 2:
         compare = TMR_GetCapture2(TIMx);
         break;
+
     case 3:
         compare = TMR_GetCapture3(TIMx);
         break;
+
     case 4:
         compare = TMR_GetCapture4(TIMx);
         break;
+
     default:
         break;
     }
+
     return compare;
 }
 
@@ -562,16 +588,16 @@ void Timer_GenerateUpdate(TIM_TypeDef* TIMx)
 }
 
 #define TMRx_IRQHANDLER(n) \
-do{\
-    if (TMR_GetINTStatus(TMR##n, TMR_INT_Overflow) != RESET)\
-    {\
-        if(Timer_CallbackFunction[TIMER##n])\
+    do{\
+        if (TMR_GetINTStatus(TMR##n, TMR_INT_Overflow) != RESET)\
         {\
-            Timer_CallbackFunction[TIMER##n]();\
+            if(Timer_CallbackFunction[TIMER##n])\
+            {\
+                Timer_CallbackFunction[TIMER##n]();\
+            }\
+            TMR_ClearITPendingBit(TMR##n, TMR_INT_Overflow);\
         }\
-        TMR_ClearITPendingBit(TMR##n, TMR_INT_Overflow);\
-    }\
-}while(0)
+    }while(0)
 
 /**
   * @brief  定时中断入口，定时器1、10

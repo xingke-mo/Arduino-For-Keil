@@ -62,18 +62,22 @@ static void TIMx_OCxInit(TIM_TypeDef* TIMx, uint32_t arr, uint16_t psc, uint8_t 
         TMR_OC1Init(TIMx, &TMR_OCInitStructure);
         TMR_OC1PreloadConfig(TIMx, TMR_OCPreload_Enable);
         break;
+
     case 2:
         TMR_OC2Init(TIMx, &TMR_OCInitStructure);
         TMR_OC2PreloadConfig(TIMx, TMR_OCPreload_Enable);
         break;
+
     case 3:
         TMR_OC3Init(TIMx, &TMR_OCInitStructure);
         TMR_OC3PreloadConfig(TIMx, TMR_OCPreload_Enable);
         break;
+
     case 4:
         TMR_OC4Init(TIMx, &TMR_OCInitStructure);
         TMR_OC4PreloadConfig(TIMx, TMR_OCPreload_Enable);
         break;
+
     default:
         return;
     }

@@ -71,6 +71,7 @@ static uint32_t GetSector(uint32_t Address)
     {
         sector = FLASH_Sector_11;
     }
+
     return sector;
 }
 
@@ -88,6 +89,7 @@ static uint8_t Flash_WriteHalfWord_Buf(uint16_t WriteAddr, uint16_t *pBuffer, ui
 
     addrx = writeAddr;              //写入起始地址
     endaddr = writeAddr + (uint32_t)NumToWrite * sizeof(uint16_t); //写入结束地址
+
     if(addrx < 0X1FFF0000)          //是否为主存储区
     {
         while(addrx < endaddr)
@@ -95,13 +97,17 @@ static uint8_t Flash_WriteHalfWord_Buf(uint16_t WriteAddr, uint16_t *pBuffer, ui
             if(Flash_ReadHalfWord(addrx) != 0XFFFF) //对非0xFFFF 的地方，先擦除
             {
                 status = FLASH_EraseSector(GetSector(addrx), VoltageRange_3); //VCC=2.7~3.6V之间！！
+
                 if(status != FLASH_COMPLETE)
                 {
                     retval = 0;
                     break;  //异常
                 }
             }
-            else addrx += sizeof(uint16_t);
+            else
+            {
+                addrx += sizeof(uint16_t);
+            }
         }
     }
 
@@ -114,10 +120,12 @@ static uint8_t Flash_WriteHalfWord_Buf(uint16_t WriteAddr, uint16_t *pBuffer, ui
                 retval = 0;
                 break;  //写入异常
             }
+
             writeAddr += sizeof(uint16_t);
             pBuffer++;
         }
     }
+
     FLASH_DataCacheCmd(ENABLE);//FLASH擦除结束，开启数据缓存
     FLASH_Lock();//上锁
     return retval;
@@ -126,9 +134,12 @@ static uint8_t Flash_WriteHalfWord_Buf(uint16_t WriteAddr, uint16_t *pBuffer, ui
 uint16_t Flash_ReadHalfWord(uint16_t Addr)
 {
     uint32_t addr = 0;
+
     if(Addr >= USER_DATA_BUF_LENGTH)
+    {
         return 0;
-    
+    }
+
     addr = USER_FLASH_BASE + Addr * sizeof(uint16_t);
     return *(volatile uint16_t*)addr;
 }
@@ -136,6 +147,7 @@ uint16_t Flash_ReadHalfWord(uint16_t Addr)
 static void Flash_ReadHalfWord_Buf(uint16_t ReadAddr, uint16_t *pBuffer, uint16_t NumToRead)
 {
     uint16_t i;
+
     for(i = 0; i < NumToRead; i++)
     {
         pBuffer[i] = Flash_ReadHalfWord(ReadAddr);
@@ -146,8 +158,11 @@ static void Flash_ReadHalfWord_Buf(uint16_t ReadAddr, uint16_t *pBuffer, uint16_
 uint8_t Flash_WriteHalfWord(uint16_t Addr, uint16_t Data)
 {
     static uint8_t first = 0;
+
     if(Addr >= USER_DATA_BUF_LENGTH)
+    {
         return 0;
+    }
 
     if(!first)
     {

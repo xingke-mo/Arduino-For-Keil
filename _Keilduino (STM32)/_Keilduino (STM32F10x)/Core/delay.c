@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,7 +28,8 @@
 /*系统时钟计时变量*/
 volatile static uint32_t System_ms = 0;
 
-static SysClock_TypeDef SysClock[] = {
+static SysClock_TypeDef SysClock[] =
+{
     {16000000, RCC_PLLMul_2},//16MHz, 2倍频
     {24000000, RCC_PLLMul_3},//24MHz, 3倍频
     {32000000, RCC_PLLMul_4},//32MHz, 4倍频
@@ -67,7 +68,9 @@ void SysClock_Init(F_CPU_Type fcpu)
 {
     SystemCoreClock = SysClock[fcpu].F_CPU_x;
     RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+
     while(RCC_GetSYSCLKSource());
+
     RCC_HCLKConfig(RCC_SYSCLK_Div1);
     RCC_PCLK1Config(RCC_HCLK_Div2);
     RCC_PCLK2Config(RCC_HCLK_Div1);
@@ -76,9 +79,13 @@ void SysClock_Init(F_CPU_Type fcpu)
     RCC_WaitForHSEStartUp();
     RCC_PLLConfig(RCC_PLLSource_HSE_Div1, SysClock[fcpu].RCC_PLLMul_x);
     RCC_PLLCmd(ENABLE);
+
     while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET) ;
+
     RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+
     while(RCC_GetSYSCLKSource() != 0x08);
+
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 }
 
@@ -120,6 +127,7 @@ uint32_t micros(void)
 void delay_ms(uint32_t ms)
 {
     uint32_t Stop_TimePoint = System_ms + ms;
+
     while(System_ms < Stop_TimePoint);
 }
 
@@ -138,6 +146,7 @@ void delay_us(uint32_t us)
 start:
     now = SysTick->VAL;
     diff = last - now;
+
     if(diff > 0)
     {
         total += diff;
@@ -146,10 +155,12 @@ start:
     {
         total += diff + SysTick_LoadValue;
     }
+
     if(total > target)
     {
         return;
     }
+
     last = now;
     goto start;
 }

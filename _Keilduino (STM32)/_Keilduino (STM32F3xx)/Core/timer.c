@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,7 +41,9 @@ Timer_CallbackFunction_t TIM_Function[TIMER_MAX] = {0};
 void TimerClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
 {
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     if(TIMx == TIM1)
     {
@@ -71,21 +73,21 @@ void TimerClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8, NewState);
     }
-    else if (TIMx == TIM15)
+    else if(TIMx == TIM15)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM15, ENABLE);
     }
-    else if (TIMx == TIM16)
+    else if(TIMx == TIM16)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM16, ENABLE);
     }
-    else if (TIMx == TIM17)
+    else if(TIMx == TIM17)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM17, ENABLE);
     }
     else
     {
-        if (TIMx == TIM20)
+        if(TIMx == TIM20)
         {
             RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM20, ENABLE);
         }
@@ -123,7 +125,9 @@ void Timer_Init(TIM_TypeDef* TIMx, uint32_t InterruptTime_us, Timer_CallbackFunc
     TIMER_Type TIMERx;
 
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     if(TIMx == TIM1)
     {
@@ -136,11 +140,11 @@ void Timer_Init(TIM_TypeDef* TIMx, uint32_t InterruptTime_us, Timer_CallbackFunc
         TIMERx = TIMER2;
         TIMx_IRQn = TIM2_IRQn;
     }
-//    else if(TIMx == TIM3)
-//    {
-//        TIMERx = TIMER3;
-//        TIMx_IRQn = TIM3_IRQn;
-//    }
+    //    else if(TIMx == TIM3)
+    //    {
+    //        TIMERx = TIMER3;
+    //        TIMx_IRQn = TIM3_IRQn;
+    //    }
     else if(TIMx == TIM15)
     {
         TIMERx = TIMER15;
@@ -161,6 +165,7 @@ void Timer_Init(TIM_TypeDef* TIMx, uint32_t InterruptTime_us, Timer_CallbackFunc
 
     //Calculate TIM_Period and TIM_Prescaler
     InterruptTime_us *= CYCLES_PER_MICROSECOND;
+
     if(InterruptTime_us < CYCLES_PER_MICROSECOND * 30)
     {
         arr = 10;
@@ -180,7 +185,7 @@ void Timer_Init(TIM_TypeDef* TIMx, uint32_t InterruptTime_us, Timer_CallbackFunc
     //Enable PeriphClock
     TimerClockCmd(TIMx, ENABLE);
 
-//    TIM_DeInit(TIMx);
+    //    TIM_DeInit(TIMx);
     TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
     TIM_TimeBaseStructure.TIM_Period = arr - 1;         //设置在下一个更新事件装入活动的自动重装载寄存器周期的值
     TIM_TimeBaseStructure.TIM_Prescaler = psc - 1;  //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率
@@ -210,6 +215,7 @@ void TimerSet_InterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t InterruptTime_us)
     uint32_t arr, psc;
     //Calculate TIM_Period and TIM_Prescaler
     InterruptTime_us *= CYCLES_PER_MICROSECOND;
+
     if(InterruptTime_us < CYCLES_PER_MICROSECOND * 30)
     {
         arr = 10;
@@ -234,7 +240,7 @@ void TimerSet_InterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t InterruptTime_us)
 /*****************************定时中断函数*********************************************/
 void TIM1_BRK_TIM15_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM1, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER1]();
         TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
@@ -243,7 +249,7 @@ void TIM1_BRK_TIM15_IRQHandler(void)
 
 void TIM2_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER2]();
         TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
@@ -252,7 +258,7 @@ void TIM2_IRQHandler(void)
 
 void TIM3_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER3]();
         TIM_ClearITPendingBit(TIM3, TIM_IT_Update);
@@ -261,7 +267,7 @@ void TIM3_IRQHandler(void)
 
 void TIM15_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM15, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM15, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER15]();
         TIM_ClearITPendingBit(TIM15, TIM_IT_Update);
@@ -270,7 +276,7 @@ void TIM15_IRQHandler(void)
 
 void TIM16_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM16, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM16, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER16]();
         TIM_ClearITPendingBit(TIM16, TIM_IT_Update);
@@ -279,7 +285,7 @@ void TIM16_IRQHandler(void)
 
 void TIM17_IRQHandler(void)
 {
-    if (TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
+    if(TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
     {
         TIM_Function[TIMER17]();
         TIM_ClearITPendingBit(TIM17, TIM_IT_Update);

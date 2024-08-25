@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -41,37 +41,37 @@ static Timer_CallbackFunction_t TIMx_Function[TIMER_MAX] = {0};
   */
 void Timer_ClockCmd(TIM_TypeDef* TIMx, FunctionalState NewState)
 {
-    if (TIMx == TIM1)
+    if(TIMx == TIM1)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, NewState);
     }
-    else if (TIMx == TIM2)
+    else if(TIMx == TIM2)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, NewState);
     }
-    else if (TIMx == TIM3)
+    else if(TIMx == TIM3)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, NewState);
     }
-    else if (TIMx == TIM6)
+    else if(TIMx == TIM6)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, NewState);
     }
-    else if (TIMx == TIM14)
+    else if(TIMx == TIM14)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, NewState);
     }
-    else if (TIMx == TIM15)
+    else if(TIMx == TIM15)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM15, NewState);
     }
-    else if (TIMx == TIM16)
+    else if(TIMx == TIM16)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM16, NewState);
     }
     else
     {
-        if (TIMx == TIM17)
+        if(TIMx == TIM17)
         {
             RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM17, NewState);
         }
@@ -115,7 +115,9 @@ static int32_t Timer_FreqToArrPsc(
     uint16_t max_error = 0xFFFF;
 
     if(freq == 0 || freq > clock)
+    {
         goto failed;
+    }
 
     /*获取arr和psc目标乘积*/
     prodect = clock / freq;
@@ -134,6 +136,7 @@ static int32_t Timer_FreqToArrPsc(
             /*求误差*/
             int32_t newerr = arr * psc - prodect;
             newerr = CLOCK_ABS(newerr);
+
             if(newerr < max_error)
             {
                 /*保存最小误差*/
@@ -141,9 +144,12 @@ static int32_t Timer_FreqToArrPsc(
                 /*保存arr和psc*/
                 *period = arr;
                 *prescaler = psc;
+
                 /*最佳*/
                 if(max_error == 0)
+                {
                     goto success;
+                }
             }
         }
     }
@@ -189,6 +195,7 @@ static void Timer_TimeToArrPsc(
         arr = prodect / 20000;
         psc = prodect / arr;
     }
+
     *period = arr;
     *prescaler = psc;
 }
@@ -206,7 +213,9 @@ void Timer_SetInterrupt(TIM_TypeDef* TIMx, uint32_t time, Timer_CallbackFunction
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx) || time == 0)
+    {
         return;
+    }
 
     /*将定时中断时间转换为重装值和时钟分频值*/
     Timer_TimeToArrPsc(
@@ -238,7 +247,9 @@ void Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t freq)
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx) || freq == 0)
+    {
         return;
+    }
 
     Timer_FreqToArrPsc(
         freq,
@@ -258,8 +269,11 @@ void Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t freq)
 uint32_t Timer_GetClockOut(TIM_TypeDef* TIMx)
 {
     uint32_t clock = Timer_GetClockMax(TIMx);
+
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return 0;
+    }
 
     return (clock / ((TIMx->ARR + 1) * (TIMx->PSC + 1)));
 }
@@ -276,7 +290,9 @@ void Timer_SetInterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t time)
     uint32_t clock = Timer_GetClockMax(TIMx);
 
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     Timer_TimeToArrPsc(
         time,
@@ -310,17 +326,19 @@ void Timer_SetInterruptBase(
     TIMERx_Type TIMERx;
 
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
 #define TIMx_IRQ_DEF(n,x_IRQn)\
-do{\
-    if(TIMx == TIM##n)\
-    {\
-        TIMERx = TIMER##n;\
-        TIMx_IRQn = x_IRQn;\
+    do{\
+        if(TIMx == TIM##n)\
+        {\
+            TIMERx = TIMER##n;\
+            TIMx_IRQn = x_IRQn;\
+        }\
     }\
-}\
-while(0)
+    while(0)
 
     TIMx_IRQ_DEF(1, TIM1_BRK_UP_TRG_COM_IRQn);
     TIMx_IRQ_DEF(2, TIM2_IRQn);
@@ -332,7 +350,9 @@ while(0)
     TIMx_IRQ_DEF(17, TIM17_IRQn);
 
     if(TIMx_IRQn == 0)
+    {
         return;
+    }
 
     /*register callback function*/
     TIMx_Function[TIMERx] = function;
@@ -340,7 +360,7 @@ while(0)
     /*Enable PeriphClock*/
     TIM_DeInit(TIMx);
     Timer_ClockCmd(TIMx, ENABLE);
-    
+
     TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
     TIM_TimeBaseStructure.TIM_Period = period - 1;              //设置在下一个更新事件装入活动的自动重装载寄存器周期的值
     TIM_TimeBaseStructure.TIM_Prescaler = prescaler - 1;        //设置用来作为TIMx时钟频率除数的预分频值
@@ -360,13 +380,13 @@ while(0)
 }
 
 #define TIMx_IRQHANDLER(n)\
-do{\
-    if(TIM_GetITStatus(TIM##n, TIM_IT_Update) != RESET)\
-    {\
-        if(TIMx_Function[TIMER##n]) TIMx_Function[TIMER##n]();\
-        TIM_ClearITPendingBit(TIM##n, TIM_IT_Update);\
-    }\
-}while(0)
+    do{\
+        if(TIM_GetITStatus(TIM##n, TIM_IT_Update) != RESET)\
+        {\
+            if(TIMx_Function[TIMER##n]) TIMx_Function[TIMER##n]();\
+            TIM_ClearITPendingBit(TIM##n, TIM_IT_Update);\
+        }\
+    }while(0)
 
 /**
   * @brief  定时中断入口，定时器1

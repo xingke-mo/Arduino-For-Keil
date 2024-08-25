@@ -66,7 +66,7 @@ uint32_t WDG_Init(uint32_t timeout)
     }
 
     /* Check if the system has resumed from IWDG reset */
-    if (RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET)
+    if(RCC_GetFlagStatus(RCC_FLAG_IWDGRST) != RESET)
     {
         /* Clear reset flags */
         RCC_ClearFlag();

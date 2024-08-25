@@ -146,7 +146,7 @@ public:
     uint8_t send(uint8_t data);
     uint8_t send(uint8_t *data, uint32_t length);
     uint8_t recv(void);
-    
+
     spi_type* getSPI()
     {
         return SPIx;

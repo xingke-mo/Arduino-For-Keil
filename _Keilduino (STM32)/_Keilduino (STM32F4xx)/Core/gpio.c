@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -235,18 +235,54 @@ void GPIOx_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin_x, pinMode_TypeDef pinMod
     GPIOOType_TypeDef GPIO_OType_x;
     GPIOPuPd_TypeDef GPIO_PuPd_x;
 
-    if(GPIOx == GPIOA)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOA;
-    else if(GPIOx == GPIOB)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOB;
-    else if(GPIOx == GPIOC)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOC;
-    else if(GPIOx == GPIOD)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOD;
-    else if(GPIOx == GPIOE)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOE;
-    else if(GPIOx == GPIOF)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOF;
-    else if(GPIOx == GPIOG)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOG;
-    else if(GPIOx == GPIOH)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOH;
-    else if(GPIOx == GPIOI)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOI;
-    else if(GPIOx == GPIOJ)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOJ;
-    else if(GPIOx == GPIOK)RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOK;
-    else return;
+    if(GPIOx == GPIOA)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOA;
+    }
+    else if(GPIOx == GPIOB)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOB;
+    }
+    else if(GPIOx == GPIOC)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOC;
+    }
+    else if(GPIOx == GPIOD)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOD;
+    }
+    else if(GPIOx == GPIOE)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOE;
+    }
+    else if(GPIOx == GPIOF)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOF;
+    }
+    else if(GPIOx == GPIOG)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOG;
+    }
+    else if(GPIOx == GPIOH)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOH;
+    }
+    else if(GPIOx == GPIOI)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOI;
+    }
+    else if(GPIOx == GPIOJ)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOJ;
+    }
+    else if(GPIOx == GPIOK)
+    {
+        RCC_AHB1Periph_GPIOx = RCC_AHB1Periph_GPIOK;
+    }
+    else
+    {
+        return;
+    }
 
     if(pinMode_x == INPUT)
     {
@@ -308,18 +344,54 @@ void GPIOx_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin_x, pinMode_TypeDef pinMod
   */
 uint8_t GPIO_GetPortNum(uint8_t Pin)
 {
-    if(PIN_MAP[Pin].GPIOx == GPIOA)return 0;
-    else if(PIN_MAP[Pin].GPIOx == GPIOB)return 1;
-    else if(PIN_MAP[Pin].GPIOx == GPIOC)return 2;
-    else if(PIN_MAP[Pin].GPIOx == GPIOD)return 3;
-    else if(PIN_MAP[Pin].GPIOx == GPIOE)return 4;
-    else if(PIN_MAP[Pin].GPIOx == GPIOF)return 5;
-    else if(PIN_MAP[Pin].GPIOx == GPIOG)return 6;
-    else if(PIN_MAP[Pin].GPIOx == GPIOH)return 7;
-    else if(PIN_MAP[Pin].GPIOx == GPIOI)return 8;
-    else if(PIN_MAP[Pin].GPIOx == GPIOJ)return 9;
-    else if(PIN_MAP[Pin].GPIOx == GPIOK)return 10;
-    else return 0xFF;
+    if(PIN_MAP[Pin].GPIOx == GPIOA)
+    {
+        return 0;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOB)
+    {
+        return 1;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOC)
+    {
+        return 2;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOD)
+    {
+        return 3;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOE)
+    {
+        return 4;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOF)
+    {
+        return 5;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOG)
+    {
+        return 6;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOH)
+    {
+        return 7;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOI)
+    {
+        return 8;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOJ)
+    {
+        return 9;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOK)
+    {
+        return 10;
+    }
+    else
+    {
+        return 0xFF;
+    }
 }
 
 /**
@@ -330,11 +402,13 @@ uint8_t GPIO_GetPortNum(uint8_t Pin)
 uint8_t GPIO_GetPinSource(uint16_t GPIO_Pin_x)
 {
     uint16_t PinSource = 0;
+
     while(GPIO_Pin_x > 1)
     {
         GPIO_Pin_x >>= 1;
         PinSource++;
     }
+
     return PinSource;
 }
 

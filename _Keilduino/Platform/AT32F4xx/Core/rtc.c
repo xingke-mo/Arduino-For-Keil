@@ -39,15 +39,17 @@ void RTC_Init(void)
     PWR_BackupAccessCtrl(ENABLE);
 
     /* Check Backup data registers is correct*/
-    if (BKP_ReadBackupReg(BKP_DT1) != 0x5051)
+    if(BKP_ReadBackupReg(BKP_DT1) != 0x5051)
     {
         /* Reset Backup Domain */
         BKP_Reset();
 
         /* Enable the LSI OSC */
         RCC_LSEConfig(RCC_LSE_ENABLE);
+
         /* Wait till LSI is ready */
         while(RCC_GetFlagStatus(RCC_FLAG_LSESTBL) == RESET);
+
         /* Select the RTC Clock Source */
         RCC_RTCCLKConfig(RCC_RTCCLKSelection_LSE);
 
@@ -99,12 +101,24 @@ static uint8_t Is_Leap_Year(uint16_t year)
     {
         if(year % 100 == 0)
         {
-            if(year % 400 == 0) return 1;
-            else return 0;
+            if(year % 400 == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
-        else return 1;
+        else
+        {
+            return 1;
+        }
     }
-    else return 0;
+    else
+    {
+        return 0;
+    }
 }
 
 /**
@@ -126,19 +140,34 @@ uint8_t RTC_SetTime(uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, ui
     uint32_t seccount = 0;
 
     if(syear < 1970 || syear > 2099)
+    {
         return 1;
+    }
 
     for(t = 1970; t < syear; t++)
     {
-        if(Is_Leap_Year(t))seccount += 31622400;
-        else seccount += 31536000;
+        if(Is_Leap_Year(t))
+        {
+            seccount += 31622400;
+        }
+        else
+        {
+            seccount += 31536000;
+        }
     }
+
     smon -= 1;
+
     for(t = 0; t < smon; t++)
     {
         seccount += (uint8_t)mon_table[t] * 86400;
-        if(Is_Leap_Year(syear) && t == 1)seccount += 86400;
+
+        if(Is_Leap_Year(syear) && t == 1)
+        {
+            seccount += 86400;
+        }
     }
+
     seccount += (uint8_t)(sday - 1) * 86400;
     seccount += (uint8_t)hour * 3600;
     seccount += (uint8_t)min * 60;
@@ -177,19 +206,34 @@ uint8_t RTC_SetAlarm(uint16_t syear, uint8_t smon, uint8_t sday, uint8_t hour, u
     uint8_t seccount = 0;
 
     if(syear < 1970 || syear > 2099)
+    {
         return 1;
+    }
 
     for(t = 1970; t < syear; t++)
     {
-        if(Is_Leap_Year(t))seccount += 31622400;
-        else seccount += 31536000;
+        if(Is_Leap_Year(t))
+        {
+            seccount += 31622400;
+        }
+        else
+        {
+            seccount += 31536000;
+        }
     }
+
     smon -= 1;
+
     for(t = 0; t < smon; t++)
     {
         seccount += (uint8_t)mon_table[t] * 86400;
-        if(Is_Leap_Year(syear) && t == 1)seccount += 86400;
+
+        if(Is_Leap_Year(syear) && t == 1)
+        {
+            seccount += 86400;
+        }
     }
+
     seccount += (uint8_t)(sday - 1) * 86400;
     seccount += (uint8_t)hour * 3600;
     seccount += (uint8_t)min * 60;
@@ -224,43 +268,69 @@ void RTC_GetCalendar(RTC_Calendar_TypeDef* calendar)
 
     timecount = RTC_GetCounter();
     temp = timecount / 86400;
+
     if(daycnt != temp)
     {
         daycnt = temp;
         temp1 = 1970;
+
         while(temp >= 365)
         {
             if(Is_Leap_Year(temp1))
             {
-                if(temp >= 366)temp -= 366;
+                if(temp >= 366)
+                {
+                    temp -= 366;
+                }
                 else
                 {
                     temp1++;
                     break;
                 }
             }
-            else temp -= 365;
+            else
+            {
+                temp -= 365;
+            }
+
             temp1++;
         }
+
         _calendar.year = temp1;
         temp1 = 0;
+
         while(temp >= 28)
         {
             if(Is_Leap_Year(_calendar.year) && temp1 == 1)
             {
-                if(temp >= 29)temp -= 29;
-                else break;
+                if(temp >= 29)
+                {
+                    temp -= 29;
+                }
+                else
+                {
+                    break;
+                }
             }
             else
             {
-                if(temp >= mon_table[temp1])temp -= mon_table[temp1];
-                else break;
+                if(temp >= mon_table[temp1])
+                {
+                    temp -= mon_table[temp1];
+                }
+                else
+                {
+                    break;
+                }
             }
+
             temp1++;
         }
+
         _calendar.month = temp1 + 1;
         _calendar.day = temp + 1;
     }
+
     temp = timecount % 86400;
     _calendar.hour = temp / 3600;
     _calendar.min = (temp % 3600) / 60;
@@ -284,11 +354,20 @@ uint8_t RTC_GetWeek(uint16_t year, uint8_t month, uint8_t day)
 
     yearH = year / 100;
     yearL = year % 100;
-    if (yearH > 19)yearL += 100;
+
+    if(yearH > 19)
+    {
+        yearL += 100;
+    }
+
     temp2 = yearL + yearL / 4;
     temp2 = temp2 % 7;
     temp2 = temp2 + day + table_week[month - 1];
-    if (yearL % 4 == 0 && month < 3)
+
+    if(yearL % 4 == 0 && month < 3)
+    {
         temp2--;
+    }
+
     return(temp2 % 7);
 }

@@ -118,11 +118,26 @@ void GPIOx_Init(
     gpio_init_type gpio_init_struct;
     crm_periph_clock_type CRM_GPIOx_PERIPH_CLOCK;
 
-    if(GPIOx == GPIOA)     CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOA_PERIPH_CLOCK;
-    else if(GPIOx == GPIOB)CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOB_PERIPH_CLOCK;
-    else if(GPIOx == GPIOC)CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOC_PERIPH_CLOCK;
-    else if(GPIOx == GPIOF)CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOF_PERIPH_CLOCK;
-    else return;
+    if(GPIOx == GPIOA)
+    {
+        CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOA_PERIPH_CLOCK;
+    }
+    else if(GPIOx == GPIOB)
+    {
+        CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOB_PERIPH_CLOCK;
+    }
+    else if(GPIOx == GPIOC)
+    {
+        CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOC_PERIPH_CLOCK;
+    }
+    else if(GPIOx == GPIOF)
+    {
+        CRM_GPIOx_PERIPH_CLOCK = CRM_GPIOF_PERIPH_CLOCK;
+    }
+    else
+    {
+        return;
+    }
 
     gpio_default_para_init(&gpio_init_struct);
     gpio_init_struct.gpio_pins = GPIO_Pin_x;
@@ -220,11 +235,13 @@ scfg_port_source_type GPIO_GetPortNum(uint8_t Pin)
 gpio_pins_source_type GPIO_GetPinSource(uint16_t GPIO_Pin_x)
 {
     uint8_t PinSource = 0;
+
     while(GPIO_Pin_x > 1)
     {
         GPIO_Pin_x >>= 1;
         PinSource++;
     }
+
     return (gpio_pins_source_type)PinSource;
 }
 

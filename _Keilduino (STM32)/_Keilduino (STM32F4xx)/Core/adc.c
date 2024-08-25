@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -49,6 +49,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -61,27 +62,36 @@ int16_t ADC_DMA_Register(uint8_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static uint8_t IsInit = 0;
+
     if(!IsInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFF;
         }
+
         IsInit = 1;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return -1;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return -2;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return -3;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -99,6 +109,7 @@ static void ADC_DMA_Config()
     DMA_DeInit(DMA2_Stream0);
 
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE); /*DMA2的时钟使能*/
+
     while(DMA_GetCmdStatus(DMA2_Stream0) != DISABLE); /*等待DMA可以配置*/
 
 
@@ -137,7 +148,7 @@ void ADC_DMA_Init()
     ADC_DMA_Config();
 
     ADC_DeInit();
-    
+
     /*通用控制寄存器的配置*/
     ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;/*DMA失能*/
     ADC_CommonInitStructure.ADC_Mode          = ADC_Mode_Independent;/*独立模式*/
@@ -154,7 +165,7 @@ void ADC_DMA_Init()
     ADC_Init(ADC1, &ADC_InitStructure); /*初始化*/
 
     ADC_Cmd(ADC1, ENABLE); /*开启转换*/
-    
+
     for(index = 0; index < ADC_DMA_RegCnt; index++)
     {
         ADC_RegularChannelConfig(
@@ -169,7 +180,7 @@ void ADC_DMA_Init()
             ADC_TempSensorVrefintCmd(ENABLE);
         }
     }
-    
+
     ADC_DMARequestAfterLastTransferCmd(ADC1, ENABLE); //源数据变化时开启DMA传输
     ADC_DMACmd(ADC1, ENABLE); //使能ADC传输 /*设置规则通道2 1个序列 采样时间 */
     ADC_SoftwareStartConv(ADC1);/*启动软件转换*/
@@ -185,11 +196,16 @@ uint16_t ADC_DMA_GetValue(uint8_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }
@@ -236,6 +252,8 @@ uint16_t ADCx_GetValue(ADC_TypeDef* ADCx, uint8_t ADC_Channel)
 {
     ADC_RegularChannelConfig(ADCx, ADC_Channel, 1, ADC_SampleTime_144Cycles);
     ADC_SoftwareStartConv(ADCx);
+
     while(!ADC_GetFlagStatus(ADCx, ADC_FLAG_EOC));
+
     return ADC_GetConversionValue(ADCx);
 }

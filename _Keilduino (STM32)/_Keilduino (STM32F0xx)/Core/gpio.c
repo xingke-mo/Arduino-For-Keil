@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,7 @@ const PinInfo_TypeDef PIN_MAP[] =
     {GPIOA, TIM2, ADC1,  GPIO_Pin_1, 2, ADC_Channel_1}, /* PA1 */
     {GPIOA, TIM2, ADC1,  GPIO_Pin_2, 3, ADC_Channel_2}, /* PA2 */
     {GPIOA, TIM2, ADC1,  GPIO_Pin_3, 4, ADC_Channel_3}, /* PA3 */
-    {GPIOA, TIM14,ADC1,  GPIO_Pin_4, 1, ADC_Channel_4}, /* PA4 */
+    {GPIOA, TIM14, ADC1,  GPIO_Pin_4, 1, ADC_Channel_4}, /* PA4 */
     {GPIOA, TIM2, ADC1,  GPIO_Pin_5, 1, ADC_Channel_5}, /* PA5 */
     {GPIOA, TIM3, ADC1,  GPIO_Pin_6, 1, ADC_Channel_6}, /* PA6 */
     {GPIOA, TIM3, ADC1,  GPIO_Pin_7, 2, ADC_Channel_7}, /* PA7 */
@@ -153,15 +153,38 @@ void GPIOx_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin_x, pinMode_TypeDef pinMod
     GPIOOType_TypeDef GPIO_OType_x;
     GPIOPuPd_TypeDef GPIO_PuPd_x;
 
-    if(GPIOx == GPIOA)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOA;
-    else if(GPIOx == GPIOB)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOB;
-    else if(GPIOx == GPIOC)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOC;
-    else if(GPIOx == GPIOD)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOD;
+    if(GPIOx == GPIOA)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOA;
+    }
+    else if(GPIOx == GPIOB)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOB;
+    }
+    else if(GPIOx == GPIOC)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOC;
+    }
+    else if(GPIOx == GPIOD)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOD;
+    }
+
 #if (defined(GPIOE) && defined(RCC_AHBPeriph_GPIOE))
-    else if(GPIOx == GPIOE)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOE;
+    else if(GPIOx == GPIOE)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOE;
+    }
+
 #endif
-    else if(GPIOx == GPIOF)RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOF;
-    else return;
+    else if(GPIOx == GPIOF)
+    {
+        RCC_AHBPeriph_GPIOx = RCC_AHBPeriph_GPIOF;
+    }
+    else
+    {
+        return;
+    }
 
     if(pinMode_x == INPUT)
     {
@@ -219,15 +242,38 @@ void GPIOx_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin_x, pinMode_TypeDef pinMod
   */
 uint8_t GPIO_GetPortNum(uint8_t Pin)
 {
-    if(PIN_MAP[Pin].GPIOx == GPIOA)return 0;
-    else if(PIN_MAP[Pin].GPIOx == GPIOB)return 1;
-    else if(PIN_MAP[Pin].GPIOx == GPIOC)return 2;
-    else if(PIN_MAP[Pin].GPIOx == GPIOD)return 3;
+    if(PIN_MAP[Pin].GPIOx == GPIOA)
+    {
+        return 0;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOB)
+    {
+        return 1;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOC)
+    {
+        return 2;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOD)
+    {
+        return 3;
+    }
+
 #if defined(GPIOE)
-    else if(PIN_MAP[Pin].GPIOx == GPIOE)return 4;
+    else if(PIN_MAP[Pin].GPIOx == GPIOE)
+    {
+        return 4;
+    }
+
 #endif
-    else if(PIN_MAP[Pin].GPIOx == GPIOF)return 5;
-    else return 0xFF;
+    else if(PIN_MAP[Pin].GPIOx == GPIOF)
+    {
+        return 5;
+    }
+    else
+    {
+        return 0xFF;
+    }
 }
 
 /**
@@ -248,10 +294,12 @@ uint8_t GPIO_GetPinNum(uint8_t Pin)
 uint8_t GPIO_GetPinSource(uint16_t GPIO_Pin_x)
 {
     uint16_t PinSource = 0;
+
     while(GPIO_Pin_x > 1)
     {
         GPIO_Pin_x >>= 1;
         PinSource++;
     }
+
     return PinSource;
 }

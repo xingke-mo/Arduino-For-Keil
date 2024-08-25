@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,8 @@
 #define USART_GetParity(SERIAL_x)        ((uint16_t)(SERIAL_x&0x0F00))
 #define USART_GetStopBits(SERIAL_x)      ((uint16_t)((SERIAL_x&0x00F0)<<8))
 
-typedef enum {
+typedef enum
+{
     SERIAL_8N1 = USART_WordLength_8b | USART_Parity_No | (USART_StopBits_1 >> 8),
     SERIAL_8N2 = USART_WordLength_8b | USART_Parity_No | (USART_StopBits_2 >> 8),
     SERIAL_8E1 = USART_WordLength_8b | USART_Parity_Even | (USART_StopBits_1 >> 8),
@@ -82,20 +83,25 @@ public:
     virtual void flush(void);
 
     virtual size_t write(uint8_t n);
-    inline size_t write(unsigned long n) {
+    inline size_t write(unsigned long n)
+    {
         return write((uint8_t)n);
     }
-    inline size_t write(long n) {
+    inline size_t write(long n)
+    {
         return write((uint8_t)n);
     }
-    inline size_t write(unsigned int n) {
+    inline size_t write(unsigned int n)
+    {
         return write((uint8_t)n);
     }
-    inline size_t write(int n) {
+    inline size_t write(int n)
+    {
         return write((uint8_t)n);
     }
     using Print::write; // pull in write(str) and write(buf, size) from Print
-    operator bool() {
+    operator bool()
+    {
         return true;
     }
 

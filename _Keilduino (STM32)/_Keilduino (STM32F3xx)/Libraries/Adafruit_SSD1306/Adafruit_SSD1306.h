@@ -22,30 +22,30 @@ All text above, and the splash screen must be included in any redistribution
 #define WIRE_WRITE Wire.write
 
 #if defined(__SAM3X8E__)
-    typedef volatile RwReg PortReg;
-    typedef uint32_t PortMask;
-    #define HAVE_PORTREG
-    #elif defined(ARDUINO_ARCH_SAMD)
-    // not supported
-    #elif defined(ESP8266) || defined(ESP32) || defined(ARDUINO_STM32_FEATHER) || defined(__arc__)
-    typedef volatile uint32_t PortReg;
-    typedef uint32_t PortMask;
+typedef volatile RwReg PortReg;
+typedef uint32_t PortMask;
+#define HAVE_PORTREG
+#elif defined(ARDUINO_ARCH_SAMD)
+// not supported
+#elif defined(ESP8266) || defined(ESP32) || defined(ARDUINO_STM32_FEATHER) || defined(__arc__)
+typedef volatile uint32_t PortReg;
+typedef uint32_t PortMask;
 #elif defined(__AVR__)
-    typedef volatile uint8_t PortReg;
-    typedef uint8_t PortMask;
-    #define HAVE_PORTREG
+typedef volatile uint8_t PortReg;
+typedef uint8_t PortMask;
+#define HAVE_PORTREG
 #elif defined(__STM32__)
-    #if defined(__STM32F0__)
-        typedef volatile uint16_t PortReg;
-    #else
-        typedef volatile uint32_t PortReg;
-    #endif     
-    typedef uint16_t PortMask;
-    #define HAVE_PORTREG
+#if defined(__STM32F0__)
+typedef volatile uint16_t PortReg;
 #else
-    // chances are its 32 bit so assume that
-    typedef volatile uint32_t PortReg;
-    typedef uint32_t PortMask;
+typedef volatile uint32_t PortReg;
+#endif
+typedef uint16_t PortMask;
+#define HAVE_PORTREG
+#else
+// chances are its 32 bit so assume that
+typedef volatile uint32_t PortReg;
+typedef uint32_t PortMask;
 #endif
 
 #include <Adafruit_GFX.h>
@@ -145,7 +145,8 @@ All text above, and the splash screen must be included in any redistribution
 #define WHITE 1
 #define INVERSE 2
 
-class Adafruit_SSD1306 : public Adafruit_GFX {
+class Adafruit_SSD1306 : public Adafruit_GFX
+{
 public:
     Adafruit_SSD1306(int8_t SID, int8_t SCLK, int8_t DC, int8_t RST, int8_t CS);
     Adafruit_SSD1306(int8_t DC, int8_t RST, int8_t CS);
@@ -172,8 +173,9 @@ public:
 
     virtual void drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
     virtual void drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-    
-    typedef enum {
+
+    typedef enum
+    {
         Black = BLACK,
         Blue = WHITE,
         Red = WHITE,

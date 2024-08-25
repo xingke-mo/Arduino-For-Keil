@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,7 +30,7 @@
   *@SPI2: SCK->PB13 MISO->PB14 MOSI->PB15
   *@SPI3: SCK->PB3  MISO->PB4  MOSI->PB5
   */
-  
+
 #ifndef LSBFIRST
 #define LSBFIRST 0
 #endif
@@ -53,7 +53,8 @@ typedef enum
 #define BitOrder uint16_t
 #define spi_dev SPI_TypeDef
 
-typedef enum {
+typedef enum
+{
     SPI_STATE_IDLE,
     SPI_STATE_READY,
     SPI_STATE_RECEIVE,
@@ -64,23 +65,29 @@ typedef enum {
 class SPISettings
 {
 public:
-    SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode) {
+    SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode)
+    {
         init_AlwaysInline(clock, bitOrder, dataMode, DATA_SIZE_8BIT);
     }
-    SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize) {
+    SPISettings(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize)
+    {
         init_AlwaysInline(clock, bitOrder, dataMode, dataSize);
     }
-    SPISettings(uint32_t clock) {
+    SPISettings(uint32_t clock)
+    {
         init_AlwaysInline(clock, MSBFIRST, SPI_MODE0, DATA_SIZE_8BIT);
     }
-    SPISettings() {
+    SPISettings()
+    {
         init_AlwaysInline(4000000, MSBFIRST, SPI_MODE0, DATA_SIZE_8BIT);
     }
 private:
-    void init_MightInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize) {
+    void init_MightInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize)
+    {
         init_AlwaysInline(clock, bitOrder, dataMode, dataSize);
     }
-    void init_AlwaysInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize) __attribute__((__always_inline__)) {
+    void init_AlwaysInline(uint32_t clock, BitOrder bitOrder, uint8_t dataMode, uint32_t dataSize) __attribute__((__always_inline__))
+    {
         this->clock = clock;
         this->bitOrder = bitOrder;
         this->dataMode = dataMode;
@@ -102,13 +109,13 @@ class SPIClass
 {
 public:
     SPIClass(SPI_TypeDef* _SPIx);
-    void SPI_Settings(  SPI_TypeDef* SPIx,
-                        uint16_t SPI_Mode_x,
-                        uint16_t SPI_DataSize_x,
-                        uint16_t SPI_MODEx,
-                        uint16_t SPI_NSS_x,
-                        uint16_t SPI_BaudRatePrescaler_x,
-                        uint16_t SPI_FirstBit_x);
+    void SPI_Settings(SPI_TypeDef* SPIx,
+                      uint16_t SPI_Mode_x,
+                      uint16_t SPI_DataSize_x,
+                      uint16_t SPI_MODEx,
+                      uint16_t SPI_NSS_x,
+                      uint16_t SPI_BaudRatePrescaler_x,
+                      uint16_t SPI_FirstBit_x);
     void begin(void);
     void begin(uint32_t clock, uint16_t dataOrder, uint16_t dataMode);
     void begin(SPISettings settings);

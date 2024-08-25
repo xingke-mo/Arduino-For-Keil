@@ -59,59 +59,60 @@ static Timer_CallbackFunction_t TIMx_Function[TIMER_MAX] = { 0 };
 void Timer_ClockCmd(TIM_TypeDef* TIMx, bool Enable)
 {
     FunctionalState NewState = Enable ? ENABLE : DISABLE;
-    if (TIMx == TIM1)
+
+    if(TIMx == TIM1)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, NewState);
     }
-    else if (TIMx == TIM2)
+    else if(TIMx == TIM2)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, NewState);
     }
-    else if (TIMx == TIM3)
+    else if(TIMx == TIM3)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, NewState);
     }
-    else if (TIMx == TIM4)
+    else if(TIMx == TIM4)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4, NewState);
     }
-    else if (TIMx == TIM5)
+    else if(TIMx == TIM5)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, NewState);
     }
-    else if (TIMx == TIM6)
+    else if(TIMx == TIM6)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM6, NewState);
     }
-    else if (TIMx == TIM7)
+    else if(TIMx == TIM7)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM7, NewState);
     }
-    else if (TIMx == TIM8)
+    else if(TIMx == TIM8)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8, NewState);
     }
-    else if (TIMx == TIM9)
+    else if(TIMx == TIM9)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM9, NewState);
     }
-    else if (TIMx == TIM10)
+    else if(TIMx == TIM10)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM10, NewState);
     }
-    else if (TIMx == TIM11)
+    else if(TIMx == TIM11)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM11, NewState);
     }
-    else if (TIMx == TIM12)
+    else if(TIMx == TIM12)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM12, NewState);
     }
-    else if (TIMx == TIM13)
+    else if(TIMx == TIM13)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM13, NewState);
     }
-    else if (TIMx == TIM14)
+    else if(TIMx == TIM14)
     {
         RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, NewState);
     }
@@ -130,9 +131,9 @@ static int fast_isqrt(int n)
         dm >>= 2;
     }
 
-    while (dm)
+    while(dm)
     {
-        if (x >= cm + dm)
+        if(x >= cm + dm)
         {
             x -= cm + dm;
             cm = (cm >> 1) + dm;
@@ -141,6 +142,7 @@ static int fast_isqrt(int n)
         {
             cm >>= 1;
         }
+
         dm >>= 2;
     }
 
@@ -164,8 +166,10 @@ static int32_t Timer_FreqToArrPsc(
     uint16_t psc, arr;
     uint16_t max_error = 0xFFFF;
 
-    if (freq == 0 || freq > clock)
+    if(freq == 0 || freq > clock)
+    {
         goto failed;
+    }
 
     /*获取arr和psc目标乘积*/
     prodect = clock / freq;
@@ -174,23 +178,27 @@ static int32_t Timer_FreqToArrPsc(
     psc = fast_isqrt(prodect);
 
     /*遍历，使arr*psc足够接近prodect*/
-    for (; psc > 1; psc--)
+    for(; psc > 1; psc--)
     {
-        for (arr = psc; arr < 0xFFFF; arr++)
+        for(arr = psc; arr < 0xFFFF; arr++)
         {
             /*求误差*/
             int32_t newerr = arr * psc - prodect;
             newerr = CLOCK_ABS(newerr);
-            if (newerr < max_error)
+
+            if(newerr < max_error)
             {
                 /*保存最小误差*/
                 max_error = newerr;
                 /*保存arr和psc*/
                 *period = arr;
                 *prescaler = psc;
+
                 /*最佳*/
-                if (max_error == 0)
+                if(max_error == 0)
+                {
                     goto success;
+                }
             }
         }
     }
@@ -220,12 +228,12 @@ static void Timer_TimeToArrPsc(
     uint32_t prodect = time * cyclesPerMicros;
     uint16_t arr, psc;
 
-    if (prodect < cyclesPerMicros * 30)
+    if(prodect < cyclesPerMicros * 30)
     {
         arr = 10;
         psc = prodect / arr;
     }
-    else if (prodect < 65535 * 1000)
+    else if(prodect < 65535 * 1000)
     {
         arr = prodect / 1000;
         psc = prodect / arr;
@@ -235,6 +243,7 @@ static void Timer_TimeToArrPsc(
         arr = prodect / 20000;
         psc = prodect / arr;
     }
+
     *period = arr;
     *prescaler = psc;
 }
@@ -262,8 +271,10 @@ void Timer_SetInterrupt(TIM_TypeDef* TIMx, uint32_t time, Timer_CallbackFunction
     uint16_t period, prescaler;
     uint32_t clock = Timer_GetClockMax(TIMx);
 
-    if (!IS_TIM_ALL_PERIPH(TIMx) || time == 0)
+    if(!IS_TIM_ALL_PERIPH(TIMx) || time == 0)
+    {
         return;
+    }
 
     /*将定时中断时间转换为重装值和时钟分频值*/
     Timer_TimeToArrPsc(
@@ -293,8 +304,10 @@ void Timer_SetInterruptFreqUpdate(TIM_TypeDef* TIMx, uint32_t freq)
     uint16_t period, prescaler;
     uint32_t clock = Timer_GetClockMax(TIMx);
 
-    if (!IS_TIM_ALL_PERIPH(TIMx) || freq == 0)
+    if(!IS_TIM_ALL_PERIPH(TIMx) || freq == 0)
+    {
         return;
+    }
 
     Timer_FreqToArrPsc(
         freq,
@@ -316,8 +329,10 @@ void Timer_SetInterruptTimeUpdate(TIM_TypeDef* TIMx, uint32_t time)
     uint16_t period, prescaler;
     uint32_t clock = Timer_GetClockMax(TIMx);
 
-    if (!IS_TIM_ALL_PERIPH(TIMx))
+    if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
     Timer_TimeToArrPsc(
         time,
@@ -350,8 +365,10 @@ void Timer_SetInterruptBase(
     uint8_t TIMx_IRQn;
     TIMER_Type TIMERx;
 
-    if (!IS_TIM_ALL_PERIPH(TIMx))
+    if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
+    }
 
 #define TIMx_IRQn_DEF(n, x_IRQn) \
     do {                         \
@@ -380,8 +397,10 @@ void Timer_SetInterruptBase(
     //    TIMx_IRQn_DEF(13, TIM8_UP_TIM13_IRQn);
     //    TIMx_IRQn_DEF(14, TIM8_TRG_COM_TIM14_IRQn);
 
-    if (TIMx_IRQn == 0)
+    if(TIMx_IRQn == 0)
+    {
         return;
+    }
 
     /*register callback function*/
     TIMx_Function[TIMERx] = function;
@@ -416,8 +435,11 @@ void Timer_SetInterruptBase(
 uint32_t Timer_GetClockOut(TIM_TypeDef* TIMx)
 {
     uint32_t clock = Timer_GetClockMax(TIMx);
-    if (!IS_TIM_ALL_PERIPH(TIMx))
+
+    if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return 0;
+    }
 
     return (clock / ((TIMx->ARR + 1) * (TIMx->PSC + 1)));
 }
@@ -441,21 +463,26 @@ uint32_t Timer_GetClockMax(TIM_TypeDef* TIMx)
 uint16_t Timer_GetCompare(TIM_TypeDef* TIMx, uint8_t TimerChannel)
 {
     uint16_t compare = 0;
-    switch (TimerChannel)
+
+    switch(TimerChannel)
     {
     case 1:
         compare = TIMx->CCR1;
         break;
+
     case 2:
         compare = TIMx->CCR2;
         break;
+
     case 3:
         compare = TIMx->CCR3;
         break;
+
     case 4:
         compare = TIMx->CCR4;
         break;
     }
+
     return compare;
 }
 
@@ -501,8 +528,10 @@ uint8_t Timer_GetGPIO_AF(uint8_t Pin)
     uint8_t GPIO_AF_x = 0;
     TIM_TypeDef* TIMx = PIN_MAP[Pin].TIMx;
 
-    if (!IS_TIM_ALL_PERIPH(TIMx))
+    if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return 0;
+    }
 
 #define TIMx_GPIO_AF_DEF(n)             \
     do {                                \

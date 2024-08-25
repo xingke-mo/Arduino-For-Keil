@@ -51,46 +51,46 @@
   */
 void usart_reset(usart_type* usart_x)
 {
-  if(usart_x == USART1)
-  {
-    crm_periph_reset(CRM_USART1_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_USART1_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == USART2)
-  {
-    crm_periph_reset(CRM_USART2_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_USART2_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == USART3)
-  {
-    crm_periph_reset(CRM_USART3_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_USART3_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == UART4)
-  {
-    crm_periph_reset(CRM_UART4_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_UART4_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == UART5)
-  {
-    crm_periph_reset(CRM_UART5_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_UART5_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == USART6)
-  {
-    crm_periph_reset(CRM_USART6_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_USART6_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == UART7)
-  {
-    crm_periph_reset(CRM_UART7_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_UART7_PERIPH_RESET, FALSE);
-  }
-  else if(usart_x == UART8)
-  {
-    crm_periph_reset(CRM_UART8_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_UART8_PERIPH_RESET, FALSE);
-  }
+    if(usart_x == USART1)
+    {
+        crm_periph_reset(CRM_USART1_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_USART1_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == USART2)
+    {
+        crm_periph_reset(CRM_USART2_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_USART2_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == USART3)
+    {
+        crm_periph_reset(CRM_USART3_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_USART3_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == UART4)
+    {
+        crm_periph_reset(CRM_UART4_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_UART4_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == UART5)
+    {
+        crm_periph_reset(CRM_UART5_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_UART5_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == USART6)
+    {
+        crm_periph_reset(CRM_USART6_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_USART6_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == UART7)
+    {
+        crm_periph_reset(CRM_UART7_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_UART7_PERIPH_RESET, FALSE);
+    }
+    else if(usart_x == UART8)
+    {
+        crm_periph_reset(CRM_UART8_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_UART8_PERIPH_RESET, FALSE);
+    }
 }
 
 /**
@@ -114,43 +114,49 @@ void usart_reset(usart_type* usart_x)
   */
 void usart_init(usart_type* usart_x, uint32_t baud_rate, usart_data_bit_num_type data_bit, usart_stop_bit_num_type stop_bit)
 {
-  crm_clocks_freq_type clocks_freq;
-  uint32_t apb_clock, temp_val;
-  crm_clocks_freq_get(&clocks_freq);
-  if((usart_x == USART1) || (usart_x == USART6))
-  {
-    apb_clock = clocks_freq.apb2_freq;
-  }
-  else
-  {
-    apb_clock = clocks_freq.apb1_freq;
-  }
-  temp_val = (apb_clock * 10 / baud_rate);
-  if((temp_val % 10) < 5)
-  {
-    temp_val = (temp_val / 10);
-  }
-  else
-  {
-    temp_val = (temp_val / 10) + 1;
-  }
-  usart_x->baudr_bit.div = temp_val;
-  if(data_bit == USART_DATA_7BITS)
-  {
-    usart_x->ctrl1_bit.dbn_h = 1;
-    usart_x->ctrl1_bit.dbn_l = 0;
-  }
-  else if(data_bit == USART_DATA_8BITS)
-  {
-    usart_x->ctrl1_bit.dbn_h = 0;
-    usart_x->ctrl1_bit.dbn_l = 0;
-  }
-  else
-  {
-    usart_x->ctrl1_bit.dbn_h = 0;
-    usart_x->ctrl1_bit.dbn_l = 1;
-  }
-  usart_x->ctrl2_bit.stopbn = stop_bit;
+    crm_clocks_freq_type clocks_freq;
+    uint32_t apb_clock, temp_val;
+    crm_clocks_freq_get(&clocks_freq);
+
+    if((usart_x == USART1) || (usart_x == USART6))
+    {
+        apb_clock = clocks_freq.apb2_freq;
+    }
+    else
+    {
+        apb_clock = clocks_freq.apb1_freq;
+    }
+
+    temp_val = (apb_clock * 10 / baud_rate);
+
+    if((temp_val % 10) < 5)
+    {
+        temp_val = (temp_val / 10);
+    }
+    else
+    {
+        temp_val = (temp_val / 10) + 1;
+    }
+
+    usart_x->baudr_bit.div = temp_val;
+
+    if(data_bit == USART_DATA_7BITS)
+    {
+        usart_x->ctrl1_bit.dbn_h = 1;
+        usart_x->ctrl1_bit.dbn_l = 0;
+    }
+    else if(data_bit == USART_DATA_8BITS)
+    {
+        usart_x->ctrl1_bit.dbn_h = 0;
+        usart_x->ctrl1_bit.dbn_l = 0;
+    }
+    else
+    {
+        usart_x->ctrl1_bit.dbn_h = 0;
+        usart_x->ctrl1_bit.dbn_l = 1;
+    }
+
+    usart_x->ctrl2_bit.stopbn = stop_bit;
 }
 
 /**
@@ -167,21 +173,21 @@ void usart_init(usart_type* usart_x, uint32_t baud_rate, usart_data_bit_num_type
   */
 void usart_parity_selection_config(usart_type* usart_x, usart_parity_selection_type parity)
 {
-  if(parity == USART_PARITY_NONE)
-  {
-    usart_x->ctrl1_bit.psel = FALSE;
-    usart_x->ctrl1_bit.pen = FALSE;
-  }
-  else if(parity == USART_PARITY_EVEN)
-  {
-    usart_x->ctrl1_bit.psel = FALSE;
-    usart_x->ctrl1_bit.pen = TRUE;
-  }
-  else if(parity == USART_PARITY_ODD)
-  {
-    usart_x->ctrl1_bit.psel = TRUE;
-    usart_x->ctrl1_bit.pen = TRUE;
-  }
+    if(parity == USART_PARITY_NONE)
+    {
+        usart_x->ctrl1_bit.psel = FALSE;
+        usart_x->ctrl1_bit.pen = FALSE;
+    }
+    else if(parity == USART_PARITY_EVEN)
+    {
+        usart_x->ctrl1_bit.psel = FALSE;
+        usart_x->ctrl1_bit.pen = TRUE;
+    }
+    else if(parity == USART_PARITY_ODD)
+    {
+        usart_x->ctrl1_bit.psel = TRUE;
+        usart_x->ctrl1_bit.pen = TRUE;
+    }
 }
 
 /**
@@ -195,7 +201,7 @@ void usart_parity_selection_config(usart_type* usart_x, usart_parity_selection_t
   */
 void usart_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl1_bit.uen = new_state;
+    usart_x->ctrl1_bit.uen = new_state;
 }
 
 /**
@@ -208,7 +214,7 @@ void usart_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_transmitter_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl1_bit.ten = new_state;
+    usart_x->ctrl1_bit.ten = new_state;
 }
 
 /**
@@ -221,7 +227,7 @@ void usart_transmitter_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_receiver_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl1_bit.ren = new_state;
+    usart_x->ctrl1_bit.ren = new_state;
 }
 
 /**
@@ -246,9 +252,9 @@ void usart_receiver_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_clock_config(usart_type* usart_x, usart_clock_polarity_type clk_pol, usart_clock_phase_type clk_pha, usart_lbcp_type clk_lb)
 {
-  usart_x->ctrl2_bit.clkpol = clk_pol;
-  usart_x->ctrl2_bit.clkpha = clk_pha;
-  usart_x->ctrl2_bit.lbcp = clk_lb;
+    usart_x->ctrl2_bit.clkpol = clk_pol;
+    usart_x->ctrl2_bit.clkpha = clk_pha;
+    usart_x->ctrl2_bit.lbcp = clk_lb;
 }
 
 /**
@@ -262,7 +268,7 @@ void usart_clock_config(usart_type* usart_x, usart_clock_polarity_type clk_pol, 
   */
 void usart_clock_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl2_bit.clken = new_state;
+    usart_x->ctrl2_bit.clken = new_state;
 }
 
 /**
@@ -286,10 +292,14 @@ void usart_clock_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_interrupt_enable(usart_type* usart_x, uint32_t usart_int, confirm_state new_state)
 {
-  if(new_state == TRUE)
-    PERIPH_REG((uint32_t)usart_x, usart_int) |= PERIPH_REG_BIT(usart_int);
-  else
-    PERIPH_REG((uint32_t)usart_x, usart_int) &= ~PERIPH_REG_BIT(usart_int);
+    if(new_state == TRUE)
+    {
+        PERIPH_REG((uint32_t)usart_x, usart_int) |= PERIPH_REG_BIT(usart_int);
+    }
+    else
+    {
+        PERIPH_REG((uint32_t)usart_x, usart_int) &= ~PERIPH_REG_BIT(usart_int);
+    }
 }
 
 /**
@@ -303,7 +313,7 @@ void usart_interrupt_enable(usart_type* usart_x, uint32_t usart_int, confirm_sta
   */
 void usart_dma_transmitter_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.dmaten = new_state;
+    usart_x->ctrl3_bit.dmaten = new_state;
 }
 
 /**
@@ -317,7 +327,7 @@ void usart_dma_transmitter_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_dma_receiver_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.dmaren = new_state;
+    usart_x->ctrl3_bit.dmaren = new_state;
 }
 
 /**
@@ -330,16 +340,16 @@ void usart_dma_receiver_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_wakeup_id_set(usart_type* usart_x, uint8_t usart_id)
 {
-  if(usart_x->ctrl2_bit.idbn == USART_ID_FIXED_4_BIT)
-  {
-    usart_x->ctrl2_bit.id_l = (usart_id & 0x0F);
-    usart_x->ctrl2_bit.id_h = 0;
-  }
-  else
-  {
-    usart_x->ctrl2_bit.id_l = (usart_id & 0x0F);
-    usart_x->ctrl2_bit.id_h = ((usart_id & 0xF0) >> 4);
-  }
+    if(usart_x->ctrl2_bit.idbn == USART_ID_FIXED_4_BIT)
+    {
+        usart_x->ctrl2_bit.id_l = (usart_id & 0x0F);
+        usart_x->ctrl2_bit.id_h = 0;
+    }
+    else
+    {
+        usart_x->ctrl2_bit.id_l = (usart_id & 0x0F);
+        usart_x->ctrl2_bit.id_h = ((usart_id & 0xF0) >> 4);
+    }
 }
 
 /**
@@ -355,7 +365,7 @@ void usart_wakeup_id_set(usart_type* usart_x, uint8_t usart_id)
   */
 void usart_wakeup_mode_set(usart_type* usart_x, usart_wakeup_mode_type wakeup_mode)
 {
-  usart_x->ctrl1_bit.wum = wakeup_mode;
+    usart_x->ctrl1_bit.wum = wakeup_mode;
 }
 
 /**
@@ -369,7 +379,7 @@ void usart_wakeup_mode_set(usart_type* usart_x, usart_wakeup_mode_type wakeup_mo
   */
 void usart_receiver_mute_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl1_bit.rm = new_state;
+    usart_x->ctrl1_bit.rm = new_state;
 }
 
 /**
@@ -385,7 +395,7 @@ void usart_receiver_mute_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_break_bit_num_set(usart_type* usart_x, usart_break_bit_num_type break_bit)
 {
-  usart_x->ctrl2_bit.bfbn = break_bit;
+    usart_x->ctrl2_bit.bfbn = break_bit;
 }
 
 /**
@@ -399,7 +409,7 @@ void usart_break_bit_num_set(usart_type* usart_x, usart_break_bit_num_type break
   */
 void usart_lin_mode_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl2_bit.linen = new_state;
+    usart_x->ctrl2_bit.linen = new_state;
 }
 
 /**
@@ -412,7 +422,7 @@ void usart_lin_mode_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_data_transmit(usart_type* usart_x, uint16_t data)
 {
-  usart_x->dt = (data & 0x01FF);
+    usart_x->dt = (data & 0x01FF);
 }
 
 /**
@@ -424,7 +434,7 @@ void usart_data_transmit(usart_type* usart_x, uint16_t data)
   */
 uint16_t usart_data_receive(usart_type* usart_x)
 {
-  return (uint16_t)(usart_x->dt);
+    return (uint16_t)(usart_x->dt);
 }
 
 /**
@@ -436,7 +446,7 @@ uint16_t usart_data_receive(usart_type* usart_x)
   */
 void usart_break_send(usart_type* usart_x)
 {
-  usart_x->ctrl1_bit.sbf = TRUE;
+    usart_x->ctrl1_bit.sbf = TRUE;
 }
 
 /**
@@ -450,7 +460,7 @@ void usart_break_send(usart_type* usart_x)
   */
 void usart_smartcard_guard_time_set(usart_type* usart_x, uint8_t guard_time_val)
 {
-  usart_x->gdiv_bit.scgt = guard_time_val;
+    usart_x->gdiv_bit.scgt = guard_time_val;
 }
 
 /**
@@ -464,7 +474,7 @@ void usart_smartcard_guard_time_set(usart_type* usart_x, uint8_t guard_time_val)
   */
 void usart_irda_smartcard_division_set(usart_type* usart_x, uint8_t div_val)
 {
-  usart_x->gdiv_bit.isdiv = div_val;
+    usart_x->gdiv_bit.isdiv = div_val;
 }
 
 /**
@@ -479,7 +489,7 @@ void usart_irda_smartcard_division_set(usart_type* usart_x, uint8_t div_val)
   */
 void usart_smartcard_mode_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.scmen = new_state;
+    usart_x->ctrl3_bit.scmen = new_state;
 }
 
 /**
@@ -494,7 +504,7 @@ void usart_smartcard_mode_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_smartcard_nack_set(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.scnacken = new_state;
+    usart_x->ctrl3_bit.scnacken = new_state;
 }
 
 /**
@@ -508,7 +518,7 @@ void usart_smartcard_nack_set(usart_type* usart_x, confirm_state new_state)
   */
 void usart_single_line_halfduplex_select(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.slben = new_state;
+    usart_x->ctrl3_bit.slben = new_state;
 }
 
 /**
@@ -522,7 +532,7 @@ void usart_single_line_halfduplex_select(usart_type* usart_x, confirm_state new_
   */
 void usart_irda_mode_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.irdaen = new_state;
+    usart_x->ctrl3_bit.irdaen = new_state;
 }
 
 /**
@@ -536,7 +546,7 @@ void usart_irda_mode_enable(usart_type* usart_x, confirm_state new_state)
   */
 void usart_irda_low_power_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.irdalp = new_state;
+    usart_x->ctrl3_bit.irdalp = new_state;
 }
 
 /**
@@ -552,28 +562,28 @@ void usart_irda_low_power_enable(usart_type* usart_x, confirm_state new_state)
   *         - USART_HARDWARE_FLOW_RTS_CTS
   * @retval none
   */
-void usart_hardware_flow_control_set(usart_type* usart_x,usart_hardware_flow_control_type flow_state)
+void usart_hardware_flow_control_set(usart_type* usart_x, usart_hardware_flow_control_type flow_state)
 {
-  if(flow_state == USART_HARDWARE_FLOW_NONE)
-  {
-    usart_x->ctrl3_bit.rtsen = FALSE;
-    usart_x->ctrl3_bit.ctsen = FALSE;
-  }
-  else if(flow_state == USART_HARDWARE_FLOW_RTS)
-  {
-    usart_x->ctrl3_bit.rtsen = TRUE;
-    usart_x->ctrl3_bit.ctsen = FALSE;
-  }
-  else if(flow_state == USART_HARDWARE_FLOW_CTS)
-  {
-    usart_x->ctrl3_bit.rtsen = FALSE;
-    usart_x->ctrl3_bit.ctsen = TRUE;
-  }
-  else if(flow_state == USART_HARDWARE_FLOW_RTS_CTS)
-  {
-    usart_x->ctrl3_bit.rtsen = TRUE;
-    usart_x->ctrl3_bit.ctsen = TRUE;
-  }
+    if(flow_state == USART_HARDWARE_FLOW_NONE)
+    {
+        usart_x->ctrl3_bit.rtsen = FALSE;
+        usart_x->ctrl3_bit.ctsen = FALSE;
+    }
+    else if(flow_state == USART_HARDWARE_FLOW_RTS)
+    {
+        usart_x->ctrl3_bit.rtsen = TRUE;
+        usart_x->ctrl3_bit.ctsen = FALSE;
+    }
+    else if(flow_state == USART_HARDWARE_FLOW_CTS)
+    {
+        usart_x->ctrl3_bit.rtsen = FALSE;
+        usart_x->ctrl3_bit.ctsen = TRUE;
+    }
+    else if(flow_state == USART_HARDWARE_FLOW_RTS_CTS)
+    {
+        usart_x->ctrl3_bit.rtsen = TRUE;
+        usart_x->ctrl3_bit.ctsen = TRUE;
+    }
 }
 
 /**
@@ -597,14 +607,14 @@ void usart_hardware_flow_control_set(usart_type* usart_x,usart_hardware_flow_con
   */
 flag_status usart_flag_get(usart_type* usart_x, uint32_t flag)
 {
-  if(usart_x->sts & flag)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if(usart_x->sts & flag)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -635,15 +645,15 @@ flag_status usart_flag_get(usart_type* usart_x, uint32_t flag)
   */
 void usart_flag_clear(usart_type* usart_x, uint32_t flag)
 {
-  if(flag & (USART_PERR_FLAG | USART_FERR_FLAG | USART_NERR_FLAG | USART_ROERR_FLAG | USART_IDLEF_FLAG))
-  {
-    UNUSED(usart_x->sts);
-    UNUSED(usart_x->dt);
-  }
-  else
-  {
-    usart_x->sts = ~flag;
-  }
+    if(flag & (USART_PERR_FLAG | USART_FERR_FLAG | USART_NERR_FLAG | USART_ROERR_FLAG | USART_IDLEF_FLAG))
+    {
+        UNUSED(usart_x->sts);
+        UNUSED(usart_x->dt);
+    }
+    else
+    {
+        usart_x->sts = ~flag;
+    }
 }
 
 /**
@@ -657,8 +667,8 @@ void usart_flag_clear(usart_type* usart_x, uint32_t flag)
   */
 void usart_rs485_delay_time_config(usart_type* usart_x, uint8_t start_delay_time, uint8_t complete_delay_time)
 {
-  usart_x->ctrl1_bit.tsdt = start_delay_time;
-  usart_x->ctrl1_bit.tcdt = complete_delay_time;
+    usart_x->ctrl1_bit.tsdt = start_delay_time;
+    usart_x->ctrl1_bit.tcdt = complete_delay_time;
 }
 
 /**
@@ -672,7 +682,7 @@ void usart_rs485_delay_time_config(usart_type* usart_x, uint8_t start_delay_time
   */
 void usart_transmit_receive_pin_swap(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl2_bit.trpswap = new_state;
+    usart_x->ctrl2_bit.trpswap = new_state;
 }
 
 /**
@@ -686,7 +696,7 @@ void usart_transmit_receive_pin_swap(usart_type* usart_x, confirm_state new_stat
   */
 void usart_id_bit_num_set(usart_type* usart_x, usart_identification_bit_num_type id_bit_num)
 {
-  usart_x->ctrl2_bit.idbn = (uint8_t)id_bit_num;
+    usart_x->ctrl2_bit.idbn = (uint8_t)id_bit_num;
 }
 
 /**
@@ -700,7 +710,7 @@ void usart_id_bit_num_set(usart_type* usart_x, usart_identification_bit_num_type
   */
 void usart_de_polarity_set(usart_type* usart_x, usart_de_polarity_type de_polarity)
 {
-  usart_x->ctrl3_bit.dep = (uint8_t)de_polarity;
+    usart_x->ctrl3_bit.dep = (uint8_t)de_polarity;
 }
 
 /**
@@ -714,7 +724,7 @@ void usart_de_polarity_set(usart_type* usart_x, usart_de_polarity_type de_polari
   */
 void usart_rs485_mode_enable(usart_type* usart_x, confirm_state new_state)
 {
-  usart_x->ctrl3_bit.rs485en = new_state;
+    usart_x->ctrl3_bit.rs485en = new_state;
 }
 
 /**

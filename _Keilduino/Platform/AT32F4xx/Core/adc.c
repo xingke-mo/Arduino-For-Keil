@@ -50,6 +50,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -70,11 +71,13 @@ void ADCx_Init(ADC_Type* ADCx)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2PERIPH_ADC2, ENABLE);
     }
+
 #ifdef ADC3
     else if(ADCx == ADC3)
     {
         RCC_APB2PeriphClockCmd(RCC_APB2PERIPH_ADC3, ENABLE);
     }
+
 #endif
     else
     {
@@ -95,8 +98,11 @@ void ADCx_Init(ADC_Type* ADCx)
 
     ADC_Ctrl(ADCx, ENABLE);
     ADC_RstCalibration(ADCx);
+
     while(ADC_GetResetCalibrationStatus(ADCx));
+
     ADC_StartCalibration(ADCx);
+
     while(ADC_GetCalibrationStatus(ADCx));
 }
 
@@ -111,7 +117,9 @@ uint16_t ADCx_GetValue(ADC_Type* ADCx, uint16_t ADC_Channel)
     ADC_RegularChannelConfig(ADCx, ADC_Channel, 1, ADC_SampleTime_41_5);
 
     ADC_SoftwareStartConvCtrl(ADCx, ENABLE);
+
     while(!ADC_GetFlagStatus(ADCx, ADC_FLAG_EC));
+
     return ADC_GetConversionValue(ADCx);
 }
 
@@ -124,27 +132,36 @@ ADC_DMA_Res_Type ADC_DMA_Register(uint8_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static bool isInit = false;
+
     if(!isInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFF;
         }
+
         isInit = true;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return ADC_DMA_RES_NOT_ADC_CHANNEL;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return ADC_DMA_RES_DUPLICATE_REGISTRATION;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return ADC_DMA_RES_MAX_NUM_OF_REGISTRATIONS_EXCEEDED;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -182,7 +199,7 @@ void ADC_DMA_Init(void)
     DMA_Reset(DMA1_Channel1);
 
     DMA_DefaultInitParaConfig(&DMA_InitStructure);
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) (&(ADC1->RDOR));
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->RDOR));
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_DMA_ConvertedValue;
     DMA_InitStructure.DMA_Direction = DMA_DIR_PERIPHERALSRC;
     DMA_InitStructure.DMA_BufferSize = ADC_DMA_RegCnt;
@@ -234,6 +251,7 @@ void ADC_DMA_Init(void)
     while(ADC_GetResetCalibrationStatus(ADC1));
 
     ADC_StartCalibration(ADC1);
+
     while(ADC_GetCalibrationStatus(ADC1));
 
     ADC_SoftwareStartConvCtrl(ADC1, ENABLE);
@@ -249,11 +267,16 @@ uint16_t ADC_DMA_GetValue(uint8_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }

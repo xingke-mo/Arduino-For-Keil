@@ -74,7 +74,7 @@ public:
     size_t println(const __FlashStringHelper *);
     size_t println(const Printable&);
 #ifdef SUPPORTS_PRINTF
-// Roger Clark. Work in progress to add printf support
+    // Roger Clark. Work in progress to add printf support
     int printf(const char * format, ...);
 #endif
     Print() : write_error(0) {}

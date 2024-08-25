@@ -55,15 +55,19 @@ static void TIMx_OCxInit(tmr_type* TIMx, uint32_t arr, uint16_t psc, uint8_t Tim
     case 1:
         tmr_output_channel_config(TIMx, TMR_SELECT_CHANNEL_1, &tmr_output_struct);
         break;
+
     case 2:
         tmr_output_channel_config(TIMx, TMR_SELECT_CHANNEL_2, &tmr_output_struct);
         break;
+
     case 3:
         tmr_output_channel_config(TIMx, TMR_SELECT_CHANNEL_3, &tmr_output_struct);
         break;
+
     case 4:
         tmr_output_channel_config(TIMx, TMR_SELECT_CHANNEL_4, &tmr_output_struct);
         break;
+
     default:
         return;
     }

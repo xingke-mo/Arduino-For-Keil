@@ -49,6 +49,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -61,27 +62,36 @@ int16_t ADC_DMA_Register(uint8_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static uint8_t IsInit = 0;
+
     if(!IsInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFF;
         }
+
         IsInit = 1;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return -1;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return -2;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return -3;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -102,7 +112,7 @@ void ADC_DMA_Init(void)
     DMA_InitTypeDef DMA_InitStructure;
     ADC_InitTypeDef ADC_InitStructure;
     uint16_t index;
-    
+
     // 默认配置
     ADCx_Init(ADC1);
 
@@ -116,7 +126,7 @@ void ADC_DMA_Init(void)
 
     // 配置 DMA 初始化结构体
     // 外设基址为：ADC 数据寄存器地址
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) (&(ADC1->DR));
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)(&(ADC1->DR));
 
     // 存储器地址
     DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_DMA_ConvertedValue;
@@ -209,11 +219,16 @@ uint16_t ADC_DMA_GetValue(uint8_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }
@@ -230,7 +245,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
 
     /*必须开启HSI，否则无法工作*/
     RCC_HSICmd(ENABLE);
-    
+
     /*等待HSI准备好*/
     while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
 
@@ -264,6 +279,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
     ADC_DelaySelectionConfig(ADCx, ADC_DelayLength_None);
 
     ADC_Cmd(ADCx, ENABLE);
+
     while(ADC_GetFlagStatus(ADCx, ADC_FLAG_ADONS) == RESET);
 }
 
@@ -277,6 +293,8 @@ uint16_t ADCx_GetValue(ADC_TypeDef* ADCx, uint16_t ADC_Channel)
 {
     ADC_RegularChannelConfig(ADCx, ADC_Channel, 1, ADC_SampleTime_192Cycles);
     ADC_SoftwareStartConv(ADCx);
+
     while(!ADC_GetFlagStatus(ADCx, ADC_FLAG_EOC));
+
     return ADC_GetConversionValue(ADCx);
 }

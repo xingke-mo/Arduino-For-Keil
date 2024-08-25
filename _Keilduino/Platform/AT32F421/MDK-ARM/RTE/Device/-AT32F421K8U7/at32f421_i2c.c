@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_i2c.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the i2c firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -50,16 +48,16 @@
   */
 void i2c_reset(i2c_type *i2c_x)
 {
-  if(i2c_x == I2C1)
-  {
-    crm_periph_reset(CRM_I2C1_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_I2C1_PERIPH_RESET, FALSE);
-  }
-  else if(i2c_x == I2C2)
-  {
-    crm_periph_reset(CRM_I2C2_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_I2C2_PERIPH_RESET, FALSE);
-  }
+    if(i2c_x == I2C1)
+    {
+        crm_periph_reset(CRM_I2C1_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_I2C1_PERIPH_RESET, FALSE);
+    }
+    else if(i2c_x == I2C2)
+    {
+        crm_periph_reset(CRM_I2C2_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_I2C2_PERIPH_RESET, FALSE);
+    }
 }
 
 /**
@@ -72,7 +70,7 @@ void i2c_reset(i2c_type *i2c_x)
   */
 void i2c_software_reset(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.reset = new_state;
+    i2c_x->ctrl1_bit.reset = new_state;
 }
 
 /**
@@ -89,85 +87,92 @@ void i2c_software_reset(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_init(i2c_type *i2c_x, i2c_fsmode_duty_cycle_type duty, uint32_t speed)
 {
-  uint32_t apb_freq = 0;
-  uint16_t freq_mhz = 0, temp = 0;
+    uint32_t apb_freq = 0;
+    uint16_t freq_mhz = 0, temp = 0;
 
-  crm_clocks_freq_type clocks;
+    crm_clocks_freq_type clocks;
 
-  /* disable i2c peripherals */
-  i2c_x->ctrl1_bit.i2cen = FALSE;
+    /* disable i2c peripherals */
+    i2c_x->ctrl1_bit.i2cen = FALSE;
 
-  /* get system clock */
-  crm_clocks_freq_get(&clocks);
+    /* get system clock */
+    crm_clocks_freq_get(&clocks);
 
-  if((i2c_x == I2C1) || (i2c_x == I2C2))
-  {
-    apb_freq = clocks.apb1_freq;
-  }
-
-  freq_mhz = (apb_freq / 1000000);
-
-  /* set i2c input clock frequency */
-  i2c_x->ctrl2_bit.clkfreq = freq_mhz;
-
-  /* standard mode */
-  if(speed <= 100000)
-  {
-    temp = (uint16_t)(apb_freq / (speed << 1));
-
-    if (temp < 0x04)
+    if((i2c_x == I2C1) || (i2c_x == I2C2))
     {
-      temp = 0x04;
+        apb_freq = clocks.apb1_freq;
     }
 
-    /* set scl clock */
-    i2c_x->clkctrl_bit.speed = temp;
+    freq_mhz = (apb_freq / 1000000);
 
-    /* disable fast mode */
-    i2c_x->clkctrl_bit.speedmode = FALSE;
+    /* set i2c input clock frequency */
+    i2c_x->ctrl2_bit.clkfreq = freq_mhz;
 
-    /* set the maximum rise time */
-    if((freq_mhz + 1) > 0x3F)
+    /* standard mode */
+    if(speed <= 100000)
     {
-      i2c_x->tmrise_bit.risetime = 0x3F;
+        temp = (uint16_t)(apb_freq / (speed << 1));
+
+        if(temp < 0x04)
+        {
+            temp = 0x04;
+        }
+
+        /* set scl clock */
+        i2c_x->clkctrl_bit.speed = temp;
+
+        /* disable fast mode */
+        i2c_x->clkctrl_bit.speedmode = FALSE;
+
+        /* set the maximum rise time */
+        if((freq_mhz + 1) > 0x3F)
+        {
+            i2c_x->tmrise_bit.risetime = 0x3F;
+        }
+        else
+        {
+            i2c_x->tmrise_bit.risetime = (freq_mhz + 1);
+        }
     }
+    /* fast mode */
     else
     {
-      i2c_x->tmrise_bit.risetime = (freq_mhz + 1);
+        if(duty == I2C_FSMODE_DUTY_2_1)
+        {
+            temp = (uint16_t)(apb_freq / (speed * 3));
+
+            /* the ratio of high level to low level is 1:2 */
+            i2c_x->clkctrl_bit.dutymode = I2C_FSMODE_DUTY_2_1;
+        }
+        else
+        {
+            temp = (uint16_t)(apb_freq / (speed * 25));
+
+            /* the ratio of high level to low level is 9:16 */
+            i2c_x->clkctrl_bit.dutymode = I2C_FSMODE_DUTY_16_9;
+        }
+
+        if(temp == 0)
+        {
+            temp = 0x0001;
+        }
+
+        /* set scl clock*/
+        i2c_x->clkctrl_bit.speed = temp;
+
+        /* set the mode to fast mode */
+        i2c_x->clkctrl_bit.speedmode = TRUE;
+
+        /* set the maximum rise time */
+        if(speed <= 400000)
+        {
+            i2c_x->tmrise_bit.risetime = (uint16_t)(((freq_mhz * (uint16_t)300) / (uint16_t)1000) + (uint16_t)1);
+        }
+        else
+        {
+            i2c_x->tmrise_bit.risetime = (uint16_t)(((freq_mhz * (uint16_t)120) / (uint16_t)1000) + (uint16_t)1);
+        }
     }
-  }
-  /* fast mode */
-  else
-  {
-    if (duty == I2C_FSMODE_DUTY_2_1)
-    {
-      temp = (uint16_t)(apb_freq / (speed * 3));
-
-      /* the ratio of high level to low level is 1:2 */
-      i2c_x->clkctrl_bit.dutymode = I2C_FSMODE_DUTY_2_1;
-    }
-    else
-    {
-      temp = (uint16_t)(apb_freq / (speed * 25));
-
-      /* the ratio of high level to low level is 9:16 */
-      i2c_x->clkctrl_bit.dutymode = I2C_FSMODE_DUTY_16_9;
-    }
-
-    if (temp == 0)
-    {
-      temp = 0x0001;
-    }
-
-    /* set scl clock*/
-    i2c_x->clkctrl_bit.speed = temp;
-
-    /* set the mode to fast mode */
-    i2c_x->clkctrl_bit.speedmode = TRUE;
-
-    /* set the maximum rise time */
-    i2c_x->tmrise_bit.risetime = (uint16_t)(((freq_mhz * (uint16_t)300) / (uint16_t)1000) + (uint16_t)1);
-  }
 }
 
 /**
@@ -184,11 +189,11 @@ void i2c_init(i2c_type *i2c_x, i2c_fsmode_duty_cycle_type duty, uint32_t speed)
   */
 void i2c_own_address1_set(i2c_type *i2c_x, i2c_address_mode_type mode, uint16_t address)
 {
-  /* set address mode */
-  i2c_x->oaddr1_bit.addr1mode = mode;
+    /* set address mode */
+    i2c_x->oaddr1_bit.addr1mode = mode;
 
-  /* set own address1 */
-  i2c_x->oaddr1_bit.addr1 = address;
+    /* set own address1 */
+    i2c_x->oaddr1_bit.addr1 = address;
 }
 
 /**
@@ -201,7 +206,7 @@ void i2c_own_address1_set(i2c_type *i2c_x, i2c_address_mode_type mode, uint16_t 
   */
 void i2c_own_address2_set(i2c_type *i2c_x, uint8_t address)
 {
-  i2c_x->oaddr2_bit.addr2 = (address >> 1);
+    i2c_x->oaddr2_bit.addr2 = (address >> 1);
 }
 
 /**
@@ -214,7 +219,7 @@ void i2c_own_address2_set(i2c_type *i2c_x, uint8_t address)
   */
 void i2c_own_address2_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->oaddr2_bit.addr2en = new_state;
+    i2c_x->oaddr2_bit.addr2en = new_state;
 }
 
 /**
@@ -227,7 +232,7 @@ void i2c_own_address2_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_smbus_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.permode = new_state;
+    i2c_x->ctrl1_bit.permode = new_state;
 }
 
 /**
@@ -240,7 +245,7 @@ void i2c_smbus_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.i2cen = new_state;
+    i2c_x->ctrl1_bit.i2cen = new_state;
 }
 
 /**
@@ -256,7 +261,7 @@ void i2c_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_fast_mode_duty_set(i2c_type *i2c_x, i2c_fsmode_duty_cycle_type duty)
 {
-  i2c_x->clkctrl_bit.dutymode = duty;
+    i2c_x->clkctrl_bit.dutymode = duty;
 }
 
 /**
@@ -269,7 +274,7 @@ void i2c_fast_mode_duty_set(i2c_type *i2c_x, i2c_fsmode_duty_cycle_type duty)
   */
 void i2c_clock_stretch_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.stretch = !new_state;
+    i2c_x->ctrl1_bit.stretch = !new_state;
 }
 
 /**
@@ -282,7 +287,7 @@ void i2c_clock_stretch_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_ack_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.acken = new_state;
+    i2c_x->ctrl1_bit.acken = new_state;
 }
 
 /**
@@ -298,7 +303,7 @@ void i2c_ack_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_master_receive_ack_set(i2c_type *i2c_x, i2c_master_ack_type pos)
 {
-  i2c_x->ctrl1_bit.mackctrl = pos;
+    i2c_x->ctrl1_bit.mackctrl = pos;
 }
 
 /**
@@ -314,7 +319,7 @@ void i2c_master_receive_ack_set(i2c_type *i2c_x, i2c_master_ack_type pos)
   */
 void i2c_pec_position_set(i2c_type *i2c_x, i2c_pec_position_type pos)
 {
-  i2c_x->ctrl1_bit.mackctrl = pos;
+    i2c_x->ctrl1_bit.mackctrl = pos;
 }
 
 /**
@@ -327,7 +332,7 @@ void i2c_pec_position_set(i2c_type *i2c_x, i2c_pec_position_type pos)
   */
 void i2c_general_call_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.gcaen = new_state;
+    i2c_x->ctrl1_bit.gcaen = new_state;
 }
 
 /**
@@ -340,7 +345,7 @@ void i2c_general_call_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_arp_mode_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.arpen = new_state;
+    i2c_x->ctrl1_bit.arpen = new_state;
 }
 
 /**
@@ -356,7 +361,7 @@ void i2c_arp_mode_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_smbus_mode_set(i2c_type *i2c_x, i2c_smbus_mode_set_type mode)
 {
-  i2c_x->ctrl1_bit.smbmode = mode;
+    i2c_x->ctrl1_bit.smbmode = mode;
 }
 
 /**
@@ -372,7 +377,7 @@ void i2c_smbus_mode_set(i2c_type *i2c_x, i2c_smbus_mode_set_type mode)
   */
 void i2c_smbus_alert_set(i2c_type *i2c_x, i2c_smbus_alert_set_type level)
 {
-  i2c_x->ctrl1_bit.smbalert = level;
+    i2c_x->ctrl1_bit.smbalert = level;
 }
 
 /**
@@ -385,7 +390,7 @@ void i2c_smbus_alert_set(i2c_type *i2c_x, i2c_smbus_alert_set_type level)
   */
 void i2c_pec_transmit_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.pecten = new_state;
+    i2c_x->ctrl1_bit.pecten = new_state;
 }
 
 /**
@@ -398,7 +403,7 @@ void i2c_pec_transmit_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_pec_calculate_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl1_bit.pecen = new_state;
+    i2c_x->ctrl1_bit.pecen = new_state;
 }
 
 /**
@@ -410,7 +415,7 @@ void i2c_pec_calculate_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 uint8_t i2c_pec_value_get(i2c_type *i2c_x)
 {
-  return i2c_x->sts2_bit.pecval;
+    return i2c_x->sts2_bit.pecval;
 }
 
 /**
@@ -423,7 +428,7 @@ uint8_t i2c_pec_value_get(i2c_type *i2c_x)
   */
 void i2c_dma_end_transfer_set(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl2_bit.dmaend = new_state;
+    i2c_x->ctrl2_bit.dmaend = new_state;
 }
 
 /**
@@ -436,7 +441,7 @@ void i2c_dma_end_transfer_set(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_dma_enable(i2c_type *i2c_x, confirm_state new_state)
 {
-  i2c_x->ctrl2_bit.dmaen = new_state;
+    i2c_x->ctrl2_bit.dmaen = new_state;
 }
 
 /**
@@ -454,14 +459,14 @@ void i2c_dma_enable(i2c_type *i2c_x, confirm_state new_state)
   */
 void i2c_interrupt_enable(i2c_type *i2c_x, uint16_t source, confirm_state new_state)
 {
-  if (new_state != FALSE)
-  {
-    i2c_x->ctrl2 |= source;
-  }
-  else
-  {
-    i2c_x->ctrl2 &= (uint16_t)~source;
-  }
+    if(new_state != FALSE)
+    {
+        i2c_x->ctrl2 |= source;
+    }
+    else
+    {
+        i2c_x->ctrl2 &= (uint16_t)~source;
+    }
 }
 
 /**
@@ -473,7 +478,7 @@ void i2c_interrupt_enable(i2c_type *i2c_x, uint16_t source, confirm_state new_st
   */
 void i2c_start_generate(i2c_type *i2c_x)
 {
-  i2c_x->ctrl1_bit.genstart = TRUE;
+    i2c_x->ctrl1_bit.genstart = TRUE;
 }
 
 /**
@@ -485,7 +490,7 @@ void i2c_start_generate(i2c_type *i2c_x)
   */
 void i2c_stop_generate(i2c_type *i2c_x)
 {
-  i2c_x->ctrl1_bit.genstop = TRUE;
+    i2c_x->ctrl1_bit.genstop = TRUE;
 }
 
 /**
@@ -502,14 +507,14 @@ void i2c_stop_generate(i2c_type *i2c_x)
   */
 void i2c_7bit_address_send(i2c_type *i2c_x, uint8_t address, i2c_direction_type direction)
 {
-  if(direction == I2C_DIRECTION_TRANSMIT)
-  {
-    i2c_x->dt = address & 0xFE;
-  }
-  else
-  {
-    i2c_x->dt = address | 0x01;
-  }
+    if(direction == I2C_DIRECTION_TRANSMIT)
+    {
+        i2c_x->dt = address & 0xFE;
+    }
+    else
+    {
+        i2c_x->dt = address | 0x01;
+    }
 }
 
 /**
@@ -522,7 +527,7 @@ void i2c_7bit_address_send(i2c_type *i2c_x, uint8_t address, i2c_direction_type 
   */
 void i2c_data_send(i2c_type *i2c_x, uint8_t data)
 {
-  i2c_x->dt = data;
+    i2c_x->dt = data;
 }
 
 /**
@@ -534,7 +539,7 @@ void i2c_data_send(i2c_type *i2c_x, uint8_t data)
   */
 uint8_t i2c_data_receive(i2c_type *i2c_x)
 {
-  return (uint8_t)i2c_x->dt;
+    return (uint8_t)i2c_x->dt;
 }
 
 /**
@@ -569,31 +574,112 @@ uint8_t i2c_data_receive(i2c_type *i2c_x)
   */
 flag_status i2c_flag_get(i2c_type *i2c_x, uint32_t flag)
 {
-  __IO uint32_t reg = 0, value = 0;
+    __IO uint32_t reg = 0, value = 0;
 
-  reg = flag >> 28;
+    reg = flag >> 28;
 
-  flag &= (uint32_t)0x00FFFFFF;
+    flag &= (uint32_t)0x00FFFFFF;
 
-  if(reg == 0)
-  {
-    value = i2c_x->sts1;
-  }
-  else
-  {
-    flag = (uint32_t)(flag >> 16);
+    if(reg == 0)
+    {
+        value = i2c_x->sts1;
+    }
+    else
+    {
+        flag = (uint32_t)(flag >> 16);
 
-    value = i2c_x->sts2;
-  }
+        value = i2c_x->sts2;
+    }
 
-  if((value & flag) != (uint32_t)RESET)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if((value & flag) != (uint32_t)RESET)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
+}
+
+/**
+  * @brief  get interrupt flag status
+  * @param  i2c_x: to select the i2c peripheral.
+  *         this parameter can be one of the following values:
+  *         I2C1, I2C2.
+  * @param  flag
+  *         this parameter can be one of the following values:
+  *         - I2C_STARTF_FLAG: start condition generation complete flag.
+  *         - I2C_ADDR7F_FLAG: 0~7 bit address match flag.
+  *         - I2C_TDC_FLAG: transmit data complete flag.
+  *         - I2C_ADDRHF_FLAG: master 9~8 bit address header match flag.
+  *         - I2C_STOPF_FLAG: stop condition generation complete flag.
+  *         - I2C_RDBF_FLAG: receive data buffer full flag.
+  *         - I2C_TDBE_FLAG: transmit data buffer empty flag.
+  *         - I2C_BUSERR_FLAG: bus error flag.
+  *         - I2C_ARLOST_FLAG: arbitration lost flag.
+  *         - I2C_ACKFAIL_FLAG: acknowledge failure flag.
+  *         - I2C_OUF_FLAG: overflow or underflow flag.
+  *         - I2C_PECERR_FLAG: pec receive error flag.
+  *         - I2C_TMOUT_FLAG: smbus timeout flag.
+  *         - I2C_ALERTF_FLAG: smbus alert flag.
+  * @retval flag_status (SET or RESET)
+  */
+flag_status i2c_interrupt_flag_get(i2c_type *i2c_x, uint32_t flag)
+{
+    __IO uint32_t reg = 0, value = 0, iten = 0;
+
+    switch(flag)
+    {
+    case I2C_STARTF_FLAG:
+    case I2C_ADDR7F_FLAG:
+    case I2C_TDC_FLAG:
+    case I2C_ADDRHF_FLAG:
+    case I2C_STOPF_FLAG:
+        iten = i2c_x->ctrl2_bit.evtien;
+        break;
+
+    case I2C_RDBF_FLAG:
+    case I2C_TDBE_FLAG:
+        iten = i2c_x->ctrl2_bit.dataien && i2c_x->ctrl2_bit.evtien;
+        break;
+
+    case I2C_BUSERR_FLAG:
+    case I2C_ARLOST_FLAG:
+    case I2C_ACKFAIL_FLAG:
+    case I2C_OUF_FLAG:
+    case I2C_PECERR_FLAG:
+    case I2C_TMOUT_FLAG:
+    case I2C_ALERTF_FLAG:
+        iten = i2c_x->ctrl2_bit.errien;
+        break;
+
+    default:
+        break;
+    }
+
+    reg = flag >> 28;
+
+    flag &= (uint32_t)0x00FFFFFF;
+
+    if(reg == 0)
+    {
+        value = i2c_x->sts1;
+    }
+    else
+    {
+        flag = (uint32_t)(flag >> 16);
+
+        value = i2c_x->sts2;
+    }
+
+    if(((value & flag) != (uint32_t)RESET) && (iten))
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -615,18 +701,20 @@ flag_status i2c_flag_get(i2c_type *i2c_x, uint32_t flag)
   * @retval none
   */
 void i2c_flag_clear(i2c_type *i2c_x, uint32_t flag)
-{  
-  i2c_x->sts1 = (uint16_t)~(flag & (uint32_t)0x0000DF00);
-  
-  if(i2c_x->sts1 & I2C_ADDR7F_FLAG)
-  {
-    UNUSED(i2c_x->sts2);
-  }
-  
-  if(i2c_x->sts1 & I2C_STOPF_FLAG)
-  {
-    i2c_x->ctrl1_bit.i2cen = TRUE;
-  }
+{
+    i2c_x->sts1 = (uint16_t)~(flag & (uint32_t)0x0000DF00);
+
+    if(flag & I2C_ADDR7F_FLAG)
+    {
+        UNUSED(i2c_x->sts1);
+        UNUSED(i2c_x->sts2);
+    }
+
+    if(flag & I2C_STOPF_FLAG)
+    {
+        UNUSED(i2c_x->sts1);
+        i2c_x->ctrl1_bit.i2cen = TRUE;
+    }
 }
 
 /**

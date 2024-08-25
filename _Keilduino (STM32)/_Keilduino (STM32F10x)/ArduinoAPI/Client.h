@@ -23,7 +23,8 @@
 #include "Stream.h"
 #include "IPAddress.h"
 
-class Client : public Stream {
+class Client : public Stream
+{
 
 public:
     virtual int connect(IPAddress ip, uint16_t port) = 0;
@@ -40,7 +41,8 @@ public:
     virtual uint8_t connected() = 0;
     virtual operator bool() = 0;
 protected:
-    uint8_t* rawIPAddress(IPAddress& addr) {
+    uint8_t* rawIPAddress(IPAddress& addr)
+    {
         return addr.raw_address();
     };
 };

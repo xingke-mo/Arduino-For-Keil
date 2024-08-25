@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_scfg.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the system config firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -48,8 +46,8 @@
   */
 void scfg_reset(void)
 {
-  crm_periph_reset(CRM_SCFG_PERIPH_RESET, TRUE);
-  crm_periph_reset(CRM_SCFG_PERIPH_RESET, FALSE);
+    crm_periph_reset(CRM_SCFG_PERIPH_RESET, TRUE);
+    crm_periph_reset(CRM_SCFG_PERIPH_RESET, FALSE);
 }
 
 /**
@@ -57,8 +55,6 @@ void scfg_reset(void)
   * @param  source
   *         this parameter can be one of the following values:
   *         - SCFG_IR_SOURCE_TMR16
-  *         - SCFG_IR_SOURCE_USART1
-  *         - SCFG_IR_SOURCE_USART2
   * @param  polarity
   *         this parameter can be one of the following values:
   *         - SCFG_IR_POLARITY_NO_AFFECTE
@@ -67,8 +63,8 @@ void scfg_reset(void)
   */
 void scfg_infrared_config(scfg_ir_source_type source, scfg_ir_polarity_type polarity)
 {
-  SCFG->cfg1_bit.ir_src_sel = source;
-  SCFG->cfg1_bit.ir_pol = polarity;
+    SCFG->cfg1_bit.ir_src_sel = source;
+    SCFG->cfg1_bit.ir_pol = polarity;
 }
 
 /**
@@ -81,7 +77,7 @@ void scfg_infrared_config(scfg_ir_source_type source, scfg_ir_polarity_type pola
   */
 uint8_t scfg_mem_map_get(void)
 {
-  return (uint8_t)SCFG->cfg1_bit.mem_map_sel ;
+    return (uint8_t)SCFG->cfg1_bit.mem_map_sel ;
 }
 
 /**
@@ -94,7 +90,7 @@ uint8_t scfg_mem_map_get(void)
   */
 void scfg_pa11pa12_pin_remap(scfg_pa11pa12_remap_type pin_remap)
 {
-  SCFG->cfg1_bit.pa11_12_rmp = pin_remap;
+    SCFG->cfg1_bit.pa11_12_rmp = pin_remap;
 }
 
 /**
@@ -107,7 +103,7 @@ void scfg_pa11pa12_pin_remap(scfg_pa11pa12_remap_type pin_remap)
   */
 void scfg_adc_dma_channel_remap(scfg_adc_dma_remap_type dma_channel)
 {
-  SCFG->cfg1_bit.adc_dma_rmp = dma_channel;
+    SCFG->cfg1_bit.adc_dma_rmp = dma_channel;
 }
 
 /**
@@ -120,7 +116,7 @@ void scfg_adc_dma_channel_remap(scfg_adc_dma_remap_type dma_channel)
   */
 void scfg_usart1_tx_dma_channel_remap(scfg_usart1_tx_dma_remap_type dma_channel)
 {
-  SCFG->cfg1_bit.usart1_tx_dma_rmp = dma_channel;
+    SCFG->cfg1_bit.usart1_tx_dma_rmp = dma_channel;
 }
 
 /**
@@ -133,7 +129,7 @@ void scfg_usart1_tx_dma_channel_remap(scfg_usart1_tx_dma_remap_type dma_channel)
   */
 void scfg_usart1_rx_dma_channel_remap(scfg_usart1_rx_dma_remap_type dma_channel)
 {
-  SCFG->cfg1_bit.usart1_rx_dma_rmp = dma_channel;
+    SCFG->cfg1_bit.usart1_rx_dma_rmp = dma_channel;
 }
 
 /**
@@ -146,7 +142,7 @@ void scfg_usart1_rx_dma_channel_remap(scfg_usart1_rx_dma_remap_type dma_channel)
   */
 void scfg_tmr16_dma_channel_remap(scfg_tmr16_dma_remap_type dma_channel)
 {
-  SCFG->cfg1_bit.tmr16_dma_rmp = dma_channel;
+    SCFG->cfg1_bit.tmr16_dma_rmp = dma_channel;
 }
 
 /**
@@ -159,7 +155,7 @@ void scfg_tmr16_dma_channel_remap(scfg_tmr16_dma_remap_type dma_channel)
   */
 void scfg_tmr17_dma_channel_remap(scfg_tmr17_dma_remap_type dma_channel)
 {
-  SCFG->cfg1_bit.tmr17_dma_rmp = dma_channel;
+    SCFG->cfg1_bit.tmr17_dma_rmp = dma_channel;
 }
 
 /**
@@ -169,6 +165,7 @@ void scfg_tmr17_dma_channel_remap(scfg_tmr17_dma_remap_type dma_channel)
   *         this parameter can be one of the following values:
   *         - SCFG_PORT_SOURCE_GPIOA
   *         - SCFG_PORT_SOURCE_GPIOB
+  *         - SCFG_PORT_SOURCE_GPIOC
   *         - SCFG_PORT_SOURCE_GPIOF
   * @param  pin_source:
   *         specifies the exint line to be configured.
@@ -193,34 +190,34 @@ void scfg_tmr17_dma_channel_remap(scfg_tmr17_dma_remap_type dma_channel)
   */
 void scfg_exint_line_config(scfg_port_source_type port_source, scfg_pins_source_type pin_source)
 {
-  uint32_t tmp = 0x00;
-  tmp = ((uint32_t)0x0F) << (0x04 * (pin_source & (uint8_t)0x03));
+    uint32_t tmp = 0x00;
+    tmp = ((uint32_t)0x0F) << (0x04 * (pin_source & (uint8_t)0x03));
 
-  switch (pin_source >> 0x02)
-  {
+    switch(pin_source >> 0x02)
+    {
     case 0:
-      SCFG->exintc1 &= ~tmp;
-      SCFG->exintc1 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
-      break;
+        SCFG->exintc1 &= ~tmp;
+        SCFG->exintc1 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
+        break;
 
     case 1:
-      SCFG->exintc2 &= ~tmp;
-      SCFG->exintc2 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
-      break;
+        SCFG->exintc2 &= ~tmp;
+        SCFG->exintc2 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
+        break;
 
     case 2:
-      SCFG->exintc3 &= ~tmp;
-      SCFG->exintc3 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
-      break;
+        SCFG->exintc3 &= ~tmp;
+        SCFG->exintc3 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
+        break;
 
     case 3:
-      SCFG->exintc4 &= ~tmp;
-      SCFG->exintc4 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
-      break;
+        SCFG->exintc4 &= ~tmp;
+        SCFG->exintc4 |= (((uint32_t)port_source) << (0x04 * (pin_source & (uint8_t)0x03)));
+        break;
 
     default:
-      break;
-  }
+        break;
+    }
 }
 
 /**

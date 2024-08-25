@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    20-April-2015
-  * @brief   This file contains all the functions prototypes for the FLASH 
+  * @brief   This file contains all the functions prototypes for the FLASH
   *          firmware library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32L1xx_FLASH_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -47,27 +47,27 @@
 
 /* Exported types ------------------------------------------------------------*/
 
-/** 
-  * @brief  FLASH Status  
-  */ 
+/**
+  * @brief  FLASH Status
+  */
 typedef enum
-{ 
-  FLASH_BUSY = 1,
-  FLASH_ERROR_WRP,
-  FLASH_ERROR_PROGRAM,
-  FLASH_COMPLETE,
-  FLASH_TIMEOUT
-}FLASH_Status;
+{
+    FLASH_BUSY = 1,
+    FLASH_ERROR_WRP,
+    FLASH_ERROR_PROGRAM,
+    FLASH_COMPLETE,
+    FLASH_TIMEOUT
+} FLASH_Status;
 
 /* Exported constants --------------------------------------------------------*/
-  
+
 /** @defgroup FLASH_Exported_Constants
   * @{
-  */ 
-  
-/** @defgroup FLASH_Latency 
+  */
+
+/** @defgroup FLASH_Latency
   * @{
-  */ 
+  */
 #define FLASH_Latency_0                ((uint8_t)0x00)  /*!< FLASH Zero Latency cycle */
 #define FLASH_Latency_1                ((uint8_t)0x01)  /*!< FLASH One Latency cycle */
 
@@ -75,34 +75,34 @@ typedef enum
                                    ((LATENCY) == FLASH_Latency_1))
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup FLASH_Interrupts 
+/** @defgroup FLASH_Interrupts
   * @{
   */
-   
+
 #define FLASH_IT_EOP               FLASH_PECR_EOPIE  /*!< End of programming interrupt source */
 #define FLASH_IT_ERR               FLASH_PECR_ERRIE  /*!< Error interrupt source */
 #define IS_FLASH_IT(IT) ((((IT) & (uint32_t)0xFFFCFFFF) == 0x00000000) && (((IT) != 0x00000000)))
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup FLASH_Address 
+/** @defgroup FLASH_Address
   * @{
   */
-  
+
 #define IS_FLASH_DATA_ADDRESS(ADDRESS) (((ADDRESS) >= 0x08080000) && ((ADDRESS) <= 0x08083FFF))
-#define IS_FLASH_PROGRAM_ADDRESS(ADDRESS) (((ADDRESS) >= 0x08000000) && ((ADDRESS) <= 0x0807FFFF))  
+#define IS_FLASH_PROGRAM_ADDRESS(ADDRESS) (((ADDRESS) >= 0x08000000) && ((ADDRESS) <= 0x0807FFFF))
 
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup Option_Bytes_Write_Protection 
+/** @defgroup Option_Bytes_Write_Protection
   * @{
   */
-  
+
 #define OB_WRP_Pages0to15              ((uint32_t)0x00000001) /* Write protection of Sector0 */
 #define OB_WRP_Pages16to31             ((uint32_t)0x00000002) /* Write protection of Sector1 */
 #define OB_WRP_Pages32to47             ((uint32_t)0x00000004) /* Write protection of Sector2 */
@@ -246,7 +246,7 @@ typedef enum
 #define IS_OB_WRP(PAGE) (((PAGE) != 0x0000000))
 
 /* IMPORTANT NOTE
-   ============== 
+   ==============
     In the StdLib, the naming of WRP registers is shifted vs. the Reference Manual:
       - WRPR correspond to WRPR1
       - WRPR1 correspond to WRPR2
@@ -270,26 +270,26 @@ typedef enum
   */
 
 
-/** @defgroup Option_Bytes_Read_Protection 
+/** @defgroup Option_Bytes_Read_Protection
   * @{
-  */ 
+  */
 
-/** 
-  * @brief  Read Protection Level  
-  */ 
+/**
+  * @brief  Read Protection Level
+  */
 #define OB_RDP_Level_0   ((uint8_t)0xAA)
 #define OB_RDP_Level_1   ((uint8_t)0xBB)
-/*#define OB_RDP_Level_2   ((uint8_t)0xCC)*/ /* Warning: When enabling read protection level 2 
+/*#define OB_RDP_Level_2   ((uint8_t)0xCC)*/ /* Warning: When enabling read protection level 2
                                                 it's no more possible to go back to level 1 or 0 */
 
 #define IS_OB_RDP(LEVEL) (((LEVEL) == OB_RDP_Level_0)||\
                           ((LEVEL) == OB_RDP_Level_1))/*||\
-                          ((LEVEL) == OB_RDP_Level_2))*/
+((LEVEL) == OB_RDP_Level_2))*/
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup Option_Bytes_IWatchdog 
+/** @defgroup Option_Bytes_IWatchdog
   * @{
   */
 
@@ -301,7 +301,7 @@ typedef enum
   * @}
   */
 
-/** @defgroup Option_Bytes_nRST_STOP 
+/** @defgroup Option_Bytes_nRST_STOP
   * @{
   */
 
@@ -313,7 +313,7 @@ typedef enum
   * @}
   */
 
-/** @defgroup Option_Bytes_nRST_STDBY 
+/** @defgroup Option_Bytes_nRST_STDBY
   * @{
   */
 
@@ -340,7 +340,7 @@ typedef enum
   * @}
   */
 
-/** @defgroup Option_Bytes_BOR_Level 
+/** @defgroup Option_Bytes_BOR_Level
   * @{
   */
 
@@ -362,10 +362,10 @@ typedef enum
 /**
   * @}
   */
-  
-/** @defgroup FLASH_Flags 
+
+/** @defgroup FLASH_Flags
   * @{
-  */ 
+  */
 
 #define FLASH_FLAG_BSY                 FLASH_SR_BSY        /*!< FLASH Busy flag */
 #define FLASH_FLAG_EOP                 FLASH_SR_EOP        /*!< FLASH End of Programming flag */
@@ -378,7 +378,7 @@ typedef enum
 #define FLASH_FLAG_OPTVERRUSR          FLASH_SR_OPTVERRUSR /*!< FLASH Option User Validity error flag  */
 #define FLASH_FLAG_RDERR               FLASH_SR_RDERR      /*!< FLASH Read protected error flag 
                                                                 (available only in STM32L1XX_MDP devices)  */
-    
+
 #define IS_FLASH_CLEAR_FLAG(FLAG) ((((FLAG) & (uint32_t)0xFFFFC0FD) == 0x00000000) && ((FLAG) != 0x00000000))
 
 #define IS_FLASH_GET_FLAG(FLAG)  (((FLAG) == FLASH_FLAG_BSY) || ((FLAG) == FLASH_FLAG_EOP) || \
@@ -388,11 +388,11 @@ typedef enum
                                   ((FLAG) ==  FLASH_FLAG_OPTVERRUSR) || ((FLAG) ==  FLASH_FLAG_RDERR))
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup FLASH_Keys 
+/** @defgroup FLASH_Keys
   * @{
-  */ 
+  */
 
 #define FLASH_PDKEY1               ((uint32_t)0x04152637) /*!< Flash power down key1 */
 #define FLASH_PDKEY2               ((uint32_t)0xFAFBFCFD) /*!< Flash power down key2: used with FLASH_PDKEY1 
@@ -413,48 +413,48 @@ typedef enum
 /**
   * @}
   */
-  
-/** @defgroup Timeout_definition 
+
+/** @defgroup Timeout_definition
   * @{
-  */ 
+  */
 #define FLASH_ER_PRG_TIMEOUT         ((uint32_t)0x8000)
 
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup CMSIS_Legacy 
+/** @defgroup CMSIS_Legacy
   * @{
   */
-#if defined ( __ICCARM__ )   
+#if defined ( __ICCARM__ )
 #define InterruptType_ACTLR_DISMCYCINT_Msk         IntType_ACTLR_DISMCYCINT_Msk
 #endif
 /**
   * @}
-  */ 
+  */
 /**
   * @}
-  */ 
+  */
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-  
-/** 
-  * @brief  FLASH memory functions that can be executed from FLASH.  
-  */  
-/* FLASH Interface configuration functions ************************************/  
+
+/**
+  * @brief  FLASH memory functions that can be executed from FLASH.
+  */
+/* FLASH Interface configuration functions ************************************/
 void FLASH_SetLatency(uint32_t FLASH_Latency);
 void FLASH_PrefetchBufferCmd(FunctionalState NewState);
 void FLASH_ReadAccess64Cmd(FunctionalState NewState);
 void FLASH_SLEEPPowerDownCmd(FunctionalState NewState);
 
-/* FLASH Memory Programming functions *****************************************/   
+/* FLASH Memory Programming functions *****************************************/
 void FLASH_Unlock(void);
 void FLASH_Lock(void);
 FLASH_Status FLASH_ErasePage(uint32_t Page_Address);
 FLASH_Status FLASH_FastProgramWord(uint32_t Address, uint32_t Data);
 
-/* DATA EEPROM Programming functions ******************************************/  
+/* DATA EEPROM Programming functions ******************************************/
 void DATA_EEPROM_Unlock(void);
 void DATA_EEPROM_Lock(void);
 void DATA_EEPROM_FixedTimeProgramCmd(FunctionalState NewState);
@@ -492,25 +492,25 @@ FlagStatus FLASH_OB_GetRDP(void);
 FlagStatus FLASH_OB_GetSPRMOD(void);
 uint8_t FLASH_OB_GetBOR(void);
 
-/* Interrupts and flags management functions **********************************/  
+/* Interrupts and flags management functions **********************************/
 void FLASH_ITConfig(uint32_t FLASH_IT, FunctionalState NewState);
 FlagStatus FLASH_GetFlagStatus(uint32_t FLASH_FLAG);
 void FLASH_ClearFlag(uint32_t FLASH_FLAG);
 FLASH_Status FLASH_GetStatus(void);
 FLASH_Status FLASH_WaitForLastOperation(uint32_t Timeout);
 
-/** 
+/**
   * @brief  FLASH memory functions that should be executed from internal SRAM.
   *         These functions are defined inside the "stm32l1xx_flash_ramfunc.c"
   *         file.
-  */ 
+  */
 __RAM_FUNC FLASH_RUNPowerDownCmd(FunctionalState NewState);
 __RAM_FUNC FLASH_EraseParallelPage(uint32_t Page_Address1, uint32_t Page_Address2);
 __RAM_FUNC FLASH_ProgramHalfPage(uint32_t Address, uint32_t* pBuffer);
 __RAM_FUNC FLASH_ProgramParallelHalfPage(uint32_t Address1, uint32_t* pBuffer1, uint32_t Address2, uint32_t* pBuffer2);
 __RAM_FUNC DATA_EEPROM_EraseDoubleWord(uint32_t Address);
 __RAM_FUNC DATA_EEPROM_ProgramDoubleWord(uint32_t Address, uint64_t Data);
-  
+
 #ifdef __cplusplus
 }
 #endif
@@ -523,6 +523,6 @@ __RAM_FUNC DATA_EEPROM_ProgramDoubleWord(uint32_t Address, uint64_t Data);
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

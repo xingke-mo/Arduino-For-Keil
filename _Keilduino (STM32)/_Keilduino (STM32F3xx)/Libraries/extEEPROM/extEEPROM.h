@@ -47,9 +47,9 @@
  * 29Mar2013 v2 - Updated to span page boundaries (and therefore also          *
  * device boundaries, assuming an integral number of pages per device)         *
  * 08Jul2014 v3 - Generalized for 2kb - 2Mb EEPROMs.                           *
- * 																			   *
- * Paolo Paolucci 22-10-2015 v3.2											   *
- * 09-01-2016 v3.2 Add update function.										   *
+ *                                                                             *
+ * Paolo Paolucci 22-10-2015 v3.2                                              *
+ * 09-01-2016 v3.2 Add update function.                                        *
  *                                                                             *
  * External EEPROM Library by Jack Christensen is licensed under CC BY-SA 4.0, *
  * http://creativecommons.org/licenses/by-sa/4.0/                              *
@@ -62,7 +62,8 @@
 #include "Wire.h"
 
 //EEPROM size in kilobits. EEPROM part numbers are usually designated in k-bits.
-enum eeprom_size_t {
+enum eeprom_size_t
+{
     kbits_2 = 2,
     kbits_4 = 4,
     kbits_8 = 8,
@@ -81,27 +82,27 @@ const uint8_t EEPROM_ADDR_ERR = 9;
 
 class extEEPROM
 {
-    public:
-        //I2C clock frequencies
-        enum twiClockFreq_t { twiClock100kHz = 100000, twiClock400kHz = 400000 };
-        extEEPROM(eeprom_size_t deviceCapacity, byte nDevice, unsigned int pageSize, byte eepromAddr = 0x50);
-        byte begin(twiClockFreq_t twiFreq = twiClock100kHz);
-        byte write(unsigned long addr, byte *values, unsigned int nBytes);
-        byte write(unsigned long addr, byte value);
-        byte read(unsigned long addr, byte *values, unsigned int nBytes);
-        int read(unsigned long addr);
-        byte update(unsigned long addr, byte *values, unsigned int nBytes);
-        byte update(unsigned long addr, byte value);
-		unsigned long length();
-		
-    private:
-        uint8_t _eepromAddr;            //eeprom i2c address
-        uint16_t _dvcCapacity;          //capacity of one EEPROM device, in kbits
-        uint8_t _nDevice;               //number of devices on the bus
-        uint16_t _pageSize;             //page size in bytes
-        uint8_t _csShift;               //number of bits to shift address for chip select bits in control byte
-        uint16_t _nAddrBytes;           //number of address bytes (1 or 2)
-        unsigned long _totalCapacity;   //capacity of all EEPROM devices on the bus, in bytes
+public:
+    //I2C clock frequencies
+    enum twiClockFreq_t { twiClock100kHz = 100000, twiClock400kHz = 400000 };
+    extEEPROM(eeprom_size_t deviceCapacity, byte nDevice, unsigned int pageSize, byte eepromAddr = 0x50);
+    byte begin(twiClockFreq_t twiFreq = twiClock100kHz);
+    byte write(unsigned long addr, byte *values, unsigned int nBytes);
+    byte write(unsigned long addr, byte value);
+    byte read(unsigned long addr, byte *values, unsigned int nBytes);
+    int read(unsigned long addr);
+    byte update(unsigned long addr, byte *values, unsigned int nBytes);
+    byte update(unsigned long addr, byte value);
+    unsigned long length();
+
+private:
+    uint8_t _eepromAddr;            //eeprom i2c address
+    uint16_t _dvcCapacity;          //capacity of one EEPROM device, in kbits
+    uint8_t _nDevice;               //number of devices on the bus
+    uint16_t _pageSize;             //page size in bytes
+    uint8_t _csShift;               //number of bits to shift address for chip select bits in control byte
+    uint16_t _nAddrBytes;           //number of address bytes (1 or 2)
+    unsigned long _totalCapacity;   //capacity of all EEPROM devices on the bus, in bytes
 };
 
 #endif

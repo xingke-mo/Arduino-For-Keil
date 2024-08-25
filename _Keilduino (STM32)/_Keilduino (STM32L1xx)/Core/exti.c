@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -43,25 +43,33 @@ static IRQn_Type EXTI_GetIRQn(uint8_t Pin)
         case 0:
             EXTIx_IRQn = EXTI0_IRQn;
             break;
+
         case 1:
             EXTIx_IRQn = EXTI1_IRQn;
             break;
+
         case 2:
             EXTIx_IRQn = EXTI2_IRQn;
             break;
+
         case 3:
             EXTIx_IRQn = EXTI3_IRQn;
             break;
+
         case 4:
             EXTIx_IRQn = EXTI4_IRQn;
             break;
         }
     }
     else if(Pinx >= 5 && Pinx <= 9)
+    {
         EXTIx_IRQn = EXTI9_5_IRQn;
+    }
     else if(Pinx >= 10 && Pinx <= 15)
+    {
         EXTIx_IRQn = EXTI15_10_IRQn;
-    
+    }
+
     return EXTIx_IRQn;
 }
 
@@ -81,12 +89,16 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
     uint8_t Pinx;
 
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = GPIO_GetPinNum(Pin);
 
     if(Pinx > 15)
+    {
         return;
+    }
 
     EXTI_Function[Pinx] = function;
 
@@ -134,19 +146,21 @@ void attachInterrupt(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_
 void detachInterrupt(uint8_t Pin)
 {
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     NVIC_DisableIRQ(EXTI_GetIRQn(Pin));
 }
 
 #define EXTIx_IRQHANDLER(n) \
-do{\
-    if(EXTI_GetITStatus(EXTI_Line##n) != RESET)\
-    {\
-        if(EXTI_Function[n]) EXTI_Function[n]();\
-        EXTI_ClearITPendingBit(EXTI_Line##n);\
-    }\
-}while(0)
+    do{\
+        if(EXTI_GetITStatus(EXTI_Line##n) != RESET)\
+        {\
+            if(EXTI_Function[n]) EXTI_Function[n]();\
+            EXTI_ClearITPendingBit(EXTI_Line##n);\
+        }\
+    }while(0)
 
 /**
   * @brief  外部中断入口，通道0

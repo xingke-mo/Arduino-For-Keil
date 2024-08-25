@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.0.1
   * @date    20-April-2012
-  * @brief   This file provides firmware functions to manage the following 
+  * @brief   This file provides firmware functions to manage the following
   *          functionalities of the Reset and clock control (RCC) peripheral:
   *           + Internal/external clocks, PLL, CSS and MCO configuration
   *           + System, AHB and APB busses clocks configuration
@@ -16,7 +16,7 @@
  ===============================================================================
                         ##### RCC specific features #####
  ===============================================================================
-    [..] After reset the device is running from HSI (8 MHz) with Flash 0 WS, 
+    [..] After reset the device is running from HSI (8 MHz) with Flash 0 WS,
          all peripherals are off except internal SRAM, Flash and SWD.
          (#) There is no prescaler on High speed (AHB) and Low speed (APB) busses;
              all peripherals mapped on these busses are running at HSI speed.
@@ -33,7 +33,7 @@
              derived from the System clock (ADC, CEC, I2C, USART, RTC and IWDG)
 
  @endverbatim
-  
+
   ******************************************************************************
   * @attention
   *
@@ -45,8 +45,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -61,10 +61,10 @@
   * @{
   */
 
-/** @defgroup RCC 
+/** @defgroup RCC
   * @brief RCC driver modules
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -97,7 +97,7 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
   */
 
 /** @defgroup RCC_Group1 Internal and external clocks, PLL, CSS and MCO configuration functions
- *  @brief   Internal and external clocks, PLL, CSS and MCO configuration functions 
+ *  @brief   Internal and external clocks, PLL, CSS and MCO configuration functions
  *
 @verbatim
  ===============================================================================
@@ -105,7 +105,7 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
  ===============================================================================
     [..] This section provides functions allowing to configure the internal/external clocks,
          PLL, CSS and MCO.
-         (#) HSI (high-speed internal), 8 MHz factory-trimmed RC used directly 
+         (#) HSI (high-speed internal), 8 MHz factory-trimmed RC used directly
              or through the PLL as System clock source.
              The HSI clock can be used also to clock the USART, I2C and CEC peripherals.
          (#) HSI14 (high-speed internal for ADC), 14 MHz factory-trimmed RC used to clock
@@ -114,14 +114,14 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
              clock source.
          (#) HSE (high-speed external), 4 to 32 MHz crystal oscillator used directly or
              through the PLL as System clock source. Can be used also as RTC clock source.
-         (#) LSE (low-speed external), 32 KHz oscillator used as RTC clock source. 
-             LSE can be used also to clock the USART and CEC peripherals.   
+         (#) LSE (low-speed external), 32 KHz oscillator used as RTC clock source.
+             LSE can be used also to clock the USART and CEC peripherals.
          (#) PLL (clocked by HSI or HSE), for System clock.
-         (#) CSS (Clock security system), once enabled and if a HSE clock failure occurs 
+         (#) CSS (Clock security system), once enabled and if a HSE clock failure occurs
              (HSE used directly or through PLL as System clock source), the System clock
-             is automatically switched to HSI and an interrupt is generated if enabled. 
-             The interrupt is linked to the Cortex-M0 NMI (Non-Maskable Interrupt) 
-             exception vector.   
+             is automatically switched to HSI and an interrupt is generated if enabled.
+             The interrupt is linked to the Cortex-M0 NMI (Non-Maskable Interrupt)
+             exception vector.
          (#) MCO (microcontroller clock output), used to output SYSCLK, HSI, HSI14, LSI,
              HSE, LSE or PLL (divided by 2) clock on PA8 pin.
 
@@ -132,7 +132,7 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
 /**
   * @brief  Resets the RCC clock configuration to the default reset state.
   * @note   The default reset state of the clock configuration is given below:
-  * @note      HSI ON and used as system clock source 
+  * @note      HSI ON and used as system clock source
   * @note      HSI14, HSE and PLL OFF
   * @note      AHB, APB prescaler set to 1.
   * @note      CSS and MCO OFF
@@ -145,32 +145,32 @@ static __I uint8_t APBAHBPrescTable[16] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6
   */
 void RCC_DeInit(void)
 {
-  /* Set HSION bit */
-  RCC->CR |= (uint32_t)0x00000001;
+    /* Set HSION bit */
+    RCC->CR |= (uint32_t)0x00000001;
 
-  /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE and MCOSEL[2:0] bits */
-  RCC->CFGR &= (uint32_t)0xF8FFB80C;
-  
-  /* Reset HSEON, CSSON and PLLON bits */
-  RCC->CR &= (uint32_t)0xFEF6FFFF;
+    /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE and MCOSEL[2:0] bits */
+    RCC->CFGR &= (uint32_t)0xF8FFB80C;
 
-  /* Reset HSEBYP bit */
-  RCC->CR &= (uint32_t)0xFFFBFFFF;
+    /* Reset HSEON, CSSON and PLLON bits */
+    RCC->CR &= (uint32_t)0xFEF6FFFF;
 
-  /* Reset PLLSRC, PLLXTPRE and PLLMUL[3:0] bits */
-  RCC->CFGR &= (uint32_t)0xFFC0FFFF;
+    /* Reset HSEBYP bit */
+    RCC->CR &= (uint32_t)0xFFFBFFFF;
 
-  /* Reset PREDIV1[3:0] bits */
-  RCC->CFGR2 &= (uint32_t)0xFFFFFFF0;
+    /* Reset PLLSRC, PLLXTPRE and PLLMUL[3:0] bits */
+    RCC->CFGR &= (uint32_t)0xFFC0FFFF;
 
-  /* Reset USARTSW[1:0], I2CSW, CECSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFFEAC;
-  
-  /* Reset HSI14 bit */
-  RCC->CR2 &= (uint32_t)0xFFFFFFFE;
+    /* Reset PREDIV1[3:0] bits */
+    RCC->CFGR2 &= (uint32_t)0xFFFFFFF0;
 
-  /* Disable all interrupts */
-  RCC->CIR = 0x00000000;
+    /* Reset USARTSW[1:0], I2CSW, CECSW and ADCSW bits */
+    RCC->CFGR3 &= (uint32_t)0xFFFFFEAC;
+
+    /* Reset HSI14 bit */
+    RCC->CR2 &= (uint32_t)0xFFFFFFFE;
+
+    /* Disable all interrupts */
+    RCC->CIR = 0x00000000;
 }
 
 /**
@@ -195,21 +195,21 @@ void RCC_DeInit(void)
   */
 void RCC_HSEConfig(uint8_t RCC_HSE)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_HSE(RCC_HSE));
+    /* Check the parameters */
+    assert_param(IS_RCC_HSE(RCC_HSE));
 
-  /* Reset HSEON and HSEBYP bits before configuring the HSE ------------------*/
-  *(__IO uint8_t *) CR_BYTE2_ADDRESS = RCC_HSE_OFF;
+    /* Reset HSEON and HSEBYP bits before configuring the HSE ------------------*/
+    *(__IO uint8_t *) CR_BYTE2_ADDRESS = RCC_HSE_OFF;
 
-  /* Set the new HSE configuration -------------------------------------------*/
-  *(__IO uint8_t *) CR_BYTE2_ADDRESS = RCC_HSE;
+    /* Set the new HSE configuration -------------------------------------------*/
+    *(__IO uint8_t *) CR_BYTE2_ADDRESS = RCC_HSE;
 
 }
 
 /**
   * @brief  Waits for HSE start-up.
-  * @note   This function waits on HSERDY flag to be set and return SUCCESS if 
-  *         this flag is set, otherwise returns ERROR if the timeout is reached 
+  * @note   This function waits on HSERDY flag to be set and return SUCCESS if
+  *         this flag is set, otherwise returns ERROR if the timeout is reached
   *         and this flag is not set. The timeout value is defined by the constant
   *         HSE_STARTUP_TIMEOUT in stm32f0xx.h file. You can tailor it depending
   *         on the HSE crystal used in your application.
@@ -221,33 +221,35 @@ void RCC_HSEConfig(uint8_t RCC_HSE)
   */
 ErrorStatus RCC_WaitForHSEStartUp(void)
 {
-  __IO uint32_t StartUpCounter = 0;
-  ErrorStatus status = ERROR;
-  FlagStatus HSEStatus = RESET;
-  
-  /* Wait till HSE is ready and if timeout is reached exit */
-  do
-  {
-    HSEStatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
-    StartUpCounter++;  
-  } while((StartUpCounter != HSE_STARTUP_TIMEOUT) && (HSEStatus == RESET));
-  
-  if (RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET)
-  {
-    status = SUCCESS;
-  }
-  else
-  {
-    status = ERROR;
-  }  
-  return (status);
+    __IO uint32_t StartUpCounter = 0;
+    ErrorStatus status = ERROR;
+    FlagStatus HSEStatus = RESET;
+
+    /* Wait till HSE is ready and if timeout is reached exit */
+    do
+    {
+        HSEStatus = RCC_GetFlagStatus(RCC_FLAG_HSERDY);
+        StartUpCounter++;
+    }
+    while((StartUpCounter != HSE_STARTUP_TIMEOUT) && (HSEStatus == RESET));
+
+    if(RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET)
+    {
+        status = SUCCESS;
+    }
+    else
+    {
+        status = ERROR;
+    }
+
+    return (status);
 }
 
 /**
   * @brief  Adjusts the Internal High Speed oscillator (HSI) calibration value.
   * @note   The calibration is used to compensate for the variations in voltage
   *         and temperature that influence the frequency of the internal HSI RC.
-  *         Refer to the Application Note AN4067 for more details on how to  
+  *         Refer to the Application Note AN4067 for more details on how to
   *         calibrate the HSI.
   * @param  HSICalibrationValue: specifies the HSI calibration trimming value.
   *          This parameter must be a number between 0 and 0x1F.
@@ -255,30 +257,30 @@ ErrorStatus RCC_WaitForHSEStartUp(void)
   */
 void RCC_AdjustHSICalibrationValue(uint8_t HSICalibrationValue)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_HSI_CALIBRATION_VALUE(HSICalibrationValue));
-  
-  tmpreg = RCC->CR;
-  
-  /* Clear HSITRIM[4:0] bits */
-  tmpreg &= ~RCC_CR_HSITRIM;
-  
-  /* Set the HSITRIM[4:0] bits according to HSICalibrationValue value */
-  tmpreg |= (uint32_t)HSICalibrationValue << 3;
+    uint32_t tmpreg = 0;
 
-  /* Store the new value */
-  RCC->CR = tmpreg;
+    /* Check the parameters */
+    assert_param(IS_RCC_HSI_CALIBRATION_VALUE(HSICalibrationValue));
+
+    tmpreg = RCC->CR;
+
+    /* Clear HSITRIM[4:0] bits */
+    tmpreg &= ~RCC_CR_HSITRIM;
+
+    /* Set the HSITRIM[4:0] bits according to HSICalibrationValue value */
+    tmpreg |= (uint32_t)HSICalibrationValue << 3;
+
+    /* Store the new value */
+    RCC->CR = tmpreg;
 }
 
 /**
   * @brief  Enables or disables the Internal High Speed oscillator (HSI).
-  * @note   After enabling the HSI, the application software should wait on 
+  * @note   After enabling the HSI, the application software should wait on
   *         HSIRDY flag to be set indicating that HSI clock is stable and can
   *         be used to clock the PLL and/or system clock.
   * @note   HSI can not be stopped if it is used directly or through the PLL
-  *         as system clock. In this case, you have to select another source 
+  *         as system clock. In this case, you have to select another source
   *         of the system clock then stop the HSI.
   * @note   The HSI is stopped by hardware when entering STOP and STANDBY modes.
   * @param  NewState: new state of the HSI.
@@ -289,25 +291,25 @@ void RCC_AdjustHSICalibrationValue(uint8_t HSICalibrationValue)
   */
 void RCC_HSICmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CR |= RCC_CR_HSION;
-  }
-  else
-  {
-    RCC->CR &= ~RCC_CR_HSION;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CR |= RCC_CR_HSION;
+    }
+    else
+    {
+        RCC->CR &= ~RCC_CR_HSION;
+    }
 }
 
 /**
-  * @brief  Adjusts the Internal High Speed oscillator for ADC (HSI14) 
+  * @brief  Adjusts the Internal High Speed oscillator for ADC (HSI14)
   *         calibration value.
   * @note   The calibration is used to compensate for the variations in voltage
   *         and temperature that influence the frequency of the internal HSI RC.
-  *         Refer to the Application Note AN4067  for more details on how to  
+  *         Refer to the Application Note AN4067  for more details on how to
   *         calibrate the HSI14.
   * @param  HSI14CalibrationValue: specifies the HSI14 calibration trimming value.
   *          This parameter must be a number between 0 and 0x1F.
@@ -315,26 +317,26 @@ void RCC_HSICmd(FunctionalState NewState)
   */
 void RCC_AdjustHSI14CalibrationValue(uint8_t HSI14CalibrationValue)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_HSI14_CALIBRATION_VALUE(HSI14CalibrationValue));
-  
-  tmpreg = RCC->CR2;
-  
-  /* Clear HSI14TRIM[4:0] bits */
-  tmpreg &= ~RCC_CR2_HSI14TRIM;
-  
-  /* Set the HSITRIM14[4:0] bits according to HSI14CalibrationValue value */
-  tmpreg |= (uint32_t)HSI14CalibrationValue << 3;
+    uint32_t tmpreg = 0;
 
-  /* Store the new value */
-  RCC->CR2 = tmpreg;
+    /* Check the parameters */
+    assert_param(IS_RCC_HSI14_CALIBRATION_VALUE(HSI14CalibrationValue));
+
+    tmpreg = RCC->CR2;
+
+    /* Clear HSI14TRIM[4:0] bits */
+    tmpreg &= ~RCC_CR2_HSI14TRIM;
+
+    /* Set the HSITRIM14[4:0] bits according to HSI14CalibrationValue value */
+    tmpreg |= (uint32_t)HSI14CalibrationValue << 3;
+
+    /* Store the new value */
+    RCC->CR2 = tmpreg;
 }
 
 /**
   * @brief  Enables or disables the Internal High Speed oscillator for ADC (HSI14).
-  * @note   After enabling the HSI14, the application software should wait on 
+  * @note   After enabling the HSI14, the application software should wait on
   *         HSIRDY flag to be set indicating that HSI clock is stable and can
   *         be used to clock the ADC.
   * @note   The HSI14 is stopped by hardware when entering STOP and STANDBY modes.
@@ -346,17 +348,17 @@ void RCC_AdjustHSI14CalibrationValue(uint8_t HSI14CalibrationValue)
   */
 void RCC_HSI14Cmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CR2 |= RCC_CR2_HSI14ON;
-  }
-  else
-  {
-    RCC->CR2 &= ~RCC_CR2_HSI14ON;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CR2 |= RCC_CR2_HSI14ON;
+    }
+    else
+    {
+        RCC->CR2 &= ~RCC_CR2_HSI14ON;
+    }
 }
 
 /**
@@ -367,23 +369,23 @@ void RCC_HSI14Cmd(FunctionalState NewState)
   */
 void RCC_HSI14ADCRequestCmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CR2 &= ~RCC_CR2_HSI14DIS;
-  }
-  else
-  {
-    RCC->CR2 |= RCC_CR2_HSI14DIS;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CR2 &= ~RCC_CR2_HSI14DIS;
+    }
+    else
+    {
+        RCC->CR2 |= RCC_CR2_HSI14DIS;
+    }
 }
 
 /**
   * @brief  Configures the External Low Speed oscillator (LSE).
   * @note   As the LSE is in the Backup domain and write access is denied to this
-  *         domain after reset, you have to enable write access using 
+  *         domain after reset, you have to enable write access using
   *         PWR_BackupAccessCmd(ENABLE) function before to configure the LSE
   *         (to be done once after reset).
   * @note   After enabling the LSE (RCC_LSE_ON or RCC_LSE_Bypass), the application
@@ -399,18 +401,18 @@ void RCC_HSI14ADCRequestCmd(FunctionalState NewState)
   */
 void RCC_LSEConfig(uint32_t RCC_LSE)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_LSE(RCC_LSE));
+    /* Check the parameters */
+    assert_param(IS_RCC_LSE(RCC_LSE));
 
-  /* Reset LSEON and LSEBYP bits before configuring the LSE ------------------*/
-  /* Reset LSEON bit */
-  RCC->BDCR &= ~(RCC_BDCR_LSEON);
+    /* Reset LSEON and LSEBYP bits before configuring the LSE ------------------*/
+    /* Reset LSEON bit */
+    RCC->BDCR &= ~(RCC_BDCR_LSEON);
 
-  /* Reset LSEBYP bit */
-  RCC->BDCR &= ~(RCC_BDCR_LSEBYP);
+    /* Reset LSEBYP bit */
+    RCC->BDCR &= ~(RCC_BDCR_LSEBYP);
 
-  /* Configure LSE */
-  RCC->BDCR |= RCC_LSE;
+    /* Configure LSE */
+    RCC->BDCR |= RCC_LSE;
 }
 
 /**
@@ -425,19 +427,19 @@ void RCC_LSEConfig(uint32_t RCC_LSE)
   */
 void RCC_LSEDriveConfig(uint32_t RCC_LSEDrive)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_LSE_DRIVE(RCC_LSEDrive));
-  
-  /* Clear LSEDRV[1:0] bits */
-  RCC->BDCR &= ~(RCC_BDCR_LSEDRV);
+    /* Check the parameters */
+    assert_param(IS_RCC_LSE_DRIVE(RCC_LSEDrive));
 
-  /* Set the LSE Drive */
-  RCC->BDCR |= RCC_LSEDrive;
+    /* Clear LSEDRV[1:0] bits */
+    RCC->BDCR &= ~(RCC_BDCR_LSEDRV);
+
+    /* Set the LSE Drive */
+    RCC->BDCR |= RCC_LSEDrive;
 }
 
 /**
   * @brief  Enables or disables the Internal Low Speed oscillator (LSI).
-  * @note   After enabling the LSI, the application software should wait on 
+  * @note   After enabling the LSI, the application software should wait on
   *         LSIRDY flag to be set indicating that LSI clock is stable and can
   *         be used to clock the IWDG and/or the RTC.
   * @note   LSI can not be disabled if the IWDG is running.
@@ -449,17 +451,17 @@ void RCC_LSEDriveConfig(uint32_t RCC_LSEDrive)
   */
 void RCC_LSICmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CSR |= RCC_CSR_LSION;
-  }
-  else
-  {
-    RCC->CSR &= ~RCC_CSR_LSION;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CSR |= RCC_CSR_LSION;
+    }
+    else
+    {
+        RCC->CSR &= ~RCC_CSR_LSION;
+    }
 }
 
 /**
@@ -474,26 +476,26 @@ void RCC_LSICmd(FunctionalState NewState)
   *         PLL source).
   *
   * @param  RCC_PLLMul: specifies the PLL multiplication factor, which drive the PLLVCO clock
-  *          This parameter can be RCC_PLLMul_x where x:[2,16] 
+  *          This parameter can be RCC_PLLMul_x where x:[2,16]
   *
   * @retval None
   */
 void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_PLL_SOURCE(RCC_PLLSource));
-  assert_param(IS_RCC_PLL_MUL(RCC_PLLMul));
+    /* Check the parameters */
+    assert_param(IS_RCC_PLL_SOURCE(RCC_PLLSource));
+    assert_param(IS_RCC_PLL_MUL(RCC_PLLMul));
 
-  /* Clear PLL Source [16] and Multiplier [21:18] bits */
-  RCC->CFGR &= ~(RCC_CFGR_PLLMULL | RCC_CFGR_PLLSRC);
+    /* Clear PLL Source [16] and Multiplier [21:18] bits */
+    RCC->CFGR &= ~(RCC_CFGR_PLLMULL | RCC_CFGR_PLLSRC);
 
-  /* Set the PLL Source and Multiplier */
-  RCC->CFGR |= (uint32_t)(RCC_PLLSource | RCC_PLLMul);
+    /* Set the PLL Source and Multiplier */
+    RCC->CFGR |= (uint32_t)(RCC_PLLSource | RCC_PLLMul);
 }
 
 /**
   * @brief  Enables or disables the PLL.
-  * @note   After enabling the PLL, the application software should wait on 
+  * @note   After enabling the PLL, the application software should wait on
   *         PLLRDY flag to be set indicating that PLL clock is stable and can
   *         be used as system clock source.
   * @note   The PLL can not be disabled if it is used as system clock source
@@ -504,17 +506,17 @@ void RCC_PLLConfig(uint32_t RCC_PLLSource, uint32_t RCC_PLLMul)
   */
 void RCC_PLLCmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CR |= RCC_CR_PLLON;
-  }
-  else
-  {
-    RCC->CR &= ~RCC_CR_PLLON;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CR |= RCC_CR_PLLON;
+    }
+    else
+    {
+        RCC->CR &= ~RCC_CR_PLLON;
+    }
 }
 
 /**
@@ -526,18 +528,18 @@ void RCC_PLLCmd(FunctionalState NewState)
   */
 void RCC_PREDIV1Config(uint32_t RCC_PREDIV1_Div)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_PREDIV1(RCC_PREDIV1_Div));
+    uint32_t tmpreg = 0;
 
-  tmpreg = RCC->CFGR2;
-  /* Clear PREDIV1[3:0] bits */
-  tmpreg &= ~(RCC_CFGR2_PREDIV1);
-  /* Set the PREDIV1 division factor */
-  tmpreg |= RCC_PREDIV1_Div;
-  /* Store the new value */
-  RCC->CFGR2 = tmpreg;
+    /* Check the parameters */
+    assert_param(IS_RCC_PREDIV1(RCC_PREDIV1_Div));
+
+    tmpreg = RCC->CFGR2;
+    /* Clear PREDIV1[3:0] bits */
+    tmpreg &= ~(RCC_CFGR2_PREDIV1);
+    /* Set the PREDIV1 division factor */
+    tmpreg |= RCC_PREDIV1_Div;
+    /* Store the new value */
+    RCC->CFGR2 = tmpreg;
 }
 
 /**
@@ -545,7 +547,7 @@ void RCC_PREDIV1Config(uint32_t RCC_PREDIV1_Div)
   * @note   If a failure is detected on the HSE oscillator clock, this oscillator
   *         is automatically disabled and an interrupt is generated to inform the
   *         software about the failure (Clock Security System Interrupt, CSSI),
-  *         allowing the MCU to perform rescue operations. The CSSI is linked to 
+  *         allowing the MCU to perform rescue operations. The CSSI is linked to
   *         the Cortex-M0 NMI (Non-Maskable Interrupt) exception vector.
   * @param  NewState: new state of the Clock Security System.
   *          This parameter can be: ENABLE or DISABLE.
@@ -553,17 +555,17 @@ void RCC_PREDIV1Config(uint32_t RCC_PREDIV1_Div)
   */
 void RCC_ClockSecuritySystemCmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->CR |= RCC_CR_CSSON;
-  }
-  else
-  {
-    RCC->CR &= ~RCC_CR_CSSON;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->CR |= RCC_CR_CSSON;
+    }
+    else
+    {
+        RCC->CR &= ~RCC_CR_CSSON;
+    }
 }
 
 /**
@@ -583,11 +585,11 @@ void RCC_ClockSecuritySystemCmd(FunctionalState NewState)
   */
 void RCC_MCOConfig(uint8_t RCC_MCOSource)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_MCO_SOURCE(RCC_MCOSource));
-    
-  /* Select MCO clock source and prescaler */
-  *(__IO uint8_t *) CFGR_BYTE3_ADDRESS =  RCC_MCOSource;
+    /* Check the parameters */
+    assert_param(IS_RCC_MCO_SOURCE(RCC_MCOSource));
+
+    /* Select MCO clock source and prescaler */
+    *(__IO uint8_t *) CFGR_BYTE3_ADDRESS =  RCC_MCOSource;
 }
 
 /**
@@ -602,13 +604,13 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
      ##### System, AHB and APB busses clocks configuration functions #####
  ===============================================================================
 
-    [..] This section provide functions allowing to configure the System, AHB and 
+    [..] This section provide functions allowing to configure the System, AHB and
          APB busses clocks.
          (#) Several clock sources can be used to drive the System clock (SYSCLK): HSI,
              HSE and PLL.
              The AHB clock (HCLK) is derived from System clock through configurable prescaler
              and used to clock the CPU, memory and peripherals mapped on AHB bus (DMA and GPIO).
-             and APB (PCLK) clocks are derived from AHB clock through 
+             and APB (PCLK) clocks are derived from AHB clock through
              configurable prescalers and used to clock the peripherals mapped on these busses.
              You can use "RCC_GetClocksFreq()" function to retrieve the frequencies of these clocks.
 
@@ -623,9 +625,9 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
                   The System clock (SYSCLK) frequency must be higher or equal to the RTC/LCD
                   clock frequency.
              (+@) IWDG clock which is always the LSI clock.
-       
+
          (#) The maximum frequency of the SYSCLK, HCLK and PCLK is 48 MHz.
-             Depending on the maximum frequency, the FLASH wait states (WS) should be 
+             Depending on the maximum frequency, the FLASH wait states (WS) should be
              adapted accordingly:
         +--------------------------------------------- +
         |  Wait states  |   HCLK clock frequency (MHz) |
@@ -635,30 +637,30 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
         |1WS(2CPU cycle)|       24 < HCLK <= 48        |
         +----------------------------------------------+
 
-         (#) After reset, the System clock source is the HSI (8 MHz) with 0 WS and 
+         (#) After reset, the System clock source is the HSI (8 MHz) with 0 WS and
              prefetch is disabled.
-  
+
     [..] It is recommended to use the following software sequences to tune the number
          of wait states needed to access the Flash memory with the CPU frequency (HCLK).
          (+) Increasing the CPU frequency
-         (++) Program the Flash Prefetch buffer, using "FLASH_PrefetchBufferCmd(ENABLE)" 
+         (++) Program the Flash Prefetch buffer, using "FLASH_PrefetchBufferCmd(ENABLE)"
               function
-         (++) Check that Flash Prefetch buffer activation is taken into account by 
+         (++) Check that Flash Prefetch buffer activation is taken into account by
               reading FLASH_ACR using the FLASH_GetPrefetchBufferStatus() function
          (++) Program Flash WS to 1, using "FLASH_SetLatency(FLASH_Latency_1)" function
          (++) Check that the new number of WS is taken into account by reading FLASH_ACR
          (++) Modify the CPU clock source, using "RCC_SYSCLKConfig()" function
          (++) If needed, modify the CPU clock prescaler by using "RCC_HCLKConfig()" function
-         (++) Check that the new CPU clock source is taken into account by reading 
-              the clock source status, using "RCC_GetSYSCLKSource()" function 
+         (++) Check that the new CPU clock source is taken into account by reading
+              the clock source status, using "RCC_GetSYSCLKSource()" function
          (+) Decreasing the CPU frequency
          (++) Modify the CPU clock source, using "RCC_SYSCLKConfig()" function
          (++) If needed, modify the CPU clock prescaler by using "RCC_HCLKConfig()" function
-         (++) Check that the new CPU clock source is taken into account by reading 
+         (++) Check that the new CPU clock source is taken into account by reading
               the clock source status, using "RCC_GetSYSCLKSource()" function
          (++) Program the new number of WS, using "FLASH_SetLatency()" function
          (++) Check that the new number of WS is taken into account by reading FLASH_ACR
-         (++) Disable the Flash Prefetch buffer using "FLASH_PrefetchBufferCmd(DISABLE)" 
+         (++) Disable the Flash Prefetch buffer using "FLASH_PrefetchBufferCmd(DISABLE)"
               function
          (++) Check that Flash Prefetch buffer deactivation is taken into account by reading FLASH_ACR
               using the FLASH_GetPrefetchBufferStatus() function.
@@ -674,12 +676,12 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
   *         of failure of the HSE used directly or indirectly as system clock
   *         (if the Clock Security System CSS is enabled).
   * @note   A switch from one clock source to another occurs only if the target
-  *         clock source is ready (clock stable after startup delay or PLL locked). 
+  *         clock source is ready (clock stable after startup delay or PLL locked).
   *         If a clock source which is not yet ready is selected, the switch will
-  *         occur when the clock source will be ready. 
+  *         occur when the clock source will be ready.
   *         You can use RCC_GetSYSCLKSource() function to know which clock is
-  *         currently used as system clock source.  
-  * @param  RCC_SYSCLKSource: specifies the clock source used as system clock source 
+  *         currently used as system clock source.
+  * @param  RCC_SYSCLKSource: specifies the clock source used as system clock source
   *          This parameter can be one of the following values:
   *            @arg RCC_SYSCLKSource_HSI:    HSI selected as system clock source
   *            @arg RCC_SYSCLKSource_HSE:    HSE selected as system clock source
@@ -688,40 +690,40 @@ void RCC_MCOConfig(uint8_t RCC_MCOSource)
   */
 void RCC_SYSCLKConfig(uint32_t RCC_SYSCLKSource)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_SYSCLK_SOURCE(RCC_SYSCLKSource));
-  
-  tmpreg = RCC->CFGR;
-  
-  /* Clear SW[1:0] bits */
-  tmpreg &= ~RCC_CFGR_SW;
-  
-  /* Set SW[1:0] bits according to RCC_SYSCLKSource value */
-  tmpreg |= RCC_SYSCLKSource;
-  
-  /* Store the new value */
-  RCC->CFGR = tmpreg;
+    uint32_t tmpreg = 0;
+
+    /* Check the parameters */
+    assert_param(IS_RCC_SYSCLK_SOURCE(RCC_SYSCLKSource));
+
+    tmpreg = RCC->CFGR;
+
+    /* Clear SW[1:0] bits */
+    tmpreg &= ~RCC_CFGR_SW;
+
+    /* Set SW[1:0] bits according to RCC_SYSCLKSource value */
+    tmpreg |= RCC_SYSCLKSource;
+
+    /* Store the new value */
+    RCC->CFGR = tmpreg;
 }
 
 /**
   * @brief  Returns the clock source used as system clock.
   * @param  None
-  * @retval The clock source used as system clock. The returned value can be one 
+  * @retval The clock source used as system clock. The returned value can be one
   *         of the following values:
   *           - 0x00: HSI used as system clock
-  *           - 0x04: HSE used as system clock  
+  *           - 0x04: HSE used as system clock
   *           - 0x08: PLL used as system clock
   */
 uint8_t RCC_GetSYSCLKSource(void)
 {
-  return ((uint8_t)(RCC->CFGR & RCC_CFGR_SWS));
+    return ((uint8_t)(RCC->CFGR & RCC_CFGR_SWS));
 }
 
 /**
   * @brief  Configures the AHB clock (HCLK).
-  * @param  RCC_SYSCLK: defines the AHB clock divider. This clock is derived from 
+  * @param  RCC_SYSCLK: defines the AHB clock divider. This clock is derived from
   *         the system clock (SYSCLK).
   *          This parameter can be one of the following values:
   *            @arg RCC_SYSCLK_Div1:   AHB clock = SYSCLK
@@ -737,26 +739,26 @@ uint8_t RCC_GetSYSCLKSource(void)
   */
 void RCC_HCLKConfig(uint32_t RCC_SYSCLK)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_HCLK(RCC_SYSCLK));
-  
-  tmpreg = RCC->CFGR;
-  
-  /* Clear HPRE[3:0] bits */
-  tmpreg &= ~RCC_CFGR_HPRE;
-  
-  /* Set HPRE[3:0] bits according to RCC_SYSCLK value */
-  tmpreg |= RCC_SYSCLK;
-  
-  /* Store the new value */
-  RCC->CFGR = tmpreg;
+    uint32_t tmpreg = 0;
+
+    /* Check the parameters */
+    assert_param(IS_RCC_HCLK(RCC_SYSCLK));
+
+    tmpreg = RCC->CFGR;
+
+    /* Clear HPRE[3:0] bits */
+    tmpreg &= ~RCC_CFGR_HPRE;
+
+    /* Set HPRE[3:0] bits according to RCC_SYSCLK value */
+    tmpreg |= RCC_SYSCLK;
+
+    /* Store the new value */
+    RCC->CFGR = tmpreg;
 }
 
 /**
   * @brief  Configures the APB clock (PCLK).
-  * @param  RCC_HCLK: defines the APB clock divider. This clock is derived from 
+  * @param  RCC_HCLK: defines the APB clock divider. This clock is derived from
   *         the AHB clock (HCLK).
   *          This parameter can be one of the following values:
   *            @arg RCC_HCLK_Div1: APB clock = HCLK
@@ -768,52 +770,52 @@ void RCC_HCLKConfig(uint32_t RCC_SYSCLK)
   */
 void RCC_PCLKConfig(uint32_t RCC_HCLK)
 {
-  uint32_t tmpreg = 0;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_PCLK(RCC_HCLK));
-  
-  tmpreg = RCC->CFGR;
-  
-  /* Clear PPRE[2:0] bits */
-  tmpreg &= ~RCC_CFGR_PPRE;
-  
-  /* Set PPRE[2:0] bits according to RCC_HCLK value */
-  tmpreg |= RCC_HCLK;
-  
-  /* Store the new value */
-  RCC->CFGR = tmpreg;
+    uint32_t tmpreg = 0;
+
+    /* Check the parameters */
+    assert_param(IS_RCC_PCLK(RCC_HCLK));
+
+    tmpreg = RCC->CFGR;
+
+    /* Clear PPRE[2:0] bits */
+    tmpreg &= ~RCC_CFGR_PPRE;
+
+    /* Set PPRE[2:0] bits according to RCC_HCLK value */
+    tmpreg |= RCC_HCLK;
+
+    /* Store the new value */
+    RCC->CFGR = tmpreg;
 }
 
 /**
   * @brief  Configures the ADC clock (ADCCLK).
-  * @param  RCC_ADCCLK: defines the ADC clock source. This clock is derived 
+  * @param  RCC_ADCCLK: defines the ADC clock source. This clock is derived
   *         from the HSI14 or APB clock (PCLK).
   *          This parameter can be one of the following values:
   *             @arg RCC_ADCCLK_HSI14: ADC clock = HSI14 (14MHz)
   *             @arg RCC_ADCCLK_PCLK_Div2: ADC clock = PCLK/2
-  *             @arg RCC_ADCCLK_PCLK_Div4: ADC clock = PCLK/4  
+  *             @arg RCC_ADCCLK_PCLK_Div4: ADC clock = PCLK/4
   * @retval None
   */
 void RCC_ADCCLKConfig(uint32_t RCC_ADCCLK)
-{ 
-  /* Check the parameters */
-  assert_param(IS_RCC_ADCCLK(RCC_ADCCLK));
+{
+    /* Check the parameters */
+    assert_param(IS_RCC_ADCCLK(RCC_ADCCLK));
 
-  /* Clear ADCPRE bit */
-  RCC->CFGR &= ~RCC_CFGR_ADCPRE;
-  /* Set ADCPRE bits according to RCC_PCLK value */
-  RCC->CFGR |= RCC_ADCCLK & 0xFFFF;
+    /* Clear ADCPRE bit */
+    RCC->CFGR &= ~RCC_CFGR_ADCPRE;
+    /* Set ADCPRE bits according to RCC_PCLK value */
+    RCC->CFGR |= RCC_ADCCLK & 0xFFFF;
 
-  /* Clear ADCSW bit */
-  RCC->CFGR3 &= ~RCC_CFGR3_ADCSW; 
-  /* Set ADCSW bits according to RCC_ADCCLK value */
-  RCC->CFGR3 |= RCC_ADCCLK >> 16;  
+    /* Clear ADCSW bit */
+    RCC->CFGR3 &= ~RCC_CFGR3_ADCSW;
+    /* Set ADCSW bits according to RCC_ADCCLK value */
+    RCC->CFGR3 |= RCC_ADCCLK >> 16;
 }
 
 /**
   * @brief  Configures the CEC clock (CECCLK).
-  * @param  RCC_CECCLK: defines the CEC clock source. This clock is derived 
+  * @param  RCC_CECCLK: defines the CEC clock source. This clock is derived
   *         from the HSI or LSE clock.
   *          This parameter can be one of the following values:
   *             @arg RCC_CECCLK_HSI_Div244: CEC clock = HSI/244 (32768Hz)
@@ -821,19 +823,19 @@ void RCC_ADCCLKConfig(uint32_t RCC_ADCCLK)
   * @retval None
   */
 void RCC_CECCLKConfig(uint32_t RCC_CECCLK)
-{ 
-  /* Check the parameters */
-  assert_param(IS_RCC_CECCLK(RCC_CECCLK));
+{
+    /* Check the parameters */
+    assert_param(IS_RCC_CECCLK(RCC_CECCLK));
 
-  /* Clear CECSW bit */
-  RCC->CFGR3 &= ~RCC_CFGR3_CECSW;
-  /* Set CECSW bits according to RCC_CECCLK value */
-  RCC->CFGR3 |= RCC_CECCLK;
+    /* Clear CECSW bit */
+    RCC->CFGR3 &= ~RCC_CFGR3_CECSW;
+    /* Set CECSW bits according to RCC_CECCLK value */
+    RCC->CFGR3 |= RCC_CECCLK;
 }
 
 /**
   * @brief  Configures the I2C1 clock (I2C1CLK).
-  * @param  RCC_I2CCLK: defines the I2C1 clock source. This clock is derived 
+  * @param  RCC_I2CCLK: defines the I2C1 clock source. This clock is derived
   *         from the HSI or System clock.
   *          This parameter can be one of the following values:
   *             @arg RCC_I2C1CLK_HSI: I2C1 clock = HSI
@@ -841,19 +843,19 @@ void RCC_CECCLKConfig(uint32_t RCC_CECCLK)
   * @retval None
   */
 void RCC_I2CCLKConfig(uint32_t RCC_I2CCLK)
-{ 
-  /* Check the parameters */
-  assert_param(IS_RCC_I2CCLK(RCC_I2CCLK));
+{
+    /* Check the parameters */
+    assert_param(IS_RCC_I2CCLK(RCC_I2CCLK));
 
-  /* Clear I2CSW bit */
-  RCC->CFGR3 &= ~RCC_CFGR3_I2C1SW;
-  /* Set I2CSW bits according to RCC_I2CCLK value */
-  RCC->CFGR3 |= RCC_I2CCLK;
+    /* Clear I2CSW bit */
+    RCC->CFGR3 &= ~RCC_CFGR3_I2C1SW;
+    /* Set I2CSW bits according to RCC_I2CCLK value */
+    RCC->CFGR3 |= RCC_I2CCLK;
 }
 
 /**
   * @brief  Configures the USART1 clock (USART1CLK).
-  * @param  RCC_USARTCLK: defines the USART1 clock source. This clock is derived 
+  * @param  RCC_USARTCLK: defines the USART1 clock source. This clock is derived
   *         from the HSI or System clock.
   *          This parameter can be one of the following values:
   *             @arg RCC_USART1CLK_PCLK: USART1 clock = APB Clock (PCLK)
@@ -863,14 +865,14 @@ void RCC_I2CCLKConfig(uint32_t RCC_I2CCLK)
   * @retval None
   */
 void RCC_USARTCLKConfig(uint32_t RCC_USARTCLK)
-{ 
-  /* Check the parameters */
-  assert_param(IS_RCC_USARTCLK(RCC_USARTCLK));
+{
+    /* Check the parameters */
+    assert_param(IS_RCC_USARTCLK(RCC_USARTCLK));
 
-  /* Clear USARTSW[1:0] bit */
-  RCC->CFGR3 &= ~RCC_CFGR3_USART1SW;
-  /* Set USARTSW bits according to RCC_USARTCLK value */
-  RCC->CFGR3 |= RCC_USARTCLK;
+    /* Clear USARTSW[1:0] bit */
+    RCC->CFGR3 &= ~RCC_CFGR3_USART1SW;
+    /* Set USARTSW bits according to RCC_USARTCLK value */
+    RCC->CFGR3 |= RCC_USARTCLK;
 }
 
 /**
@@ -878,155 +880,160 @@ void RCC_USARTCLKConfig(uint32_t RCC_USARTCLK)
   * @note    The frequency returned by this function is not the real frequency
   *           in the chip. It is calculated based on the predefined constant and
   *           the source selected by RCC_SYSCLKConfig():
-  *                                              
+  *
   * @note     If SYSCLK source is HSI, function returns constant HSI_VALUE(*)
-  *                                              
+  *
   * @note     If SYSCLK source is HSE, function returns constant HSE_VALUE(**)
-  *                          
-  * @note     If SYSCLK source is PLL, function returns constant HSE_VALUE(**) 
+  *
+  * @note     If SYSCLK source is PLL, function returns constant HSE_VALUE(**)
   *             or HSI_VALUE(*) multiplied by the PLL factors.
-  *         
+  *
   * @note     (*) HSI_VALUE is a constant defined in stm32f0xx.h file (default value
   *               8 MHz) but the real value may vary depending on the variations
-  *               in voltage and temperature, refer to RCC_AdjustHSICalibrationValue().   
-  *    
+  *               in voltage and temperature, refer to RCC_AdjustHSICalibrationValue().
+  *
   * @note     (**) HSE_VALUE is a constant defined in stm32f0xx.h file (default value
   *                8 MHz), user has to ensure that HSE_VALUE is same as the real
   *                frequency of the crystal used. Otherwise, this function may
   *                return wrong result.
-  *                
+  *
   * @note   The result of this function could be not correct when using fractional
-  *         value for HSE crystal.   
-  *             
-  * @param  RCC_Clocks: pointer to a RCC_ClocksTypeDef structure which will hold 
-  *         the clocks frequencies. 
-  *     
-  * @note   This function can be used by the user application to compute the 
+  *         value for HSE crystal.
+  *
+  * @param  RCC_Clocks: pointer to a RCC_ClocksTypeDef structure which will hold
+  *         the clocks frequencies.
+  *
+  * @note   This function can be used by the user application to compute the
   *         baudrate for the communication peripherals or configure other parameters.
   * @note   Each time SYSCLK, HCLK and/or PCLK clock changes, this function
   *         must be called to update the structure's field. Otherwise, any
   *         configuration based on this function will be incorrect.
-  *    
+  *
   * @retval None
   */
 void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
 {
-  uint32_t tmp = 0, pllmull = 0, pllsource = 0, prediv1factor = 0, presc = 0;
+    uint32_t tmp = 0, pllmull = 0, pllsource = 0, prediv1factor = 0, presc = 0;
 
-  /* Get SYSCLK source -------------------------------------------------------*/
-  tmp = RCC->CFGR & RCC_CFGR_SWS;
-  
-  switch (tmp)
-  {
-    case 0x00:  /* HSI used as system clock */
-      RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
-      break;
-    case 0x04:  /* HSE used as system clock */
-      RCC_Clocks->SYSCLK_Frequency = HSE_VALUE;
-      break;
-    case 0x08:  /* PLL used as system clock */
-      /* Get PLL clock source and multiplication factor ----------------------*/
-      pllmull = RCC->CFGR & RCC_CFGR_PLLMULL;
-      pllsource = RCC->CFGR & RCC_CFGR_PLLSRC;
-      pllmull = ( pllmull >> 18) + 2;
-      
-      if (pllsource == 0x00)
-      {
-        /* HSI oscillator clock divided by 2 selected as PLL clock entry */
-        RCC_Clocks->SYSCLK_Frequency = (HSI_VALUE >> 1) * pllmull;
-      }
-      else
-      {
-        prediv1factor = (RCC->CFGR2 & RCC_CFGR2_PREDIV1) + 1;
-        /* HSE oscillator clock selected as PREDIV1 clock entry */
-        RCC_Clocks->SYSCLK_Frequency = (HSE_VALUE / prediv1factor) * pllmull; 
-      }      
-      break;
-    default: /* HSI used as system clock */
-      RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
-      break;
-  }
-  /* Compute HCLK, PCLK clocks frequencies -----------------------------------*/
-  /* Get HCLK prescaler */
-  tmp = RCC->CFGR & RCC_CFGR_HPRE;
-  tmp = tmp >> 4;
-  presc = APBAHBPrescTable[tmp]; 
-  /* HCLK clock frequency */
-  RCC_Clocks->HCLK_Frequency = RCC_Clocks->SYSCLK_Frequency >> presc;
+    /* Get SYSCLK source -------------------------------------------------------*/
+    tmp = RCC->CFGR & RCC_CFGR_SWS;
 
-  /* Get PCLK prescaler */
-  tmp = RCC->CFGR & RCC_CFGR_PPRE;
-  tmp = tmp >> 8;
-  presc = APBAHBPrescTable[tmp];
-  /* PCLK clock frequency */
-  RCC_Clocks->PCLK_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
-
-  /* ADCCLK clock frequency */
-  if((RCC->CFGR3 & RCC_CFGR3_ADCSW) != RCC_CFGR3_ADCSW)
-  {
-    /* ADC Clock is HSI14 Osc. */
-    RCC_Clocks->ADCCLK_Frequency = HSI14_VALUE;
-  }
-  else
-  {
-    if((RCC->CFGR & RCC_CFGR_ADCPRE) != RCC_CFGR_ADCPRE)
+    switch(tmp)
     {
-      /* ADC Clock is derived from PCLK/2 */
-      RCC_Clocks->ADCCLK_Frequency = RCC_Clocks->PCLK_Frequency >> 1;
+    case 0x00:  /* HSI used as system clock */
+        RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
+        break;
+
+    case 0x04:  /* HSE used as system clock */
+        RCC_Clocks->SYSCLK_Frequency = HSE_VALUE;
+        break;
+
+    case 0x08:  /* PLL used as system clock */
+        /* Get PLL clock source and multiplication factor ----------------------*/
+        pllmull = RCC->CFGR & RCC_CFGR_PLLMULL;
+        pllsource = RCC->CFGR & RCC_CFGR_PLLSRC;
+        pllmull = (pllmull >> 18) + 2;
+
+        if(pllsource == 0x00)
+        {
+            /* HSI oscillator clock divided by 2 selected as PLL clock entry */
+            RCC_Clocks->SYSCLK_Frequency = (HSI_VALUE >> 1) * pllmull;
+        }
+        else
+        {
+            prediv1factor = (RCC->CFGR2 & RCC_CFGR2_PREDIV1) + 1;
+            /* HSE oscillator clock selected as PREDIV1 clock entry */
+            RCC_Clocks->SYSCLK_Frequency = (HSE_VALUE / prediv1factor) * pllmull;
+        }
+
+        break;
+
+    default: /* HSI used as system clock */
+        RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
+        break;
+    }
+
+    /* Compute HCLK, PCLK clocks frequencies -----------------------------------*/
+    /* Get HCLK prescaler */
+    tmp = RCC->CFGR & RCC_CFGR_HPRE;
+    tmp = tmp >> 4;
+    presc = APBAHBPrescTable[tmp];
+    /* HCLK clock frequency */
+    RCC_Clocks->HCLK_Frequency = RCC_Clocks->SYSCLK_Frequency >> presc;
+
+    /* Get PCLK prescaler */
+    tmp = RCC->CFGR & RCC_CFGR_PPRE;
+    tmp = tmp >> 8;
+    presc = APBAHBPrescTable[tmp];
+    /* PCLK clock frequency */
+    RCC_Clocks->PCLK_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
+
+    /* ADCCLK clock frequency */
+    if((RCC->CFGR3 & RCC_CFGR3_ADCSW) != RCC_CFGR3_ADCSW)
+    {
+        /* ADC Clock is HSI14 Osc. */
+        RCC_Clocks->ADCCLK_Frequency = HSI14_VALUE;
     }
     else
     {
-      /* ADC Clock is derived from PCLK/4 */
-      RCC_Clocks->ADCCLK_Frequency = RCC_Clocks->PCLK_Frequency >> 2;
+        if((RCC->CFGR & RCC_CFGR_ADCPRE) != RCC_CFGR_ADCPRE)
+        {
+            /* ADC Clock is derived from PCLK/2 */
+            RCC_Clocks->ADCCLK_Frequency = RCC_Clocks->PCLK_Frequency >> 1;
+        }
+        else
+        {
+            /* ADC Clock is derived from PCLK/4 */
+            RCC_Clocks->ADCCLK_Frequency = RCC_Clocks->PCLK_Frequency >> 2;
+        }
+
     }
-    
-  }
 
-  /* CECCLK clock frequency */
-  if((RCC->CFGR3 & RCC_CFGR3_CECSW) != RCC_CFGR3_CECSW)
-  {
-    /* CEC Clock is HSI/256 */
-    RCC_Clocks->CECCLK_Frequency = HSI_VALUE / 244;
-  }
-  else
-  {
-    /* CECC Clock is LSE Osc. */
-    RCC_Clocks->CECCLK_Frequency = LSE_VALUE;
-  }
+    /* CECCLK clock frequency */
+    if((RCC->CFGR3 & RCC_CFGR3_CECSW) != RCC_CFGR3_CECSW)
+    {
+        /* CEC Clock is HSI/256 */
+        RCC_Clocks->CECCLK_Frequency = HSI_VALUE / 244;
+    }
+    else
+    {
+        /* CECC Clock is LSE Osc. */
+        RCC_Clocks->CECCLK_Frequency = LSE_VALUE;
+    }
 
-  /* I2C1CLK clock frequency */
-  if((RCC->CFGR3 & RCC_CFGR3_I2C1SW) != RCC_CFGR3_I2C1SW)
-  {
-    /* I2C1 Clock is HSI Osc. */
-    RCC_Clocks->I2C1CLK_Frequency = HSI_VALUE;
-  }
-  else
-  {
-    /* I2C1 Clock is System Clock */
-    RCC_Clocks->I2C1CLK_Frequency = RCC_Clocks->SYSCLK_Frequency;
-  }
+    /* I2C1CLK clock frequency */
+    if((RCC->CFGR3 & RCC_CFGR3_I2C1SW) != RCC_CFGR3_I2C1SW)
+    {
+        /* I2C1 Clock is HSI Osc. */
+        RCC_Clocks->I2C1CLK_Frequency = HSI_VALUE;
+    }
+    else
+    {
+        /* I2C1 Clock is System Clock */
+        RCC_Clocks->I2C1CLK_Frequency = RCC_Clocks->SYSCLK_Frequency;
+    }
 
-  /* USART1CLK clock frequency */
-  if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == 0x0)
-  {
-    /* USART1 Clock is PCLK */
-    RCC_Clocks->USART1CLK_Frequency = RCC_Clocks->PCLK_Frequency;
-  }
-  else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW_0)
-  {
-    /* USART1 Clock is System Clock */
-    RCC_Clocks->USART1CLK_Frequency = RCC_Clocks->SYSCLK_Frequency;
-  }
-  else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW_1)
-  {
-    /* USART1 Clock is LSE Osc. */
-    RCC_Clocks->USART1CLK_Frequency = LSE_VALUE;
-  }
-  else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW)
-  {
-    /* USART1 Clock is HSI Osc. */
-    RCC_Clocks->USART1CLK_Frequency = HSI_VALUE;
-  }
+    /* USART1CLK clock frequency */
+    if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == 0x0)
+    {
+        /* USART1 Clock is PCLK */
+        RCC_Clocks->USART1CLK_Frequency = RCC_Clocks->PCLK_Frequency;
+    }
+    else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW_0)
+    {
+        /* USART1 Clock is System Clock */
+        RCC_Clocks->USART1CLK_Frequency = RCC_Clocks->SYSCLK_Frequency;
+    }
+    else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW_1)
+    {
+        /* USART1 Clock is LSE Osc. */
+        RCC_Clocks->USART1CLK_Frequency = LSE_VALUE;
+    }
+    else if((RCC->CFGR3 & RCC_CFGR3_USART1SW) == RCC_CFGR3_USART1SW)
+    {
+        /* USART1 Clock is HSI Osc. */
+        RCC_Clocks->USART1CLK_Frequency = HSI_VALUE;
+    }
 }
 
 /**
@@ -1034,14 +1041,14 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
   */
 
 /** @defgroup RCC_Group3 Peripheral clocks configuration functions
- *  @brief   Peripheral clocks configuration functions 
+ *  @brief   Peripheral clocks configuration functions
  *
 @verbatim
  ===============================================================================
              #####Peripheral clocks configuration functions #####
- ===============================================================================  
+ ===============================================================================
 
-    [..] This section provide functions allowing to configure the Peripheral clocks. 
+    [..] This section provide functions allowing to configure the Peripheral clocks.
          (#) The RTC clock which is derived from the LSE, LSI or  HSE_Div32 (HSE
              divided by 32).
          (#) After restart from Reset or wakeup from STANDBY, all peripherals are off
@@ -1049,7 +1056,7 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
              have to enable its interface clock. You can do this using RCC_AHBPeriphClockCmd(),
              RCC_APB2PeriphClockCmd() and RCC_APB1PeriphClockCmd() functions.
          (#) To reset the peripherals configuration (to the default state after device reset)
-             you can use RCC_AHBPeriphResetCmd(), RCC_APB2PeriphResetCmd() and 
+             you can use RCC_AHBPeriphResetCmd(), RCC_APB2PeriphResetCmd() and
              RCC_APB1PeriphResetCmd() functions.
 
 @endverbatim
@@ -1061,33 +1068,33 @@ void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
   * @note   As the RTC clock configuration bits are in the Backup domain and write
   *         access is denied to this domain after reset, you have to enable write
   *         access using PWR_BackupAccessCmd(ENABLE) function before to configure
-  *         the RTC clock source (to be done once after reset).    
+  *         the RTC clock source (to be done once after reset).
   * @note   Once the RTC clock is configured it can't be changed unless the RTC
   *         is reset using RCC_BackupResetCmd function, or by a Power On Reset (POR)
-  *             
+  *
   * @param  RCC_RTCCLKSource: specifies the RTC clock source.
   *          This parameter can be one of the following values:
   *            @arg RCC_RTCCLKSource_LSE: LSE selected as RTC clock
   *            @arg RCC_RTCCLKSource_LSI: LSI selected as RTC clock
   *            @arg RCC_RTCCLKSource_HSE_Div32: HSE divided by 32 selected as RTC clock
-  *       
+  *
   * @note   If the LSE or LSI is used as RTC clock source, the RTC continues to
   *         work in STOP and STANDBY modes, and can be used as wakeup source.
   *         However, when the HSE clock is used as RTC clock source, the RTC
   *         cannot be used in STOP and STANDBY modes.
-  *             
+  *
   * @note   The maximum input clock frequency for RTC is 2MHz (when using HSE as
   *         RTC clock source).
-  *                          
+  *
   * @retval None
   */
 void RCC_RTCCLKConfig(uint32_t RCC_RTCCLKSource)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_RTCCLK_SOURCE(RCC_RTCCLKSource));
-  
-  /* Select the RTC clock source */
-  RCC->BDCR |= RCC_RTCCLKSource;
+    /* Check the parameters */
+    assert_param(IS_RCC_RTCCLK_SOURCE(RCC_RTCCLKSource));
+
+    /* Select the RTC clock source */
+    RCC->BDCR |= RCC_RTCCLKSource;
 }
 
 /**
@@ -1100,17 +1107,17 @@ void RCC_RTCCLKConfig(uint32_t RCC_RTCCLKSource)
   */
 void RCC_RTCCLKCmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->BDCR |= RCC_BDCR_RTCEN;
-  }
-  else
-  {
-    RCC->BDCR &= ~RCC_BDCR_RTCEN;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->BDCR |= RCC_BDCR_RTCEN;
+    }
+    else
+    {
+        RCC->BDCR &= ~RCC_BDCR_RTCEN;
+    }
 }
 
 /**
@@ -1123,24 +1130,24 @@ void RCC_RTCCLKCmd(FunctionalState NewState)
   */
 void RCC_BackupResetCmd(FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->BDCR |= RCC_BDCR_BDRST;
-  }
-  else
-  {
-    RCC->BDCR &= ~RCC_BDCR_BDRST;
-  }
+    /* Check the parameters */
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->BDCR |= RCC_BDCR_BDRST;
+    }
+    else
+    {
+        RCC->BDCR &= ~RCC_BDCR_BDRST;
+    }
 }
 
 /**
   * @brief  Enables or disables the AHB peripheral clock.
   * @note   After reset, the peripheral clock (used for registers read/write access)
-  *         is disabled and the application software has to enable this clock before 
-  *         using it.    
+  *         is disabled and the application software has to enable this clock before
+  *         using it.
   * @param  RCC_AHBPeriph: specifies the AHB peripheral to gates its clock.
   *          This parameter can be any combination of the following values:
   *             @arg RCC_AHBPeriph_GPIOA: GPIOA clock
@@ -1150,7 +1157,7 @@ void RCC_BackupResetCmd(FunctionalState NewState)
   *             @arg RCC_AHBPeriph_GPIOF: GPIOF clock
   *             @arg RCC_AHBPeriph_TS:    TS clock
   *             @arg RCC_AHBPeriph_CRC:   CRC clock
-  *             @arg RCC_AHBPeriph_FLITF: (has effect only when the Flash memory is in power down mode)  
+  *             @arg RCC_AHBPeriph_FLITF: (has effect only when the Flash memory is in power down mode)
   *             @arg RCC_AHBPeriph_SRAM:  SRAM clock
   *             @arg RCC_AHBPeriph_DMA1:  DMA1 clock
   * @param  NewState: new state of the specified peripheral clock.
@@ -1159,24 +1166,24 @@ void RCC_BackupResetCmd(FunctionalState NewState)
   */
 void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_AHB_PERIPH(RCC_AHBPeriph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    RCC->AHBENR |= RCC_AHBPeriph;
-  }
-  else
-  {
-    RCC->AHBENR &= ~RCC_AHBPeriph;
-  }
+    /* Check the parameters */
+    assert_param(IS_RCC_AHB_PERIPH(RCC_AHBPeriph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        RCC->AHBENR |= RCC_AHBPeriph;
+    }
+    else
+    {
+        RCC->AHBENR &= ~RCC_AHBPeriph;
+    }
 }
 
 /**
   * @brief  Enables or disables the High Speed APB (APB2) peripheral clock.
   * @note   After reset, the peripheral clock (used for registers read/write access)
-  *         is disabled and the application software has to enable this clock before 
+  *         is disabled and the application software has to enable this clock before
   *         using it.
   * @param  RCC_APB2Periph: specifies the APB2 peripheral to gates its clock.
   *          This parameter can be any combination of the following values:
@@ -1195,24 +1202,24 @@ void RCC_AHBPeriphClockCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
   */
 void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_APB2_PERIPH(RCC_APB2Periph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+    /* Check the parameters */
+    assert_param(IS_RCC_APB2_PERIPH(RCC_APB2Periph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)
-  {
-    RCC->APB2ENR |= RCC_APB2Periph;
-  }
-  else
-  {
-    RCC->APB2ENR &= ~RCC_APB2Periph;
-  }
+    if(NewState != DISABLE)
+    {
+        RCC->APB2ENR |= RCC_APB2Periph;
+    }
+    else
+    {
+        RCC->APB2ENR &= ~RCC_APB2Periph;
+    }
 }
 
 /**
   * @brief  Enables or disables the Low Speed APB (APB1) peripheral clock.
   * @note   After reset, the peripheral clock (used for registers read/write access)
-  *         is disabled and the application software has to enable this clock before 
+  *         is disabled and the application software has to enable this clock before
   *         using it.
   * @param  RCC_APB1Periph: specifies the APB1 peripheral to gates its clock.
   *          This parameter can be any combination of the following values:
@@ -1227,25 +1234,25 @@ void RCC_APB2PeriphClockCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
   *           @arg RCC_APB1Periph_I2C2:   I2C2 clock
   *           @arg RCC_APB1Periph_PWR:    PWR clock
   *           @arg RCC_APB1Periph_DAC:    DAC clock
-  *           @arg RCC_APB1Periph_CEC:    CEC clock                               
+  *           @arg RCC_APB1Periph_CEC:    CEC clock
   * @param  NewState: new state of the specified peripheral clock.
   *          This parameter can be: ENABLE or DISABLE.
   * @retval None
   */
 void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_APB1_PERIPH(RCC_APB1Periph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+    /* Check the parameters */
+    assert_param(IS_RCC_APB1_PERIPH(RCC_APB1Periph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)
-  {
-    RCC->APB1ENR |= RCC_APB1Periph;
-  }
-  else
-  {
-    RCC->APB1ENR &= ~RCC_APB1Periph;
-  }
+    if(NewState != DISABLE)
+    {
+        RCC->APB1ENR |= RCC_APB1Periph;
+    }
+    else
+    {
+        RCC->APB1ENR &= ~RCC_APB1Periph;
+    }
 }
 
 /**
@@ -1264,18 +1271,18 @@ void RCC_APB1PeriphClockCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
   */
 void RCC_AHBPeriphResetCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_AHB_RST_PERIPH(RCC_AHBPeriph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+    /* Check the parameters */
+    assert_param(IS_RCC_AHB_RST_PERIPH(RCC_AHBPeriph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)
-  {
-    RCC->AHBRSTR |= RCC_AHBPeriph;
-  }
-  else
-  {
-    RCC->AHBRSTR &= ~RCC_AHBPeriph;
-  }
+    if(NewState != DISABLE)
+    {
+        RCC->AHBRSTR |= RCC_AHBPeriph;
+    }
+    else
+    {
+        RCC->AHBRSTR &= ~RCC_AHBPeriph;
+    }
 }
 
 /**
@@ -1297,18 +1304,18 @@ void RCC_AHBPeriphResetCmd(uint32_t RCC_AHBPeriph, FunctionalState NewState)
   */
 void RCC_APB2PeriphResetCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_APB2_PERIPH(RCC_APB2Periph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+    /* Check the parameters */
+    assert_param(IS_RCC_APB2_PERIPH(RCC_APB2Periph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)
-  {
-    RCC->APB2RSTR |= RCC_APB2Periph;
-  }
-  else
-  {
-    RCC->APB2RSTR &= ~RCC_APB2Periph;
-  }
+    if(NewState != DISABLE)
+    {
+        RCC->APB2RSTR |= RCC_APB2Periph;
+    }
+    else
+    {
+        RCC->APB2RSTR &= ~RCC_APB2Periph;
+    }
 }
 
 /**
@@ -1333,18 +1340,18 @@ void RCC_APB2PeriphResetCmd(uint32_t RCC_APB2Periph, FunctionalState NewState)
   */
 void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_APB1_PERIPH(RCC_APB1Periph));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
+    /* Check the parameters */
+    assert_param(IS_RCC_APB1_PERIPH(RCC_APB1Periph));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
 
-  if (NewState != DISABLE)
-  {
-    RCC->APB1RSTR |= RCC_APB1Periph;
-  }
-  else
-  {
-    RCC->APB1RSTR &= ~RCC_APB1Periph;
-  }
+    if(NewState != DISABLE)
+    {
+        RCC->APB1RSTR |= RCC_APB1Periph;
+    }
+    else
+    {
+        RCC->APB1RSTR &= ~RCC_APB1Periph;
+    }
 }
 
 /**
@@ -1352,7 +1359,7 @@ void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
   */
 
 /** @defgroup RCC_Group4 Interrupts and flags management functions
- *  @brief   Interrupts and flags management functions 
+ *  @brief   Interrupts and flags management functions
  *
 @verbatim
  ===============================================================================
@@ -1366,7 +1373,7 @@ void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
   * @brief  Enables or disables the specified RCC interrupts.
   * @note   The CSS interrupt doesn't have an enable bit; once the CSS is enabled
   *         and if the HSE clock fails, the CSS interrupt occurs and an NMI is
-  *         automatically generated. The NMI will be executed indefinitely, and 
+  *         automatically generated. The NMI will be executed indefinitely, and
   *         since NMI has higher priority than any other IRQ (and main program)
   *         the application will be stacked in the NMI ISR unless the CSS interrupt
   *         pending bit is cleared.
@@ -1384,84 +1391,85 @@ void RCC_APB1PeriphResetCmd(uint32_t RCC_APB1Periph, FunctionalState NewState)
   */
 void RCC_ITConfig(uint8_t RCC_IT, FunctionalState NewState)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_IT(RCC_IT));
-  assert_param(IS_FUNCTIONAL_STATE(NewState));
-  
-  if (NewState != DISABLE)
-  {
-    /* Perform Byte access to RCC_CIR[13:8] bits to enable the selected interrupts */
-    *(__IO uint8_t *) CIR_BYTE1_ADDRESS |= RCC_IT;
-  }
-  else
-  {
-    /* Perform Byte access to RCC_CIR[13:8] bits to disable the selected interrupts */
-    *(__IO uint8_t *) CIR_BYTE1_ADDRESS &= (uint8_t)~RCC_IT;
-  }
+    /* Check the parameters */
+    assert_param(IS_RCC_IT(RCC_IT));
+    assert_param(IS_FUNCTIONAL_STATE(NewState));
+
+    if(NewState != DISABLE)
+    {
+        /* Perform Byte access to RCC_CIR[13:8] bits to enable the selected interrupts */
+        *(__IO uint8_t *) CIR_BYTE1_ADDRESS |= RCC_IT;
+    }
+    else
+    {
+        /* Perform Byte access to RCC_CIR[13:8] bits to disable the selected interrupts */
+        *(__IO uint8_t *) CIR_BYTE1_ADDRESS &= (uint8_t)~RCC_IT;
+    }
 }
 
 /**
   * @brief  Checks whether the specified RCC flag is set or not.
   * @param  RCC_FLAG: specifies the flag to check.
   *          This parameter can be one of the following values:
-  *             @arg RCC_FLAG_HSIRDY: HSI oscillator clock ready  
+  *             @arg RCC_FLAG_HSIRDY: HSI oscillator clock ready
   *             @arg RCC_FLAG_HSERDY: HSE oscillator clock ready
   *             @arg RCC_FLAG_PLLRDY: PLL clock ready
   *             @arg RCC_FLAG_LSERDY: LSE oscillator clock ready
   *             @arg RCC_FLAG_LSIRDY: LSI oscillator clock ready
-  *             @arg RCC_FLAG_OBLRST: Option Byte Loader (OBL) reset 
+  *             @arg RCC_FLAG_OBLRST: Option Byte Loader (OBL) reset
   *             @arg RCC_FLAG_PINRST: Pin reset
-  *             @arg RCC_FLAG_V18PWRRSTF:  V1.8 power domain reset  
+  *             @arg RCC_FLAG_V18PWRRSTF:  V1.8 power domain reset
   *             @arg RCC_FLAG_PORRST: POR/PDR reset
   *             @arg RCC_FLAG_SFTRST: Software reset
   *             @arg RCC_FLAG_IWDGRST: Independent Watchdog reset
   *             @arg RCC_FLAG_WWDGRST: Window Watchdog reset
   *             @arg RCC_FLAG_LPWRRST: Low Power reset
-  *             @arg RCC_FLAG_HSI14RDY: HSI14 oscillator clock ready  
+  *             @arg RCC_FLAG_HSI14RDY: HSI14 oscillator clock ready
   * @retval The new state of RCC_FLAG (SET or RESET).
   */
 FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
 {
-  uint32_t tmp = 0;
-  uint32_t statusreg = 0;
-  FlagStatus bitstatus = RESET;
+    uint32_t tmp = 0;
+    uint32_t statusreg = 0;
+    FlagStatus bitstatus = RESET;
 
-  /* Check the parameters */
-  assert_param(IS_RCC_FLAG(RCC_FLAG));
+    /* Check the parameters */
+    assert_param(IS_RCC_FLAG(RCC_FLAG));
 
-  /* Get the RCC register index */
-  tmp = RCC_FLAG >> 5;
+    /* Get the RCC register index */
+    tmp = RCC_FLAG >> 5;
 
-  if (tmp == 0)               /* The flag to check is in CR register */
-  {
-    statusreg = RCC->CR;
-  }
-  else if (tmp == 1)          /* The flag to check is in BDCR register */
-  {
-    statusreg = RCC->BDCR;
-  }
-  else if (tmp == 2)          /* The flag to check is in CSR register */
-  {
-    statusreg = RCC->CSR;
-  }
-  else                        /* The flag to check is in CR2 register */
-  {
-    statusreg = RCC->CR2;
-  }    
+    if(tmp == 0)                /* The flag to check is in CR register */
+    {
+        statusreg = RCC->CR;
+    }
+    else if(tmp == 1)           /* The flag to check is in BDCR register */
+    {
+        statusreg = RCC->BDCR;
+    }
+    else if(tmp == 2)           /* The flag to check is in CSR register */
+    {
+        statusreg = RCC->CSR;
+    }
+    else                        /* The flag to check is in CR2 register */
+    {
+        statusreg = RCC->CR2;
+    }
 
-  /* Get the flag position */
-  tmp = RCC_FLAG & FLAG_MASK;
+    /* Get the flag position */
+    tmp = RCC_FLAG & FLAG_MASK;
 
-  if ((statusreg & ((uint32_t)1 << tmp)) != (uint32_t)RESET)
-  {
-    bitstatus = SET;
-  }
-  else
-  {
-    bitstatus = RESET;
-  }
-  /* Return the flag status */
-  return bitstatus;
+    if((statusreg & ((uint32_t)1 << tmp)) != (uint32_t)RESET)
+    {
+        bitstatus = SET;
+    }
+    else
+    {
+        bitstatus = RESET;
+    }
+
+    /* Return the flag status */
+    return bitstatus;
 }
 
 /**
@@ -1474,8 +1482,8 @@ FlagStatus RCC_GetFlagStatus(uint8_t RCC_FLAG)
   */
 void RCC_ClearFlag(void)
 {
-  /* Set RMVF bit to clear the reset flags */
-  RCC->CSR |= RCC_CSR_RMVF;
+    /* Set RMVF bit to clear the reset flags */
+    RCC->CSR |= RCC_CSR_RMVF;
 }
 
 /**
@@ -1487,28 +1495,29 @@ void RCC_ClearFlag(void)
   *             @arg RCC_IT_HSIRDY: HSI ready interrupt
   *             @arg RCC_IT_HSERDY: HSE ready interrupt
   *             @arg RCC_IT_PLLRDY: PLL ready interrupt
-  *             @arg RCC_IT_HSI14RDY: HSI14 ready interrupt 
+  *             @arg RCC_IT_HSI14RDY: HSI14 ready interrupt
   *             @arg RCC_IT_CSS: Clock Security System interrupt
   * @retval The new state of RCC_IT (SET or RESET).
   */
 ITStatus RCC_GetITStatus(uint8_t RCC_IT)
 {
-  ITStatus bitstatus = RESET;
-  
-  /* Check the parameters */
-  assert_param(IS_RCC_GET_IT(RCC_IT));
-  
-  /* Check the status of the specified RCC interrupt */
-  if ((RCC->CIR & RCC_IT) != (uint32_t)RESET)
-  {
-    bitstatus = SET;
-  }
-  else
-  {
-    bitstatus = RESET;
-  }
-  /* Return the RCC_IT status */
-  return  bitstatus;
+    ITStatus bitstatus = RESET;
+
+    /* Check the parameters */
+    assert_param(IS_RCC_GET_IT(RCC_IT));
+
+    /* Check the status of the specified RCC interrupt */
+    if((RCC->CIR & RCC_IT) != (uint32_t)RESET)
+    {
+        bitstatus = SET;
+    }
+    else
+    {
+        bitstatus = RESET;
+    }
+
+    /* Return the RCC_IT status */
+    return  bitstatus;
 }
 
 /**
@@ -1520,18 +1529,18 @@ ITStatus RCC_GetITStatus(uint8_t RCC_IT)
   *             @arg RCC_IT_HSIRDY: HSI ready interrupt
   *             @arg RCC_IT_HSERDY: HSE ready interrupt
   *             @arg RCC_IT_PLLRDY: PLL ready interrupt
-  *             @arg RCC_IT_HSI14RDY: HSI14 ready interrupt  
+  *             @arg RCC_IT_HSI14RDY: HSI14 ready interrupt
   *             @arg RCC_IT_CSS: Clock Security System interrupt
   * @retval None
   */
 void RCC_ClearITPendingBit(uint8_t RCC_IT)
 {
-  /* Check the parameters */
-  assert_param(IS_RCC_CLEAR_IT(RCC_IT));
-  
-  /* Perform Byte access to RCC_CIR[23:16] bits to clear the selected interrupt
-     pending bits */
-  *(__IO uint8_t *) CIR_BYTE2_ADDRESS = RCC_IT;
+    /* Check the parameters */
+    assert_param(IS_RCC_CLEAR_IT(RCC_IT));
+
+    /* Perform Byte access to RCC_CIR[23:16] bits to clear the selected interrupt
+       pending bits */
+    *(__IO uint8_t *) CIR_BYTE2_ADDRESS = RCC_IT;
 }
 
 /**

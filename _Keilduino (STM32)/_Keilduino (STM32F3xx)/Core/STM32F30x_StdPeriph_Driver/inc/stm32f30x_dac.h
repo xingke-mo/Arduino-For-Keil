@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.2.3
   * @date    10-July-2015
-  * @brief   This file contains all the functions prototypes for the DAC firmware 
+  * @brief   This file contains all the functions prototypes for the DAC firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32F30x_DAC_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -48,27 +48,27 @@
 /* Exported types ------------------------------------------------------------*/
 #define DAC_CR_DMAUDRIE                  ((uint32_t)0x00002000)        /*!< DAC channel DMA underrun interrupt enable */
 
-/** 
+/**
   * @brief  DAC Init structure definition
   */
 
 typedef struct
 {
-  uint32_t DAC_Trigger;                      /*!< Specifies the external trigger for the selected DAC channel.
+    uint32_t DAC_Trigger;                      /*!< Specifies the external trigger for the selected DAC channel.
                                                   This parameter can be a value of @ref DAC_trigger_selection */
 
-  uint32_t DAC_WaveGeneration;               /*!< Specifies whether DAC channel noise waves or triangle waves
+    uint32_t DAC_WaveGeneration;               /*!< Specifies whether DAC channel noise waves or triangle waves
                                                   are generated, or whether no wave is generated.
                                                   This parameter can be a value of @ref DAC_wave_generation */
 
-  uint32_t DAC_LFSRUnmask_TriangleAmplitude; /*!< Specifies the LFSR mask for noise wave generation or
-                                                  the maximum amplitude triangle generation for the DAC channel. 
+    uint32_t DAC_LFSRUnmask_TriangleAmplitude; /*!< Specifies the LFSR mask for noise wave generation or
+                                                  the maximum amplitude triangle generation for the DAC channel.
                                                   This parameter can be a value of @ref DAC_lfsrunmask_triangleamplitude */
 
-  uint32_t DAC_Buffer_Switch;                /*!< Specifies whether the DAC channel output buffer is enabled or disabled or 
+    uint32_t DAC_Buffer_Switch;                /*!< Specifies whether the DAC channel output buffer is enabled or disabled or
                                                   the DAC channel output switch is enabled or disabled.
                                                   This parameter can be a value of @ref DAC_buffer_switch */
-}DAC_InitTypeDef;
+} DAC_InitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 
@@ -81,7 +81,7 @@ typedef struct
 
 #define IS_DAC_LIST1_PERIPH(PERIPH) (((PERIPH) == DAC1))
 
-/** @defgroup DAC_trigger_selection 
+/** @defgroup DAC_trigger_selection
   * @{
   */
 
@@ -92,7 +92,7 @@ typedef struct
 #define DAC_Trigger_T8_TRGO                  ((uint32_t)0x0000000C) /*!< TIM8 TRGO selected as external conversion trigger for DAC1 channel1/2 */
 #define DAC_Trigger_T7_TRGO                  ((uint32_t)0x00000014) /*!< TIM7 TRGO selected as external conversion trigger for DAC1/2 channel1/2 */
 #define DAC_Trigger_T15_TRGO                 ((uint32_t)0x0000001C) /*!< TIM15 TRGO selected as external conversion trigger for DAC1/2 channel1/2 */
-#define DAC_Trigger_HRTIM1_DACTRG1           ((uint32_t)0x0000001C)  /*!< HRTIM1 DACTRG1 selected as external conversion trigger for DAC1 channel1/2 */                                                                         
+#define DAC_Trigger_HRTIM1_DACTRG1           ((uint32_t)0x0000001C)  /*!< HRTIM1 DACTRG1 selected as external conversion trigger for DAC1 channel1/2 */
 #define DAC_Trigger_T2_TRGO                  ((uint32_t)0x00000024) /*!< TIM2 TRGO selected as external conversion trigger for DAC1/2 channel1/2 */
 #define DAC_Trigger_T4_TRGO                  ((uint32_t)0x0000002C) /*!< TIM4 TRGO selected as external conversion trigger for DAC channel */
 #define DAC_Trigger_HRTIM1_DACTRG2           ((uint32_t)0x0000002C) /*!< HRTIM1 DACTRG2 selected as external conversion trigger for DAC1 channel1/2 */
@@ -118,7 +118,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup DAC_wave_generation 
+/** @defgroup DAC_wave_generation
   * @{
   */
 
@@ -163,47 +163,47 @@ typedef struct
 #define DAC_TriangleAmplitude_4095         ((uint32_t)0x00000B00) /*!< Select max triangle amplitude of 4095 */
 
 #define IS_DAC_LFSR_UNMASK_TRIANGLE_AMPLITUDE(VALUE) (((VALUE) == DAC_LFSRUnmask_Bit0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits1_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits2_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits3_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits4_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits5_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits6_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits7_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits8_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits9_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits10_0) || \
-                                                      ((VALUE) == DAC_LFSRUnmask_Bits11_0) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_1) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_3) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_7) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_15) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_31) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_63) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_127) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_255) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_511) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_1023) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_2047) || \
-                                                      ((VALUE) == DAC_TriangleAmplitude_4095))
+        ((VALUE) == DAC_LFSRUnmask_Bits1_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits2_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits3_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits4_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits5_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits6_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits7_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits8_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits9_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits10_0) || \
+        ((VALUE) == DAC_LFSRUnmask_Bits11_0) || \
+        ((VALUE) == DAC_TriangleAmplitude_1) || \
+        ((VALUE) == DAC_TriangleAmplitude_3) || \
+        ((VALUE) == DAC_TriangleAmplitude_7) || \
+        ((VALUE) == DAC_TriangleAmplitude_15) || \
+        ((VALUE) == DAC_TriangleAmplitude_31) || \
+        ((VALUE) == DAC_TriangleAmplitude_63) || \
+        ((VALUE) == DAC_TriangleAmplitude_127) || \
+        ((VALUE) == DAC_TriangleAmplitude_255) || \
+        ((VALUE) == DAC_TriangleAmplitude_511) || \
+        ((VALUE) == DAC_TriangleAmplitude_1023) || \
+        ((VALUE) == DAC_TriangleAmplitude_2047) || \
+        ((VALUE) == DAC_TriangleAmplitude_4095))
 /**
   * @}
   */
 
-/** @defgroup DAC_buffer_switch 
+/** @defgroup DAC_buffer_switch
   * @{
   */
 
 #define DAC_BufferSwitch_Disable                 ((uint32_t)0x00000000)
 #define DAC_BufferSwitch_Enable                  ((uint32_t)0x00000002)
-  
+
 #define IS_DAC_BUFFER_SWITCH_STATE(STATE) (((STATE) == DAC_BufferSwitch_Enable) || \
-                                           ((STATE) == DAC_BufferSwitch_Disable))
+        ((STATE) == DAC_BufferSwitch_Disable))
 /**
   * @}
   */
 
-/** @defgroup DAC_Channel_selection 
+/** @defgroup DAC_Channel_selection
   * @{
   */
 #define DAC_Channel_1                     ((uint32_t)0x00000000)
@@ -215,7 +215,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup DAC_data_alignement 
+/** @defgroup DAC_data_alignement
   * @{
   */
 
@@ -230,7 +230,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup DAC_wave_generation 
+/** @defgroup DAC_wave_generation
   * @{
   */
 
@@ -243,31 +243,31 @@ typedef struct
   * @}
   */
 
-/** @defgroup DAC_data 
+/** @defgroup DAC_data
   * @{
   */
 
-#define IS_DAC_DATA(DATA) ((DATA) <= 0xFFF0) 
+#define IS_DAC_DATA(DATA) ((DATA) <= 0xFFF0)
 /**
   * @}
   */
-  
-/** @defgroup DAC_interrupts_definition 
+
+/** @defgroup DAC_interrupts_definition
   * @{
-  */   
-#define DAC_IT_DMAUDR                      ((uint32_t)0x00002000)  
-#define IS_DAC_IT(IT) (((IT) == DAC_IT_DMAUDR)) 
+  */
+#define DAC_IT_DMAUDR                      ((uint32_t)0x00002000)
+#define IS_DAC_IT(IT) (((IT) == DAC_IT_DMAUDR))
 
 /**
   * @}
-  */ 
+  */
 
-/** @defgroup DAC_flags_definition 
+/** @defgroup DAC_flags_definition
   * @{
-  */ 
-  
-#define DAC_FLAG_DMAUDR                    ((uint32_t)0x00002000)  
-#define IS_DAC_FLAG(FLAG) (((FLAG) == DAC_FLAG_DMAUDR))  
+  */
+
+#define DAC_FLAG_DMAUDR                    ((uint32_t)0x00002000)
+#define IS_DAC_FLAG(FLAG) (((FLAG) == DAC_FLAG_DMAUDR))
 
 /**
   * @}
@@ -278,9 +278,9 @@ typedef struct
   */
 
 /* Exported macro ------------------------------------------------------------*/
-/* Exported functions --------------------------------------------------------*/  
+/* Exported functions --------------------------------------------------------*/
 
-/*  Function used to set the DAC configuration to the default reset state *****/  
+/*  Function used to set the DAC configuration to the default reset state *****/
 void DAC_DeInit(DAC_TypeDef* DACx);
 
 /*  DAC channels configuration: trigger, output buffer, data format functions */

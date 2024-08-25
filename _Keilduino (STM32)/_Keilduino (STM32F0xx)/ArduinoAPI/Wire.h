@@ -68,7 +68,8 @@
 
 #define BUFFER_LENGTH 32
 
-class TwoWire : public WireBase {
+class TwoWire : public WireBase
+{
 public:
     uint8_t       i2c_delay;
     uint8_t       scl_pin;

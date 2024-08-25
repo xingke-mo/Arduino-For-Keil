@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_cmp.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the gpio firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -53,8 +51,8 @@
   */
 void cmp_reset(void)
 {
-  crm_periph_reset(CRM_CMP_PERIPH_RESET, TRUE);
-  crm_periph_reset(CRM_CMP_PERIPH_RESET, FALSE);
+    crm_periph_reset(CRM_CMP_PERIPH_RESET, TRUE);
+    crm_periph_reset(CRM_CMP_PERIPH_RESET, FALSE);
 }
 
 /**
@@ -66,15 +64,15 @@ void cmp_reset(void)
   */
 void cmp_init(cmp_sel_type cmp_sel, cmp_init_type* cmp_init_struct)
 {
-  if(cmp_sel == CMP1_SELECTION)
-  {
-    CMP->ctrlsts_bit.cmpninvsel =  cmp_init_struct->cmp_non_inverting;
-    CMP->ctrlsts_bit.cmpinvsel  =  cmp_init_struct->cmp_inverting;
-    CMP->ctrlsts_bit.cmpssel    =  cmp_init_struct->cmp_speed;
-    CMP->ctrlsts_bit.cmptag     =  cmp_init_struct->cmp_output;
-    CMP->ctrlsts_bit.cmpp       =  cmp_init_struct->cmp_polarity;
-    CMP->ctrlsts_bit.cmphyst    =  cmp_init_struct->cmp_hysteresis;
-  }
+    if(cmp_sel == CMP1_SELECTION)
+    {
+        CMP->ctrlsts_bit.cmpninvsel =  cmp_init_struct->cmp_non_inverting;
+        CMP->ctrlsts_bit.cmpinvsel  =  cmp_init_struct->cmp_inverting;
+        CMP->ctrlsts_bit.cmpssel    =  cmp_init_struct->cmp_speed;
+        CMP->ctrlsts_bit.cmptag     =  cmp_init_struct->cmp_output;
+        CMP->ctrlsts_bit.cmpp       =  cmp_init_struct->cmp_polarity;
+        CMP->ctrlsts_bit.cmphyst    =  cmp_init_struct->cmp_hysteresis;
+    }
 }
 
 /**
@@ -85,13 +83,13 @@ void cmp_init(cmp_sel_type cmp_sel, cmp_init_type* cmp_init_struct)
   */
 void cmp_default_para_init(cmp_init_type *cmp_init_struct)
 {
-  /* reset cmp init structure parameters values */
-  cmp_init_struct->cmp_non_inverting = CMP_NON_INVERTING_PA1;
-  cmp_init_struct->cmp_inverting = CMP_INVERTING_1_4VREFINT;
-  cmp_init_struct->cmp_speed = CMP_SPEED_FAST;
-  cmp_init_struct->cmp_output = CMP_OUTPUT_NONE;
-  cmp_init_struct->cmp_polarity = CMP_POL_NON_INVERTING;
-  cmp_init_struct->cmp_hysteresis = CMP_HYSTERESIS_NONE;
+    /* reset cmp init structure parameters values */
+    cmp_init_struct->cmp_non_inverting = CMP_NON_INVERTING_PA1;
+    cmp_init_struct->cmp_inverting = CMP_INVERTING_1_4VREFINT;
+    cmp_init_struct->cmp_speed = CMP_SPEED_FAST;
+    cmp_init_struct->cmp_output = CMP_OUTPUT_NONE;
+    cmp_init_struct->cmp_polarity = CMP_POL_NON_INVERTING;
+    cmp_init_struct->cmp_hysteresis = CMP_HYSTERESIS_NONE;
 }
 
 /**
@@ -103,11 +101,11 @@ void cmp_default_para_init(cmp_init_type *cmp_init_struct)
   */
 void cmp_enable(cmp_sel_type cmp_sel, confirm_state new_state)
 {
-  /* cmp enable */
-  if(cmp_sel == CMP1_SELECTION)
-  {
-    CMP->ctrlsts_bit.cmpen  = new_state;
-  }
+    /* cmp enable */
+    if(cmp_sel == CMP1_SELECTION)
+    {
+        CMP->ctrlsts_bit.cmpen  = new_state;
+    }
 }
 
 /**
@@ -117,7 +115,7 @@ void cmp_enable(cmp_sel_type cmp_sel, confirm_state new_state)
   */
 void cmp_input_shift_enable(confirm_state new_state)
 {
-  CMP->ctrlsts_bit.cmpis = new_state;
+    CMP->ctrlsts_bit.cmpis = new_state;
 }
 
 /**
@@ -128,14 +126,15 @@ void cmp_input_shift_enable(confirm_state new_state)
   */
 uint32_t cmp_output_value_get(cmp_sel_type cmp_sel)
 {
-  uint32_t cmpout = 0x0;
-  if(cmp_sel == CMP1_SELECTION)
-  {
-    cmpout = CMP->ctrlsts_bit.cmpvalue;
-  }
+    uint32_t cmpout = 0x0;
 
-  /* return the comparator output level */
-  return (uint32_t)(cmpout);
+    if(cmp_sel == CMP1_SELECTION)
+    {
+        cmpout = CMP->ctrlsts_bit.cmpvalue;
+    }
+
+    /* return the comparator output level */
+    return (uint32_t)(cmpout);
 }
 
 /**
@@ -146,10 +145,10 @@ uint32_t cmp_output_value_get(cmp_sel_type cmp_sel)
   */
 void cmp_write_protect_enable(cmp_sel_type cmp_sel)
 {
-  if(cmp_sel == CMP1_SELECTION)
-  {
-    CMP->ctrlsts_bit.cmpwp = TRUE;
-  }
+    if(cmp_sel == CMP1_SELECTION)
+    {
+        CMP->ctrlsts_bit.cmpwp = TRUE;
+    }
 }
 
 /**
@@ -163,24 +162,24 @@ void cmp_write_protect_enable(cmp_sel_type cmp_sel)
   */
 void cmp_filter_config(uint16_t high_pulse_cnt, uint16_t low_pulse_cnt, confirm_state new_state)
 {
-  if (new_state != FALSE)
-  {
-    /* enable the glitch filter */
-    CMP->g_filter_en_bit.gfe = TRUE;
+    if(new_state != FALSE)
+    {
+        /* enable the glitch filter */
+        CMP->g_filter_en_bit.gfe = TRUE;
 
-    /* write to cmp high_pulse and low_pulse */
-    CMP->low_pulse_bit.l_pulse_cnt = low_pulse_cnt;
-    CMP->high_pulse_bit.h_pulse_cnt = high_pulse_cnt;
-  }
-  else
-  {
-    /* disable the glitch filter */
-    CMP->g_filter_en_bit.gfe = FALSE;
+        /* write to cmp high_pulse and low_pulse */
+        CMP->low_pulse_bit.l_pulse_cnt = low_pulse_cnt;
+        CMP->high_pulse_bit.h_pulse_cnt = high_pulse_cnt;
+    }
+    else
+    {
+        /* disable the glitch filter */
+        CMP->g_filter_en_bit.gfe = FALSE;
 
-    /* reset the h_pulse_cnt and l_pulse_cnt bits */
-    CMP->low_pulse_bit.l_pulse_cnt = low_pulse_cnt;
-    CMP->high_pulse_bit.h_pulse_cnt = high_pulse_cnt;
-  }
+        /* reset the h_pulse_cnt and l_pulse_cnt bits */
+        CMP->low_pulse_bit.l_pulse_cnt = low_pulse_cnt;
+        CMP->high_pulse_bit.h_pulse_cnt = high_pulse_cnt;
+    }
 }
 
 /**
@@ -196,7 +195,7 @@ void cmp_filter_config(uint16_t high_pulse_cnt, uint16_t low_pulse_cnt, confirm_
   */
 void cmp_blanking_config(cmp_blanking_type blank_sel)
 {
-  CMP->ctrlsts_bit.cmpblanking =  blank_sel;
+    CMP->ctrlsts_bit.cmpblanking =  blank_sel;
 }
 
 /**
@@ -208,14 +207,14 @@ void cmp_blanking_config(cmp_blanking_type blank_sel)
   *         - CMP_SCAL_BRG_11: vrefint = 1.2v, 3/4 vrefint = 0.9v, 1/2 vrefint = 0.6v, 1/4 vrefint = 0.3v
   * @retval none
   */
-void cmp_scal_brg_config(uint32_t scal_brg)
+void cmp_scal_brg_config(cmp_scal_brg_type scal_brg)
 {
-  uint32_t tmp_scal = 0, tmp_brg = 0;
-  tmp_scal = scal_brg >> 1;
-  tmp_brg = scal_brg & 0x01;
+    uint32_t tmp_scal = 0, tmp_brg = 0;
+    tmp_scal = scal_brg >> 1;
+    tmp_brg = scal_brg & 0x01;
 
-  CMP->ctrlsts_bit.scalen = tmp_scal;
-  CMP->ctrlsts_bit.brgen = tmp_brg;
+    CMP->ctrlsts_bit.scalen = tmp_scal;
+    CMP->ctrlsts_bit.brgen = tmp_brg;
 }
 
 /**

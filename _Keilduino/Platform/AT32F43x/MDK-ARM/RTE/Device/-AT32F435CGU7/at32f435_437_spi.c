@@ -50,26 +50,26 @@
   */
 void spi_i2s_reset(spi_type *spi_x)
 {
-  if(spi_x == SPI1)
-  {
-    crm_periph_reset(CRM_SPI1_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_SPI1_PERIPH_RESET, FALSE);
-  }
-  else if(spi_x == SPI2)
-  {
-    crm_periph_reset(CRM_SPI2_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_SPI2_PERIPH_RESET, FALSE);
-  }
-  else if(spi_x == SPI3)
-  {
-    crm_periph_reset(CRM_SPI3_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_SPI3_PERIPH_RESET, FALSE);
-  }
-  else if(spi_x == SPI4)
-  {
-    crm_periph_reset(CRM_SPI4_PERIPH_RESET, TRUE);
-    crm_periph_reset(CRM_SPI4_PERIPH_RESET, FALSE);
-  }
+    if(spi_x == SPI1)
+    {
+        crm_periph_reset(CRM_SPI1_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_SPI1_PERIPH_RESET, FALSE);
+    }
+    else if(spi_x == SPI2)
+    {
+        crm_periph_reset(CRM_SPI2_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_SPI2_PERIPH_RESET, FALSE);
+    }
+    else if(spi_x == SPI3)
+    {
+        crm_periph_reset(CRM_SPI3_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_SPI3_PERIPH_RESET, FALSE);
+    }
+    else if(spi_x == SPI4)
+    {
+        crm_periph_reset(CRM_SPI4_PERIPH_RESET, TRUE);
+        crm_periph_reset(CRM_SPI4_PERIPH_RESET, FALSE);
+    }
 }
 
 /**
@@ -80,14 +80,14 @@ void spi_i2s_reset(spi_type *spi_x)
   */
 void spi_default_para_init(spi_init_type* spi_init_struct)
 {
-  spi_init_struct->transmission_mode = SPI_TRANSMIT_FULL_DUPLEX;
-  spi_init_struct->master_slave_mode = SPI_MODE_SLAVE;
-  spi_init_struct->mclk_freq_division = SPI_MCLK_DIV_2;
-  spi_init_struct->first_bit_transmission = SPI_FIRST_BIT_MSB;
-  spi_init_struct->frame_bit_num = SPI_FRAME_8BIT;
-  spi_init_struct->clock_polarity = SPI_CLOCK_POLARITY_LOW;
-  spi_init_struct->clock_phase = SPI_CLOCK_PHASE_1EDGE;
-  spi_init_struct->cs_mode_selection = SPI_CS_SOFTWARE_MODE;
+    spi_init_struct->transmission_mode = SPI_TRANSMIT_FULL_DUPLEX;
+    spi_init_struct->master_slave_mode = SPI_MODE_SLAVE;
+    spi_init_struct->mclk_freq_division = SPI_MCLK_DIV_2;
+    spi_init_struct->first_bit_transmission = SPI_FIRST_BIT_MSB;
+    spi_init_struct->frame_bit_num = SPI_FRAME_8BIT;
+    spi_init_struct->clock_polarity = SPI_CLOCK_POLARITY_LOW;
+    spi_init_struct->clock_phase = SPI_CLOCK_PHASE_1EDGE;
+    spi_init_struct->cs_mode_selection = SPI_CS_SOFTWARE_MODE;
 }
 
 /**
@@ -100,66 +100,69 @@ void spi_default_para_init(spi_init_type* spi_init_struct)
   */
 void spi_init(spi_type* spi_x, spi_init_type* spi_init_struct)
 {
-  spi_x->i2sctrl_bit.i2smsel = FALSE;
-  if(spi_init_struct->transmission_mode == SPI_TRANSMIT_FULL_DUPLEX)
-  {
-    spi_x->ctrl1_bit.slben = FALSE;
-    spi_x->ctrl1_bit.slbtd = FALSE;
-    spi_x->ctrl1_bit.ora = FALSE;
-  }
-  else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_SIMPLEX_RX)
-  {
-    spi_x->ctrl1_bit.slben = FALSE;
-    spi_x->ctrl1_bit.slbtd = FALSE;
-    spi_x->ctrl1_bit.ora = TRUE;
-  }
-  else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_HALF_DUPLEX_RX)
-  {
-    spi_x->ctrl1_bit.slben = TRUE;
-    spi_x->ctrl1_bit.slbtd = FALSE;
-    spi_x->ctrl1_bit.ora = FALSE;
-  }
-  else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_HALF_DUPLEX_TX)
-  {
-    spi_x->ctrl1_bit.slben = TRUE;
-    spi_x->ctrl1_bit.slbtd = TRUE;
-    spi_x->ctrl1_bit.ora = FALSE;
-  }
+    spi_x->i2sctrl_bit.i2smsel = FALSE;
 
-  spi_x->ctrl1_bit.swcsen = spi_init_struct->cs_mode_selection;
-  if((spi_init_struct->master_slave_mode == SPI_MODE_MASTER) && (spi_init_struct->cs_mode_selection == SPI_CS_SOFTWARE_MODE))
-  {
-    spi_x->ctrl1_bit.swcsil = TRUE;
-  }
-  else
-  {
-    spi_x->ctrl1_bit.swcsil = FALSE;
-  }
-  spi_x->ctrl1_bit.msten = spi_init_struct->master_slave_mode;
+    if(spi_init_struct->transmission_mode == SPI_TRANSMIT_FULL_DUPLEX)
+    {
+        spi_x->ctrl1_bit.slben = FALSE;
+        spi_x->ctrl1_bit.slbtd = FALSE;
+        spi_x->ctrl1_bit.ora = FALSE;
+    }
+    else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_SIMPLEX_RX)
+    {
+        spi_x->ctrl1_bit.slben = FALSE;
+        spi_x->ctrl1_bit.slbtd = FALSE;
+        spi_x->ctrl1_bit.ora = TRUE;
+    }
+    else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_HALF_DUPLEX_RX)
+    {
+        spi_x->ctrl1_bit.slben = TRUE;
+        spi_x->ctrl1_bit.slbtd = FALSE;
+        spi_x->ctrl1_bit.ora = FALSE;
+    }
+    else if(spi_init_struct->transmission_mode == SPI_TRANSMIT_HALF_DUPLEX_TX)
+    {
+        spi_x->ctrl1_bit.slben = TRUE;
+        spi_x->ctrl1_bit.slbtd = TRUE;
+        spi_x->ctrl1_bit.ora = FALSE;
+    }
 
-  if(spi_init_struct->mclk_freq_division <= SPI_MCLK_DIV_256)
-  {
-    spi_x->ctrl2_bit.mdiv3en = FALSE;
-    spi_x->ctrl2_bit.mdiv_h = FALSE;
-    spi_x->ctrl1_bit.mdiv_l = spi_init_struct->mclk_freq_division;
-  }
-  else if(spi_init_struct->mclk_freq_division == SPI_MCLK_DIV_3)
-  {
-    spi_x->ctrl2_bit.mdiv3en = TRUE;
-    spi_x->ctrl2_bit.mdiv_h = FALSE;
-    spi_x->ctrl1_bit.mdiv_l = 0;
-  }
-  else
-  {
-    spi_x->ctrl2_bit.mdiv3en = FALSE;
-    spi_x->ctrl2_bit.mdiv_h = TRUE;
-    spi_x->ctrl1_bit.mdiv_l = spi_init_struct->mclk_freq_division & 0x7;
-  }
+    spi_x->ctrl1_bit.swcsen = spi_init_struct->cs_mode_selection;
 
-  spi_x->ctrl1_bit.ltf = spi_init_struct->first_bit_transmission;
-  spi_x->ctrl1_bit.fbn = spi_init_struct->frame_bit_num;
-  spi_x->ctrl1_bit.clkpol = spi_init_struct->clock_polarity;
-  spi_x->ctrl1_bit.clkpha = spi_init_struct->clock_phase;
+    if((spi_init_struct->master_slave_mode == SPI_MODE_MASTER) && (spi_init_struct->cs_mode_selection == SPI_CS_SOFTWARE_MODE))
+    {
+        spi_x->ctrl1_bit.swcsil = TRUE;
+    }
+    else
+    {
+        spi_x->ctrl1_bit.swcsil = FALSE;
+    }
+
+    spi_x->ctrl1_bit.msten = spi_init_struct->master_slave_mode;
+
+    if(spi_init_struct->mclk_freq_division <= SPI_MCLK_DIV_256)
+    {
+        spi_x->ctrl2_bit.mdiv3en = FALSE;
+        spi_x->ctrl2_bit.mdiv_h = FALSE;
+        spi_x->ctrl1_bit.mdiv_l = spi_init_struct->mclk_freq_division;
+    }
+    else if(spi_init_struct->mclk_freq_division == SPI_MCLK_DIV_3)
+    {
+        spi_x->ctrl2_bit.mdiv3en = TRUE;
+        spi_x->ctrl2_bit.mdiv_h = FALSE;
+        spi_x->ctrl1_bit.mdiv_l = 0;
+    }
+    else
+    {
+        spi_x->ctrl2_bit.mdiv3en = FALSE;
+        spi_x->ctrl2_bit.mdiv_h = TRUE;
+        spi_x->ctrl1_bit.mdiv_l = spi_init_struct->mclk_freq_division & 0x7;
+    }
+
+    spi_x->ctrl1_bit.ltf = spi_init_struct->first_bit_transmission;
+    spi_x->ctrl1_bit.fbn = spi_init_struct->frame_bit_num;
+    spi_x->ctrl1_bit.clkpol = spi_init_struct->clock_polarity;
+    spi_x->ctrl1_bit.clkpha = spi_init_struct->clock_phase;
 }
 
 /**
@@ -173,7 +176,7 @@ void spi_init(spi_type* spi_x, spi_init_type* spi_init_struct)
   */
 void spi_ti_mode_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl2_bit.tien = new_state;
+    spi_x->ctrl2_bit.tien = new_state;
 }
 
 /**
@@ -185,7 +188,7 @@ void spi_ti_mode_enable(spi_type* spi_x, confirm_state new_state)
   */
 void spi_crc_next_transmit(spi_type* spi_x)
 {
-  spi_x->ctrl1_bit.ntc = TRUE;
+    spi_x->ctrl1_bit.ntc = TRUE;
 }
 
 /**
@@ -198,7 +201,7 @@ void spi_crc_next_transmit(spi_type* spi_x)
   */
 void spi_crc_polynomial_set(spi_type* spi_x, uint16_t crc_poly)
 {
-  spi_x->cpoly_bit.cpoly = crc_poly;
+    spi_x->cpoly_bit.cpoly = crc_poly;
 }
 
 /**
@@ -210,7 +213,7 @@ void spi_crc_polynomial_set(spi_type* spi_x, uint16_t crc_poly)
   */
 uint16_t spi_crc_polynomial_get(spi_type* spi_x)
 {
-  return spi_x->cpoly_bit.cpoly;
+    return spi_x->cpoly_bit.cpoly;
 }
 
 /**
@@ -224,7 +227,7 @@ uint16_t spi_crc_polynomial_get(spi_type* spi_x)
   */
 void spi_crc_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl1_bit.ccen = new_state;
+    spi_x->ctrl1_bit.ccen = new_state;
 }
 
 /**
@@ -239,10 +242,14 @@ void spi_crc_enable(spi_type* spi_x, confirm_state new_state)
   */
 uint16_t spi_crc_value_get(spi_type* spi_x, spi_crc_direction_type crc_direction)
 {
-  if(crc_direction == SPI_CRC_RX)
-    return  spi_x->rcrc_bit.rcrc;
-  else
-    return  spi_x->tcrc_bit.tcrc;
+    if(crc_direction == SPI_CRC_RX)
+    {
+        return  spi_x->rcrc_bit.rcrc;
+    }
+    else
+    {
+        return  spi_x->tcrc_bit.tcrc;
+    }
 }
 
 /**
@@ -257,7 +264,7 @@ uint16_t spi_crc_value_get(spi_type* spi_x, spi_crc_direction_type crc_direction
   */
 void spi_hardware_cs_output_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl2_bit.hwcsoe = new_state;
+    spi_x->ctrl2_bit.hwcsoe = new_state;
 }
 
 /**
@@ -275,7 +282,7 @@ void spi_hardware_cs_output_enable(spi_type* spi_x, confirm_state new_state)
   */
 void spi_software_cs_internal_level_set(spi_type* spi_x, spi_software_cs_level_type level)
 {
-  spi_x->ctrl1_bit.swcsil = level;
+    spi_x->ctrl1_bit.swcsil = level;
 }
 
 /**
@@ -290,7 +297,7 @@ void spi_software_cs_internal_level_set(spi_type* spi_x, spi_software_cs_level_t
   */
 void spi_frame_bit_num_set(spi_type* spi_x, spi_frame_bit_num_type bit_num)
 {
-  spi_x->ctrl1_bit.fbn = bit_num;
+    spi_x->ctrl1_bit.fbn = bit_num;
 }
 
 /**
@@ -320,7 +327,7 @@ void spi_half_duplex_direction_set(spi_type* spi_x, spi_half_duplex_direction_ty
   */
 void spi_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl1_bit.spien = new_state;
+    spi_x->ctrl1_bit.spien = new_state;
 }
 
 /**
@@ -331,12 +338,12 @@ void spi_enable(spi_type* spi_x, confirm_state new_state)
   */
 void i2s_default_para_init(i2s_init_type* i2s_init_struct)
 {
-  i2s_init_struct->operation_mode = I2S_MODE_SLAVE_TX;
-  i2s_init_struct->audio_protocol = I2S_AUDIO_PROTOCOL_PHILLIPS;
-  i2s_init_struct->audio_sampling_freq = I2S_AUDIO_FREQUENCY_DEFAULT;
-  i2s_init_struct->data_channel_format = I2S_DATA_16BIT_CHANNEL_16BIT;
-  i2s_init_struct->clock_polarity = I2S_CLOCK_POLARITY_LOW;
-  i2s_init_struct->mclk_output_enable = FALSE;
+    i2s_init_struct->operation_mode = I2S_MODE_SLAVE_TX;
+    i2s_init_struct->audio_protocol = I2S_AUDIO_PROTOCOL_PHILLIPS;
+    i2s_init_struct->audio_sampling_freq = I2S_AUDIO_FREQUENCY_DEFAULT;
+    i2s_init_struct->data_channel_format = I2S_DATA_16BIT_CHANNEL_16BIT;
+    i2s_init_struct->clock_polarity = I2S_CLOCK_POLARITY_LOW;
+    i2s_init_struct->mclk_output_enable = FALSE;
 }
 
 /**
@@ -349,122 +356,135 @@ void i2s_default_para_init(i2s_init_type* i2s_init_struct)
   */
 void i2s_init(spi_type* spi_x, i2s_init_type* i2s_init_struct)
 {
-  crm_clocks_freq_type clocks_freq;
-  uint32_t i2s_sclk_index = 0;
-  uint32_t i2sdiv_index = 2, i2sodd_index = 0, frequency_index = 0;
+    crm_clocks_freq_type clocks_freq;
+    uint32_t i2s_sclk_index = 0;
+    uint32_t i2sdiv_index = 2, i2sodd_index = 0, frequency_index = 0;
 
-  /* i2s audio frequency config */
-  if(i2s_init_struct->audio_sampling_freq == I2S_AUDIO_FREQUENCY_DEFAULT)
-  {
-    i2sodd_index = 0;
-    i2sdiv_index = 2;
-  }
-  else
-  {
-    crm_clocks_freq_get(&clocks_freq);
-    i2s_sclk_index = clocks_freq.sclk_freq;
-    if((i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_SHORT) || (i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_LONG))
+    /* i2s audio frequency config */
+    if(i2s_init_struct->audio_sampling_freq == I2S_AUDIO_FREQUENCY_DEFAULT)
     {
-      if(i2s_init_struct->mclk_output_enable == TRUE)
-      {
-        frequency_index = (((i2s_sclk_index / 128) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
-      }
-      else
-      {
-        if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
-          frequency_index = (((i2s_sclk_index / 16) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
-        else
-          frequency_index = (((i2s_sclk_index / 32) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
-      }
+        i2sodd_index = 0;
+        i2sdiv_index = 2;
     }
     else
     {
-      if(i2s_init_struct->mclk_output_enable == TRUE)
-      {
-        frequency_index = (((i2s_sclk_index / 256) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
-      }
-      else
-      {
-        if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
-          frequency_index = (((i2s_sclk_index / 32) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+        crm_clocks_freq_get(&clocks_freq);
+        i2s_sclk_index = clocks_freq.sclk_freq;
+
+        if((i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_SHORT) || (i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_LONG))
+        {
+            if(i2s_init_struct->mclk_output_enable == TRUE)
+            {
+                frequency_index = (((i2s_sclk_index / 128) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+            }
+            else
+            {
+                if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
+                {
+                    frequency_index = (((i2s_sclk_index / 16) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+                }
+                else
+                {
+                    frequency_index = (((i2s_sclk_index / 32) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+                }
+            }
+        }
         else
-          frequency_index = (((i2s_sclk_index / 64) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
-      }
+        {
+            if(i2s_init_struct->mclk_output_enable == TRUE)
+            {
+                frequency_index = (((i2s_sclk_index / 256) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+            }
+            else
+            {
+                if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
+                {
+                    frequency_index = (((i2s_sclk_index / 32) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+                }
+                else
+                {
+                    frequency_index = (((i2s_sclk_index / 64) * 10) / i2s_init_struct->audio_sampling_freq) + 5;
+                }
+            }
+        }
     }
-  }
-  frequency_index = frequency_index / 10;
-  i2sodd_index = frequency_index & (uint16_t)0x0001;
-  i2sdiv_index = (frequency_index - i2sodd_index) / 2;
-  if((i2sdiv_index < 2) || (i2sdiv_index > 0x03FF))
-  {
-    i2sodd_index = 0;
-    i2sdiv_index = 2;
-  }
-  spi_x->i2sclk_bit.i2sodd = i2sodd_index;
-  if(i2sdiv_index > 0x00FF)
-  {
-    spi_x->i2sclk_bit.i2sdiv_h = (i2sdiv_index >> 8) & 0x0003;
-    spi_x->i2sclk_bit.i2sdiv_l = i2sdiv_index & 0x00FF;
-  }
-  else
-  {
-    spi_x->i2sclk_bit.i2sdiv_h = 0;
-    spi_x->i2sclk_bit.i2sdiv_l = i2sdiv_index;
-  }
 
-  /* i2s audio_protocol set*/
-  if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_LONG)
-  {
-    spi_x->i2sctrl_bit.pcmfssel = 1;
-    spi_x->i2sctrl_bit.stdsel = 3;
-  }
-  else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_SHORT)
-  {
-    spi_x->i2sctrl_bit.pcmfssel = 0;
-    spi_x->i2sctrl_bit.stdsel = 3;
-  }
-  else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_LSB)
-  {
-    spi_x->i2sctrl_bit.pcmfssel = 0;
-    spi_x->i2sctrl_bit.stdsel = 2;
-  }
-  else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_MSB)
-  {
-    spi_x->i2sctrl_bit.pcmfssel = 0;
-    spi_x->i2sctrl_bit.stdsel = 1;
-  }
-  else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PHILLIPS)
-  {
-    spi_x->i2sctrl_bit.pcmfssel = 0;
-    spi_x->i2sctrl_bit.stdsel = 0;
-  }
+    frequency_index = frequency_index / 10;
+    i2sodd_index = frequency_index & (uint16_t)0x0001;
+    i2sdiv_index = (frequency_index - i2sodd_index) / 2;
 
-  /* i2s data_channel_format set*/
-  if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
-  {
-    spi_x->i2sctrl_bit.i2scbn = 0;
-    spi_x->i2sctrl_bit.i2sdbn = 0;
-  }
-  else if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_32BIT)
-  {
-    spi_x->i2sctrl_bit.i2scbn = 1;
-    spi_x->i2sctrl_bit.i2sdbn = 0;
-  }
-  else if(i2s_init_struct->data_channel_format == I2S_DATA_24BIT_CHANNEL_32BIT)
-  {
-    spi_x->i2sctrl_bit.i2scbn = 1;
-    spi_x->i2sctrl_bit.i2sdbn = 1;
-  }
-  else if(i2s_init_struct->data_channel_format == I2S_DATA_32BIT_CHANNEL_32BIT)
-  {
-    spi_x->i2sctrl_bit.i2scbn = 1;
-    spi_x->i2sctrl_bit.i2sdbn = 2;
-  }
+    if((i2sdiv_index < 2) || (i2sdiv_index > 0x03FF))
+    {
+        i2sodd_index = 0;
+        i2sdiv_index = 2;
+    }
 
-  spi_x->i2sctrl_bit.i2sclkpol = i2s_init_struct->clock_polarity;
-  spi_x->i2sclk_bit.i2smclkoe = i2s_init_struct->mclk_output_enable;
-  spi_x->i2sctrl_bit.opersel = i2s_init_struct->operation_mode;
-  spi_x->i2sctrl_bit.i2smsel = TRUE;
+    spi_x->i2sclk_bit.i2sodd = i2sodd_index;
+
+    if(i2sdiv_index > 0x00FF)
+    {
+        spi_x->i2sclk_bit.i2sdiv_h = (i2sdiv_index >> 8) & 0x0003;
+        spi_x->i2sclk_bit.i2sdiv_l = i2sdiv_index & 0x00FF;
+    }
+    else
+    {
+        spi_x->i2sclk_bit.i2sdiv_h = 0;
+        spi_x->i2sclk_bit.i2sdiv_l = i2sdiv_index;
+    }
+
+    /* i2s audio_protocol set*/
+    if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_LONG)
+    {
+        spi_x->i2sctrl_bit.pcmfssel = 1;
+        spi_x->i2sctrl_bit.stdsel = 3;
+    }
+    else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PCM_SHORT)
+    {
+        spi_x->i2sctrl_bit.pcmfssel = 0;
+        spi_x->i2sctrl_bit.stdsel = 3;
+    }
+    else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_LSB)
+    {
+        spi_x->i2sctrl_bit.pcmfssel = 0;
+        spi_x->i2sctrl_bit.stdsel = 2;
+    }
+    else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_MSB)
+    {
+        spi_x->i2sctrl_bit.pcmfssel = 0;
+        spi_x->i2sctrl_bit.stdsel = 1;
+    }
+    else if(i2s_init_struct->audio_protocol == I2S_AUDIO_PROTOCOL_PHILLIPS)
+    {
+        spi_x->i2sctrl_bit.pcmfssel = 0;
+        spi_x->i2sctrl_bit.stdsel = 0;
+    }
+
+    /* i2s data_channel_format set*/
+    if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_16BIT)
+    {
+        spi_x->i2sctrl_bit.i2scbn = 0;
+        spi_x->i2sctrl_bit.i2sdbn = 0;
+    }
+    else if(i2s_init_struct->data_channel_format == I2S_DATA_16BIT_CHANNEL_32BIT)
+    {
+        spi_x->i2sctrl_bit.i2scbn = 1;
+        spi_x->i2sctrl_bit.i2sdbn = 0;
+    }
+    else if(i2s_init_struct->data_channel_format == I2S_DATA_24BIT_CHANNEL_32BIT)
+    {
+        spi_x->i2sctrl_bit.i2scbn = 1;
+        spi_x->i2sctrl_bit.i2sdbn = 1;
+    }
+    else if(i2s_init_struct->data_channel_format == I2S_DATA_32BIT_CHANNEL_32BIT)
+    {
+        spi_x->i2sctrl_bit.i2scbn = 1;
+        spi_x->i2sctrl_bit.i2sdbn = 2;
+    }
+
+    spi_x->i2sctrl_bit.i2sclkpol = i2s_init_struct->clock_polarity;
+    spi_x->i2sclk_bit.i2smclkoe = i2s_init_struct->mclk_output_enable;
+    spi_x->i2sctrl_bit.opersel = i2s_init_struct->operation_mode;
+    spi_x->i2sctrl_bit.i2smsel = TRUE;
 }
 
 /**
@@ -478,7 +498,7 @@ void i2s_init(spi_type* spi_x, i2s_init_type* i2s_init_struct)
   */
 void i2s_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->i2sctrl_bit.i2sen = new_state;
+    spi_x->i2sctrl_bit.i2sen = new_state;
 }
 
 /**
@@ -497,14 +517,14 @@ void i2s_enable(spi_type* spi_x, confirm_state new_state)
   */
 void spi_i2s_interrupt_enable(spi_type* spi_x, uint32_t spi_i2s_int, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    spi_x->ctrl2 |= spi_i2s_int;
-  }
-  else
-  {
-    spi_x->ctrl2 &= ~spi_i2s_int;
-  }
+    if(new_state != FALSE)
+    {
+        spi_x->ctrl2 |= spi_i2s_int;
+    }
+    else
+    {
+        spi_x->ctrl2 &= ~spi_i2s_int;
+    }
 }
 
 /**
@@ -518,7 +538,7 @@ void spi_i2s_interrupt_enable(spi_type* spi_x, uint32_t spi_i2s_int, confirm_sta
   */
 void spi_i2s_dma_transmitter_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl2_bit.dmaten = new_state;
+    spi_x->ctrl2_bit.dmaten = new_state;
 }
 
 /**
@@ -532,7 +552,7 @@ void spi_i2s_dma_transmitter_enable(spi_type* spi_x, confirm_state new_state)
   */
 void spi_i2s_dma_receiver_enable(spi_type* spi_x, confirm_state new_state)
 {
-  spi_x->ctrl2_bit.dmaren = new_state;
+    spi_x->ctrl2_bit.dmaren = new_state;
 }
 
 /**
@@ -547,7 +567,7 @@ void spi_i2s_dma_receiver_enable(spi_type* spi_x, confirm_state new_state)
   */
 void spi_i2s_data_transmit(spi_type* spi_x, uint16_t tx_data)
 {
-  spi_x->dt = tx_data;
+    spi_x->dt = tx_data;
 }
 
 /**
@@ -559,7 +579,7 @@ void spi_i2s_data_transmit(spi_type* spi_x, uint16_t tx_data)
   */
 uint16_t spi_i2s_data_receive(spi_type* spi_x)
 {
-  return (uint16_t)spi_x->dt;
+    return (uint16_t)spi_x->dt;
 }
 
 /**
@@ -582,16 +602,18 @@ uint16_t spi_i2s_data_receive(spi_type* spi_x)
   */
 flag_status spi_i2s_flag_get(spi_type* spi_x, uint32_t spi_i2s_flag)
 {
-  flag_status status = RESET;
-  if ((spi_x->sts & spi_i2s_flag) == RESET)
-  {
-    status = RESET;
-  }
-  else
-  {
-    status = SET;
-  }
-  return status;
+    flag_status status = RESET;
+
+    if((spi_x->sts & spi_i2s_flag) == RESET)
+    {
+        status = RESET;
+    }
+    else
+    {
+        status = SET;
+    }
+
+    return status;
 }
 
 /**
@@ -615,24 +637,32 @@ flag_status spi_i2s_flag_get(spi_type* spi_x, uint32_t spi_i2s_flag)
   */
 void spi_i2s_flag_clear(spi_type* spi_x, uint32_t spi_i2s_flag)
 {
-  if(spi_i2s_flag == SPI_CCERR_FLAG)
-    spi_x->sts = ~SPI_CCERR_FLAG;
-  else if(spi_i2s_flag == SPI_I2S_RDBF_FLAG)
-    UNUSED(spi_x->dt);
-  else if(spi_i2s_flag == I2S_TUERR_FLAG)
-    UNUSED(spi_x->sts);
-  else if(spi_i2s_flag == SPI_CSPAS_FLAG)
-    UNUSED(spi_x->sts);
-  else if(spi_i2s_flag == SPI_MMERR_FLAG)
-  {
-    UNUSED(spi_x->sts);
-    spi_x->ctrl1 = spi_x->ctrl1;
-  }
-  else if(spi_i2s_flag == SPI_I2S_ROERR_FLAG)
-  {
-    UNUSED(spi_x->dt);
-    UNUSED(spi_x->sts);
-  }
+    if(spi_i2s_flag == SPI_CCERR_FLAG)
+    {
+        spi_x->sts = ~SPI_CCERR_FLAG;
+    }
+    else if(spi_i2s_flag == SPI_I2S_RDBF_FLAG)
+    {
+        UNUSED(spi_x->dt);
+    }
+    else if(spi_i2s_flag == I2S_TUERR_FLAG)
+    {
+        UNUSED(spi_x->sts);
+    }
+    else if(spi_i2s_flag == SPI_CSPAS_FLAG)
+    {
+        UNUSED(spi_x->sts);
+    }
+    else if(spi_i2s_flag == SPI_MMERR_FLAG)
+    {
+        UNUSED(spi_x->sts);
+        spi_x->ctrl1 = spi_x->ctrl1;
+    }
+    else if(spi_i2s_flag == SPI_I2S_ROERR_FLAG)
+    {
+        UNUSED(spi_x->dt);
+        UNUSED(spi_x->sts);
+    }
 }
 
 /**

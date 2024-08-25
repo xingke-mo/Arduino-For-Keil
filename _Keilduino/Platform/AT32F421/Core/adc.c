@@ -52,6 +52,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
             return index;
         }
     }
+
     return -1;
 }
 
@@ -62,7 +63,7 @@ static int16_t ADC_DMA_SearchChannel(uint16_t ADC_Channel)
   */
 void ADCx_Init(adc_type* ADCx)
 {
-    
+
 }
 
 /**
@@ -85,27 +86,36 @@ ADC_DMA_Res_Type ADC_DMA_Register(uint8_t ADC_Channel)
 {
     /*初始化ADC通道列表*/
     static bool isInit = false;
+
     if(!isInit)
     {
         uint8_t i;
+
         for(i = 0; i < ADC_DMA_REGMAX; i++)
         {
             ADC_DMA_RegChannelList[i] = 0xFF;
         }
+
         isInit = true;
     }
 
     /*是否是合法ADC通道*/
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return ADC_DMA_RES_NOT_ADC_CHANNEL;
+    }
 
     /*是否已在引脚列表重复注册*/
     if(ADC_DMA_SearchChannel(ADC_Channel) != -1)
+    {
         return ADC_DMA_RES_DUPLICATE_REGISTRATION;
+    }
 
     /*是否超出最大注册个数*/
     if(ADC_DMA_RegCnt >= ADC_DMA_REGMAX)
+    {
         return ADC_DMA_RES_MAX_NUM_OF_REGISTRATIONS_EXCEEDED;
+    }
 
     /*写入注册列表*/
     ADC_DMA_RegChannelList[ADC_DMA_RegCnt] = ADC_Channel;
@@ -133,7 +143,7 @@ uint8_t ADC_DMA_GetRegisterCount(void)
   */
 void ADC_DMA_Init(void)
 {
-    
+
 }
 
 /**
@@ -146,11 +156,16 @@ uint16_t ADC_DMA_GetValue(uint8_t ADC_Channel)
     int16_t index;
 
     if(!IS_ADC_CHANNEL(ADC_Channel))
+    {
         return 0;
+    }
 
     index = ADC_DMA_SearchChannel(ADC_Channel);
+
     if(index == -1)
+    {
         return 0;
+    }
 
     return ADC_DMA_ConvertedValue[index];
 }

@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,7 +48,7 @@ static IRQn_Type EXTI_GetIRQn(uint8_t Pin)
     {
         EXTIx_IRQn = EXTI4_15_IRQn;
     }
-    
+
     return EXTIx_IRQn;
 }
 
@@ -67,12 +67,16 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
     uint8_t Pinx;
 
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = GPIO_GetPinNum(Pin);
 
     if(Pinx > 15)
+    {
         return;
+    }
 
     EXTI_Function[Pinx] = function;
 
@@ -85,7 +89,7 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
     EXTI_InitStructure.EXTI_Trigger = Trigger_Mode;        //设置触发方式
     EXTI_InitStructure.EXTI_LineCmd = ENABLE;              //使能中断线
     EXTI_Init(&EXTI_InitStructure);                        //根据EXTI_InitStruct中指定的参数初始化外设EXTI寄存器
-    
+
     NVIC_InitStructure.NVIC_IRQChannel = EXTI_GetIRQn(Pin);//使能所在的外部中断通道
     NVIC_InitStructure.NVIC_IRQChannelPriority = ChannelPriority; //中断优先级
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;        //使能外部中断通道
@@ -102,9 +106,9 @@ void EXTIx_Init(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeD
 void attachInterrupt(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_TypeDef Trigger_Mode)
 {
     EXTIx_Init(
-        Pin, 
-        function, 
-        Trigger_Mode, 
+        Pin,
+        function,
+        Trigger_Mode,
         EXTI_ChannelPriority_Default
     );
 }
@@ -116,19 +120,21 @@ void attachInterrupt(uint8_t Pin, EXTI_CallbackFunction_t function, EXTITrigger_
 void detachInterrupt(uint8_t Pin)
 {
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     NVIC_DisableIRQ(EXTI_GetIRQn(Pin));
 }
 
 #define EXTIx_IRQHANDLER(n) \
-do{\
-    if(EXTI_GetITStatus(EXTI_Line##n) != RESET)\
-    {\
-        if(EXTI_Function[n]) EXTI_Function[n]();\
-        EXTI_ClearITPendingBit(EXTI_Line##n);\
-    }\
-}while(0)
+    do{\
+        if(EXTI_GetITStatus(EXTI_Line##n) != RESET)\
+        {\
+            if(EXTI_Function[n]) EXTI_Function[n]();\
+            EXTI_ClearITPendingBit(EXTI_Line##n);\
+        }\
+    }while(0)
 
 /**
   * @brief  外部中断入口，通道0~1

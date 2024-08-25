@@ -45,15 +45,19 @@ static IRQn_Type EXTI_GetIRQn(uint8_t Pin)
         case 0:
             EXINTx_IRQn = EXINT0_IRQn;
             break;
+
         case 1:
             EXINTx_IRQn = EXINT1_IRQn;
             break;
+
         case 2:
             EXINTx_IRQn = EXINT2_IRQn;
             break;
+
         case 3:
             EXINTx_IRQn = EXINT3_IRQn;
             break;
+
         case 4:
             EXINTx_IRQn = EXINT4_IRQn;
             break;
@@ -92,12 +96,16 @@ void EXTIx_Init(
     uint8_t Pinx;
 
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     Pinx = GPIO_GetPinNum(Pin);
 
     if(Pinx > 15)
+    {
         return;
+    }
 
     EXTI_Function[Pinx] = Function;
 
@@ -140,19 +148,21 @@ void attachInterrupt(uint8_t Pin, EXTI_CallbackFunction_t Function, exint_polari
 void detachInterrupt(uint8_t Pin)
 {
     if(!IS_PIN(Pin))
+    {
         return;
+    }
 
     nvic_irq_disable(EXTI_GetIRQn(Pin));
 }
 
 #define EXTIx_IRQHANDLER(n) \
-do{\
-    if(exint_flag_get(EXINT_LINE_##n) != RESET)\
-    {\
-        if(EXTI_Function[n]) EXTI_Function[n]();\
-        exint_flag_clear(EXINT_LINE_##n);\
-    }\
-}while(0)
+    do{\
+        if(exint_flag_get(EXINT_LINE_##n) != RESET)\
+        {\
+            if(EXTI_Function[n]) EXTI_Function[n]();\
+            exint_flag_clear(EXINT_LINE_##n);\
+        }\
+    }while(0)
 
 /**
   * @brief  外部中断入口，通道0

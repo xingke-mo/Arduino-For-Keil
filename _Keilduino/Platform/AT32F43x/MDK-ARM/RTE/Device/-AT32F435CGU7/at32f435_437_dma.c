@@ -63,25 +63,25 @@
   */
 void dma_reset(dma_channel_type *dmax_channely)
 {
-  uint32_t temp = 0;
-  dmax_channely->ctrl_bit.chen = FALSE;
-  dmax_channely->ctrl = 0;
-  dmax_channely->dtcnt = 0;
-  dmax_channely->paddr = 0;
-  dmax_channely->maddr = 0;
+    uint32_t temp = 0;
+    dmax_channely->ctrl_bit.chen = FALSE;
+    dmax_channely->ctrl = 0;
+    dmax_channely->dtcnt = 0;
+    dmax_channely->paddr = 0;
+    dmax_channely->maddr = 0;
 
-  temp = (uint32_t)dmax_channely;
+    temp = (uint32_t)dmax_channely;
 
-  if((temp & 0x6FF) < 0x608)
-  {
-    /* dma1 channel */
-    DMA1->clr |= (uint32_t)(0x0F << ((((temp & 0xFF) - 0x08) / 0x14) * 4));
-  }
-  else if((temp & 0x6FF) < 0x688)
-  {
-    /* dma2 channel */
-    DMA2->clr |= (uint32_t)(0x0F << ((((temp & 0xFF) - 0x08) / 0x14) * 4));
-  }
+    if((temp & 0x6FF) < 0x608)
+    {
+        /* dma1 channel */
+        DMA1->clr |= (uint32_t)(0x0F << ((((temp & 0xFF) - 0x08) / 0x14) * 4));
+    }
+    else if((temp & 0x6FF) < 0x688)
+    {
+        /* dma2 channel */
+        DMA2->clr |= (uint32_t)(0x0F << ((((temp & 0xFF) - 0x08) / 0x14) * 4));
+    }
 }
 
 /**
@@ -107,7 +107,7 @@ void dma_reset(dma_channel_type *dmax_channely)
   */
 void dma_data_number_set(dma_channel_type *dmax_channely, uint16_t data_number)
 {
-  dmax_channely->dtcnt = data_number;
+    dmax_channely->dtcnt = data_number;
 }
 
 /**
@@ -132,7 +132,7 @@ void dma_data_number_set(dma_channel_type *dmax_channely, uint16_t data_number)
   */
 uint16_t dma_data_number_get(dma_channel_type *dmax_channely)
 {
-  return (uint16_t)dmax_channely->dtcnt;
+    return (uint16_t)dmax_channely->dtcnt;
 }
 
 /**
@@ -163,14 +163,14 @@ uint16_t dma_data_number_get(dma_channel_type *dmax_channely)
   */
 void dma_interrupt_enable(dma_channel_type *dmax_channely, uint32_t dma_int, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    dmax_channely->ctrl |= dma_int;
-  }
-  else
-  {
-    dmax_channely->ctrl &= ~dma_int;
-  }
+    if(new_state != FALSE)
+    {
+        dmax_channely->ctrl |= dma_int;
+    }
+    else
+    {
+        dmax_channely->ctrl &= ~dma_int;
+    }
 }
 
 /**
@@ -196,7 +196,7 @@ void dma_interrupt_enable(dma_channel_type *dmax_channely, uint32_t dma_int, con
   */
 void dma_channel_enable(dma_channel_type *dmax_channely, confirm_state new_state)
 {
-  dmax_channely->ctrl_bit.chen = new_state;
+    dmax_channely->ctrl_bit.chen = new_state;
 }
 
 /**
@@ -220,25 +220,25 @@ void dma_channel_enable(dma_channel_type *dmax_channely, confirm_state new_state
   */
 flag_status dma_flag_get(uint32_t dmax_flag)
 {
-  uint32_t temp = 0;
+    uint32_t temp = 0;
 
-  if(dmax_flag > 0x10000000)
-  {
-    temp = DMA2->sts;
-  }
-  else
-  {
-    temp = DMA1->sts;
-  }
+    if(dmax_flag > 0x10000000)
+    {
+        temp = DMA2->sts;
+    }
+    else
+    {
+        temp = DMA1->sts;
+    }
 
-  if((temp & dmax_flag) != RESET)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if((temp & dmax_flag) != RESET)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -263,14 +263,14 @@ flag_status dma_flag_get(uint32_t dmax_flag)
   */
 void dma_flag_clear(uint32_t dmax_flag)
 {
-  if(dmax_flag > ((uint32_t)0x10000000))
-  {
-    DMA2->clr = (uint32_t)(dmax_flag & 0x0FFFFFFF);
-  }
-  else
-  {
-    DMA1->clr = dmax_flag;
-  }
+    if(dmax_flag > ((uint32_t)0x10000000))
+    {
+        DMA2->clr = (uint32_t)(dmax_flag & 0x0FFFFFFF);
+    }
+    else
+    {
+        DMA1->clr = dmax_flag;
+    }
 }
 
 /**
@@ -280,16 +280,16 @@ void dma_flag_clear(uint32_t dmax_flag)
   */
 void dma_default_para_init(dma_init_type *dma_init_struct)
 {
-  dma_init_struct->peripheral_base_addr = 0;
-  dma_init_struct->memory_base_addr = 0;
-  dma_init_struct->direction = DMA_DIR_PERIPHERAL_TO_MEMORY;
-  dma_init_struct->buffer_size = 0;
-  dma_init_struct->peripheral_inc_enable = FALSE;
-  dma_init_struct->memory_inc_enable = FALSE;
-  dma_init_struct->peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_BYTE;
-  dma_init_struct->memory_data_width = DMA_MEMORY_DATA_WIDTH_BYTE;
-  dma_init_struct->loop_mode_enable = FALSE;
-  dma_init_struct->priority = DMA_PRIORITY_LOW;
+    dma_init_struct->peripheral_base_addr = 0;
+    dma_init_struct->memory_base_addr = 0;
+    dma_init_struct->direction = DMA_DIR_PERIPHERAL_TO_MEMORY;
+    dma_init_struct->buffer_size = 0;
+    dma_init_struct->peripheral_inc_enable = FALSE;
+    dma_init_struct->memory_inc_enable = FALSE;
+    dma_init_struct->peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_BYTE;
+    dma_init_struct->memory_data_width = DMA_MEMORY_DATA_WIDTH_BYTE;
+    dma_init_struct->loop_mode_enable = FALSE;
+    dma_init_struct->priority = DMA_PRIORITY_LOW;
 }
 
 /**
@@ -315,19 +315,19 @@ void dma_default_para_init(dma_init_type *dma_init_struct)
   */
 void dma_init(dma_channel_type *dmax_channely, dma_init_type *dma_init_struct)
 {
-  /* clear ctrl register dtd bit and m2m bit */
-  dmax_channely->ctrl &= 0xbfef;
-  dmax_channely->ctrl |= dma_init_struct->direction;
+    /* clear ctrl register dtd bit and m2m bit */
+    dmax_channely->ctrl &= 0xbfef;
+    dmax_channely->ctrl |= dma_init_struct->direction;
 
-  dmax_channely->ctrl_bit.chpl = dma_init_struct->priority;
-  dmax_channely->ctrl_bit.mwidth = dma_init_struct->memory_data_width;
-  dmax_channely->ctrl_bit.pwidth = dma_init_struct->peripheral_data_width;
-  dmax_channely->ctrl_bit.mincm = dma_init_struct->memory_inc_enable;
-  dmax_channely->ctrl_bit.pincm = dma_init_struct->peripheral_inc_enable;
-  dmax_channely->ctrl_bit.lm = dma_init_struct->loop_mode_enable;
-  dmax_channely->dtcnt_bit.cnt = dma_init_struct->buffer_size;
-  dmax_channely->paddr = dma_init_struct->peripheral_base_addr;
-  dmax_channely->maddr = dma_init_struct->memory_base_addr;
+    dmax_channely->ctrl_bit.chpl = dma_init_struct->priority;
+    dmax_channely->ctrl_bit.mwidth = dma_init_struct->memory_data_width;
+    dmax_channely->ctrl_bit.pwidth = dma_init_struct->peripheral_data_width;
+    dmax_channely->ctrl_bit.mincm = dma_init_struct->memory_inc_enable;
+    dmax_channely->ctrl_bit.pincm = dma_init_struct->peripheral_inc_enable;
+    dmax_channely->ctrl_bit.lm = dma_init_struct->loop_mode_enable;
+    dmax_channely->dtcnt_bit.cnt = dma_init_struct->buffer_size;
+    dmax_channely->paddr = dma_init_struct->peripheral_base_addr;
+    dmax_channely->maddr = dma_init_struct->memory_base_addr;
 }
 /**
   * @brief  dmamux init.
@@ -378,8 +378,8 @@ void dma_init(dma_channel_type *dmax_channely, dma_init_type *dma_init_struct)
   */
 void dma_flexible_config(dma_type* dma_x, dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type dmamux_req_sel)
 {
-  dma_x->muxsel_bit.tblsel = TRUE;
-  dmamux_channelx->muxctrl_bit.reqsel = dmamux_req_sel;
+    dma_x->muxsel_bit.tblsel = TRUE;
+    dmamux_channelx->muxctrl_bit.reqsel = dmamux_req_sel;
 }
 
 /**
@@ -390,7 +390,7 @@ void dma_flexible_config(dma_type* dma_x, dmamux_channel_type *dmamux_channelx, 
   */
 void dmamux_enable(dma_type *dma_x, confirm_state new_state)
 {
-  dma_x->muxsel_bit.tblsel = new_state;
+    dma_x->muxsel_bit.tblsel = new_state;
 }
 
 /**
@@ -441,7 +441,7 @@ void dmamux_enable(dma_type *dma_x, confirm_state new_state)
   */
 void dmamux_init(dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type dmamux_req_sel)
 {
-  dmamux_channelx->muxctrl_bit.reqsel = dmamux_req_sel;
+    dmamux_channelx->muxctrl_bit.reqsel = dmamux_req_sel;
 }
 
 /**
@@ -451,11 +451,11 @@ void dmamux_init(dmamux_channel_type *dmamux_channelx, dmamux_requst_id_sel_type
   */
 void dmamux_sync_default_para_init(dmamux_sync_init_type *dmamux_sync_init_struct)
 {
-  dmamux_sync_init_struct->sync_enable = FALSE;
-  dmamux_sync_init_struct->sync_event_enable = FALSE;
-  dmamux_sync_init_struct->sync_polarity = DMAMUX_SYNC_POLARITY_DISABLE;
-  dmamux_sync_init_struct->sync_request_number = 0x0;
-  dmamux_sync_init_struct->sync_signal_sel = (dmamux_sync_id_sel_type)0;
+    dmamux_sync_init_struct->sync_enable = FALSE;
+    dmamux_sync_init_struct->sync_event_enable = FALSE;
+    dmamux_sync_init_struct->sync_polarity = DMAMUX_SYNC_POLARITY_DISABLE;
+    dmamux_sync_init_struct->sync_request_number = 0x0;
+    dmamux_sync_init_struct->sync_signal_sel = (dmamux_sync_id_sel_type)0;
 }
 
 /**
@@ -481,11 +481,11 @@ void dmamux_sync_default_para_init(dmamux_sync_init_type *dmamux_sync_init_struc
   */
 void dmamux_sync_config(dmamux_channel_type *dmamux_channelx, dmamux_sync_init_type *dmamux_sync_init_struct)
 {
-  dmamux_channelx->muxctrl_bit.syncsel = dmamux_sync_init_struct->sync_signal_sel;
-  dmamux_channelx->muxctrl_bit.syncpol = dmamux_sync_init_struct->sync_polarity;
-  dmamux_channelx->muxctrl_bit.reqcnt  = dmamux_sync_init_struct->sync_request_number;
-  dmamux_channelx->muxctrl_bit.evtgen  = dmamux_sync_init_struct->sync_event_enable;
-  dmamux_channelx->muxctrl_bit.syncen  = dmamux_sync_init_struct->sync_enable;
+    dmamux_channelx->muxctrl_bit.syncsel = dmamux_sync_init_struct->sync_signal_sel;
+    dmamux_channelx->muxctrl_bit.syncpol = dmamux_sync_init_struct->sync_polarity;
+    dmamux_channelx->muxctrl_bit.reqcnt  = dmamux_sync_init_struct->sync_request_number;
+    dmamux_channelx->muxctrl_bit.evtgen  = dmamux_sync_init_struct->sync_event_enable;
+    dmamux_channelx->muxctrl_bit.syncen  = dmamux_sync_init_struct->sync_enable;
 }
 
 /**
@@ -495,10 +495,10 @@ void dmamux_sync_config(dmamux_channel_type *dmamux_channelx, dmamux_sync_init_t
   */
 void dmamux_generator_default_para_init(dmamux_gen_init_type *dmamux_gen_init_struct)
 {
-  dmamux_gen_init_struct->gen_enable         = FALSE;
-  dmamux_gen_init_struct->gen_polarity       = DMAMUX_GEN_POLARITY_DISABLE;
-  dmamux_gen_init_struct->gen_request_number = 0x0;
-  dmamux_gen_init_struct->gen_signal_sel     = (dmamux_gen_id_sel_type)0x0;
+    dmamux_gen_init_struct->gen_enable         = FALSE;
+    dmamux_gen_init_struct->gen_polarity       = DMAMUX_GEN_POLARITY_DISABLE;
+    dmamux_gen_init_struct->gen_request_number = 0x0;
+    dmamux_gen_init_struct->gen_signal_sel     = (dmamux_gen_id_sel_type)0x0;
 }
 
 /**
@@ -518,10 +518,10 @@ void dmamux_generator_default_para_init(dmamux_gen_init_type *dmamux_gen_init_st
   */
 void dmamux_generator_config(dmamux_generator_type *dmamux_gen_x, dmamux_gen_init_type *dmamux_gen_init_struct)
 {
-  dmamux_gen_x->gctrl_bit.sigsel  = dmamux_gen_init_struct->gen_signal_sel;
-  dmamux_gen_x->gctrl_bit.gpol    = dmamux_gen_init_struct->gen_polarity;
-  dmamux_gen_x->gctrl_bit.greqcnt = dmamux_gen_init_struct->gen_request_number;
-  dmamux_gen_x->gctrl_bit.gen     = dmamux_gen_init_struct->gen_enable;
+    dmamux_gen_x->gctrl_bit.sigsel  = dmamux_gen_init_struct->gen_signal_sel;
+    dmamux_gen_x->gctrl_bit.gpol    = dmamux_gen_init_struct->gen_polarity;
+    dmamux_gen_x->gctrl_bit.greqcnt = dmamux_gen_init_struct->gen_request_number;
+    dmamux_gen_x->gctrl_bit.gen     = dmamux_gen_init_struct->gen_enable;
 }
 
 /**
@@ -547,14 +547,14 @@ void dmamux_generator_config(dmamux_generator_type *dmamux_gen_x, dmamux_gen_ini
   */
 void dmamux_sync_interrupt_enable(dmamux_channel_type *dmamux_channelx, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    dmamux_channelx->muxctrl_bit.syncovien = TRUE;
-  }
-  else
-  {
-    dmamux_channelx->muxctrl_bit.syncovien = FALSE;
-  }
+    if(new_state != FALSE)
+    {
+        dmamux_channelx->muxctrl_bit.syncovien = TRUE;
+    }
+    else
+    {
+        dmamux_channelx->muxctrl_bit.syncovien = FALSE;
+    }
 }
 
 /**
@@ -574,14 +574,14 @@ void dmamux_sync_interrupt_enable(dmamux_channel_type *dmamux_channelx, confirm_
   */
 void dmamux_generator_interrupt_enable(dmamux_generator_type *dmamux_gen_x, confirm_state new_state)
 {
-  if(new_state != FALSE)
-  {
-    dmamux_gen_x->gctrl_bit.trgovien = TRUE;
-  }
-  else
-  {
-    dmamux_gen_x->gctrl_bit.trgovien = FALSE;
-  }
+    if(new_state != FALSE)
+    {
+        dmamux_gen_x->gctrl_bit.trgovien = TRUE;
+    }
+    else
+    {
+        dmamux_gen_x->gctrl_bit.trgovien = FALSE;
+    }
 }
 
 /**
@@ -600,14 +600,14 @@ void dmamux_generator_interrupt_enable(dmamux_generator_type *dmamux_gen_x, conf
   */
 flag_status dmamux_sync_flag_get(dma_type *dma_x, uint32_t flag)
 {
-  if((dma_x->muxsyncsts & flag) != RESET)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if((dma_x->muxsyncsts & flag) != RESET)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -626,7 +626,7 @@ flag_status dmamux_sync_flag_get(dma_type *dma_x, uint32_t flag)
   */
 void dmamux_sync_flag_clear(dma_type *dma_x, uint32_t flag)
 {
-  dma_x->muxsyncclr = flag;
+    dma_x->muxsyncclr = flag;
 }
 
 /**
@@ -642,14 +642,14 @@ void dmamux_sync_flag_clear(dma_type *dma_x, uint32_t flag)
   */
 flag_status dmamux_generator_flag_get(dma_type *dma_x, uint32_t flag)
 {
-  if((dma_x->muxgsts & flag) != RESET)
-  {
-    return SET;
-  }
-  else
-  {
-    return RESET;
-  }
+    if((dma_x->muxgsts & flag) != RESET)
+    {
+        return SET;
+    }
+    else
+    {
+        return RESET;
+    }
 }
 
 /**
@@ -665,7 +665,7 @@ flag_status dmamux_generator_flag_get(dma_type *dma_x, uint32_t flag)
   */
 void dmamux_generator_flag_clear(dma_type *dma_x, uint32_t flag)
 {
-  dma_x->muxgclr = flag;
+    dma_x->muxgclr = flag;
 }
 
 /**

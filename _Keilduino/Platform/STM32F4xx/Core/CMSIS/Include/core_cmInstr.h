@@ -49,7 +49,7 @@
 /* ARM armcc specific functions */
 
 #if (__ARMCC_VERSION < 400677)
-  #error "Please use ARM Compiler Toolchain V4.0.677 or later!"
+#error "Please use ARM Compiler Toolchain V4.0.677 or later!"
 #endif
 
 
@@ -90,10 +90,10 @@
     memory, after the instruction has been completed.
  */
 #define __ISB() do {\
-                   __schedule_barrier();\
-                   __isb(0xF);\
-                   __schedule_barrier();\
-                } while (0)
+        __schedule_barrier();\
+        __isb(0xF);\
+        __schedule_barrier();\
+    } while (0)
 
 /** \brief  Data Synchronization Barrier
 
@@ -101,10 +101,10 @@
     It completes when all explicit memory accesses before this instruction complete.
  */
 #define __DSB() do {\
-                   __schedule_barrier();\
-                   __dsb(0xF);\
-                   __schedule_barrier();\
-                } while (0)
+        __schedule_barrier();\
+        __dsb(0xF);\
+        __schedule_barrier();\
+    } while (0)
 
 /** \brief  Data Memory Barrier
 
@@ -112,10 +112,10 @@
     and after the instruction, without ensuring their completion.
  */
 #define __DMB() do {\
-                   __schedule_barrier();\
-                   __dmb(0xF);\
-                   __schedule_barrier();\
-                } while (0)
+        __schedule_barrier();\
+        __dmb(0xF);\
+        __schedule_barrier();\
+    } while (0)
 
 /** \brief  Reverse byte order (32 bit)
 
@@ -137,8 +137,8 @@
 #ifndef __NO_EMBEDDED_ASM
 __attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(uint32_t value)
 {
-  rev16 r0, r0
-  bx lr
+    rev16 r0, r0
+    bx lr
 }
 #endif
 
@@ -152,8 +152,8 @@ __attribute__((section(".rev16_text"))) __STATIC_INLINE __ASM uint32_t __REV16(u
 #ifndef __NO_EMBEDDED_ASM
 __attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(int32_t value)
 {
-  revsh r0, r0
-  bx lr
+    revsh r0, r0
+    bx lr
 }
 #endif
 
@@ -188,22 +188,24 @@ __attribute__((section(".revsh_text"))) __STATIC_INLINE __ASM int32_t __REVSH(in
     \return               Reversed value
  */
 #if       (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300)
-  #define __RBIT                          __rbit
+#define __RBIT                          __rbit
 #else
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 {
-  uint32_t result;
-  int32_t s = 4 /*sizeof(v)*/ * 8 - 1; // extra shift needed at end
+    uint32_t result;
+    int32_t s = 4 /*sizeof(v)*/ * 8 - 1; // extra shift needed at end
 
-  result = value;                      // r will be reversed bits of v; first get LSB of v
-  for (value >>= 1; value; value >>= 1)
-  {
-    result <<= 1;
-    result |= value & 1;
-    s--;
-  }
-  result <<= s;                       // shift when v's highest bits are zero
-  return(result);
+    result = value;                      // r will be reversed bits of v; first get LSB of v
+
+    for(value >>= 1; value; value >>= 1)
+    {
+        result <<= 1;
+        result |= value & 1;
+        s--;
+    }
+
+    result <<= s;                       // shift when v's highest bits are zero
+    return(result);
 }
 #endif
 
@@ -327,8 +329,8 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 #ifndef __NO_EMBEDDED_ASM
 __attribute__((section(".rrx_text"))) __STATIC_INLINE __ASM uint32_t __RRX(uint32_t value)
 {
-  rrx r0, r0
-  bx lr
+    rrx r0, r0
+    bx lr
 }
 #endif
 
@@ -415,7 +417,7 @@ __attribute__((section(".rrx_text"))) __STATIC_INLINE __ASM uint32_t __RRX(uint3
  */
 __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
 {
-  __ASM volatile ("nop");
+    __ASM volatile("nop");
 }
 
 
@@ -426,7 +428,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __NOP(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __WFI(void)
 {
-  __ASM volatile ("wfi");
+    __ASM volatile("wfi");
 }
 
 
@@ -437,7 +439,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __WFI(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __WFE(void)
 {
-  __ASM volatile ("wfe");
+    __ASM volatile("wfe");
 }
 
 
@@ -447,7 +449,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __WFE(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __SEV(void)
 {
-  __ASM volatile ("sev");
+    __ASM volatile("sev");
 }
 
 
@@ -459,7 +461,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __SEV(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __ISB(void)
 {
-  __ASM volatile ("isb 0xF":::"memory");
+    __ASM volatile("isb 0xF"::: "memory");
 }
 
 
@@ -470,7 +472,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __ISB(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __DSB(void)
 {
-  __ASM volatile ("dsb 0xF":::"memory");
+    __ASM volatile("dsb 0xF"::: "memory");
 }
 
 
@@ -481,7 +483,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __DSB(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE void __DMB(void)
 {
-  __ASM volatile ("dmb 0xF":::"memory");
+    __ASM volatile("dmb 0xF"::: "memory");
 }
 
 
@@ -495,12 +497,12 @@ __attribute__((always_inline)) __STATIC_INLINE void __DMB(void)
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV(uint32_t value)
 {
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
-  return __builtin_bswap32(value);
+    return __builtin_bswap32(value);
 #else
-  uint32_t result;
+    uint32_t result;
 
-  __ASM volatile ("rev %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+    __ASM volatile("rev %0, %1" : __CMSIS_GCC_OUT_REG(result) : __CMSIS_GCC_USE_REG(value));
+    return(result);
 #endif
 }
 
@@ -514,10 +516,10 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV(uint32_t value)
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
 {
-  uint32_t result;
+    uint32_t result;
 
-  __ASM volatile ("rev16 %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+    __ASM volatile("rev16 %0, %1" : __CMSIS_GCC_OUT_REG(result) : __CMSIS_GCC_USE_REG(value));
+    return(result);
 }
 
 
@@ -531,12 +533,12 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __REV16(uint32_t value)
 __attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
 {
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-  return (short)__builtin_bswap16(value);
+    return (short)__builtin_bswap16(value);
 #else
-  uint32_t result;
+    uint32_t result;
 
-  __ASM volatile ("revsh %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+    __ASM volatile("revsh %0, %1" : __CMSIS_GCC_OUT_REG(result) : __CMSIS_GCC_USE_REG(value));
+    return(result);
 #endif
 }
 
@@ -551,7 +553,7 @@ __attribute__((always_inline)) __STATIC_INLINE int32_t __REVSH(int32_t value)
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint32_t op2)
 {
-  return (op1 >> op2) | (op1 << (32 - op2));
+    return (op1 >> op2) | (op1 << (32 - op2));
 }
 
 
@@ -575,23 +577,25 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __ROR(uint32_t op1, uint
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __RBIT(uint32_t value)
 {
-  uint32_t result;
+    uint32_t result;
 
 #if       (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300)
-   __ASM volatile ("rbit %0, %1" : "=r" (result) : "r" (value) );
+    __ASM volatile("rbit %0, %1" : "=r"(result) : "r"(value));
 #else
-  int32_t s = 4 /*sizeof(v)*/ * 8 - 1; // extra shift needed at end
+    int32_t s = 4 /*sizeof(v)*/ * 8 - 1; // extra shift needed at end
 
-  result = value;                      // r will be reversed bits of v; first get LSB of v
-  for (value >>= 1; value; value >>= 1)
-  {
-    result <<= 1;
-    result |= value & 1;
-    s--;
-  }
-  result <<= s;                       // shift when v's highest bits are zero
+    result = value;                      // r will be reversed bits of v; first get LSB of v
+
+    for(value >>= 1; value; value >>= 1)
+    {
+        result <<= 1;
+        result |= value & 1;
+        s--;
+    }
+
+    result <<= s;                       // shift when v's highest bits are zero
 #endif
-  return(result);
+    return(result);
 }
 
 
@@ -619,14 +623,14 @@ __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDREXB(volatile uint8_t
     uint32_t result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-   __ASM volatile ("ldrexb %0, %1" : "=r" (result) : "Q" (*addr) );
+    __ASM volatile("ldrexb %0, %1" : "=r"(result) : "Q"(*addr));
 #else
     /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
        accepted by assembler. So has to use following less efficient pattern.
     */
-   __ASM volatile ("ldrexb %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+    __ASM volatile("ldrexb %0, [%1]" : "=r"(result) : "r"(addr) : "memory");
 #endif
-   return ((uint8_t) result);    /* Add explicit type cast here */
+    return ((uint8_t) result);    /* Add explicit type cast here */
 }
 
 
@@ -642,14 +646,14 @@ __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDREXH(volatile uint16
     uint32_t result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-   __ASM volatile ("ldrexh %0, %1" : "=r" (result) : "Q" (*addr) );
+    __ASM volatile("ldrexh %0, %1" : "=r"(result) : "Q"(*addr));
 #else
     /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
        accepted by assembler. So has to use following less efficient pattern.
     */
-   __ASM volatile ("ldrexh %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+    __ASM volatile("ldrexh %0, [%1]" : "=r"(result) : "r"(addr) : "memory");
 #endif
-   return ((uint16_t) result);    /* Add explicit type cast here */
+    return ((uint16_t) result);    /* Add explicit type cast here */
 }
 
 
@@ -664,8 +668,8 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDREXW(volatile uint32
 {
     uint32_t result;
 
-   __ASM volatile ("ldrex %0, %1" : "=r" (result) : "Q" (*addr) );
-   return(result);
+    __ASM volatile("ldrex %0, %1" : "=r"(result) : "Q"(*addr));
+    return(result);
 }
 
 
@@ -680,10 +684,10 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDREXW(volatile uint32
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXB(uint8_t value, volatile uint8_t *addr)
 {
-   uint32_t result;
+    uint32_t result;
 
-   __ASM volatile ("strexb %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
-   return(result);
+    __ASM volatile("strexb %0, %2, %1" : "=&r"(result), "=Q"(*addr) : "r"((uint32_t)value));
+    return(result);
 }
 
 
@@ -698,10 +702,10 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXB(uint8_t value, 
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXH(uint16_t value, volatile uint16_t *addr)
 {
-   uint32_t result;
+    uint32_t result;
 
-   __ASM volatile ("strexh %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" ((uint32_t)value) );
-   return(result);
+    __ASM volatile("strexh %0, %2, %1" : "=&r"(result), "=Q"(*addr) : "r"((uint32_t)value));
+    return(result);
 }
 
 
@@ -716,10 +720,10 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXH(uint16_t value,
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXW(uint32_t value, volatile uint32_t *addr)
 {
-   uint32_t result;
+    uint32_t result;
 
-   __ASM volatile ("strex %0, %2, %1" : "=&r" (result), "=Q" (*addr) : "r" (value) );
-   return(result);
+    __ASM volatile("strex %0, %2, %1" : "=&r"(result), "=Q"(*addr) : "r"(value));
+    return(result);
 }
 
 
@@ -730,7 +734,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __STREXW(uint32_t value,
  */
 __attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
 {
-  __ASM volatile ("clrex" ::: "memory");
+    __ASM volatile("clrex" ::: "memory");
 }
 
 
@@ -743,11 +747,11 @@ __attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
     \return             Saturated value
  */
 #define __SSAT(ARG1,ARG2) \
-({                          \
-  uint32_t __RES, __ARG1 = (ARG1); \
-  __ASM ("ssat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
-  __RES; \
- })
+    ({                          \
+        uint32_t __RES, __ARG1 = (ARG1); \
+        __ASM ("ssat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+        __RES; \
+    })
 
 
 /** \brief  Unsigned Saturate
@@ -759,11 +763,11 @@ __attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
     \return             Saturated value
  */
 #define __USAT(ARG1,ARG2) \
-({                          \
-  uint32_t __RES, __ARG1 = (ARG1); \
-  __ASM ("usat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
-  __RES; \
- })
+    ({                          \
+        uint32_t __RES, __ARG1 = (ARG1); \
+        __ASM ("usat %0, %1, %2" : "=r" (__RES) :  "I" (ARG2), "r" (__ARG1) ); \
+        __RES; \
+    })
 
 
 /** \brief  Rotate Right with Extend (32 bit)
@@ -776,10 +780,10 @@ __attribute__((always_inline)) __STATIC_INLINE void __CLREX(void)
  */
 __attribute__((always_inline)) __STATIC_INLINE uint32_t __RRX(uint32_t value)
 {
-  uint32_t result;
+    uint32_t result;
 
-  __ASM volatile ("rrx %0, %1" : __CMSIS_GCC_OUT_REG (result) : __CMSIS_GCC_USE_REG (value) );
-  return(result);
+    __ASM volatile("rrx %0, %1" : __CMSIS_GCC_OUT_REG(result) : __CMSIS_GCC_USE_REG(value));
+    return(result);
 }
 
 
@@ -795,14 +799,14 @@ __attribute__((always_inline)) __STATIC_INLINE uint8_t __LDRBT(volatile uint8_t 
     uint32_t result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-   __ASM volatile ("ldrbt %0, %1" : "=r" (result) : "Q" (*addr) );
+    __ASM volatile("ldrbt %0, %1" : "=r"(result) : "Q"(*addr));
 #else
     /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
        accepted by assembler. So has to use following less efficient pattern.
     */
-   __ASM volatile ("ldrbt %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+    __ASM volatile("ldrbt %0, [%1]" : "=r"(result) : "r"(addr) : "memory");
 #endif
-   return ((uint8_t) result);    /* Add explicit type cast here */
+    return ((uint8_t) result);    /* Add explicit type cast here */
 }
 
 
@@ -818,14 +822,14 @@ __attribute__((always_inline)) __STATIC_INLINE uint16_t __LDRHT(volatile uint16_
     uint32_t result;
 
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && __GNUC_MINOR__ >= 8)
-   __ASM volatile ("ldrht %0, %1" : "=r" (result) : "Q" (*addr) );
+    __ASM volatile("ldrht %0, %1" : "=r"(result) : "Q"(*addr));
 #else
     /* Prior to GCC 4.8, "Q" will be expanded to [rx, #0] which is not
        accepted by assembler. So has to use following less efficient pattern.
     */
-   __ASM volatile ("ldrht %0, [%1]" : "=r" (result) : "r" (addr) : "memory" );
+    __ASM volatile("ldrht %0, [%1]" : "=r"(result) : "r"(addr) : "memory");
 #endif
-   return ((uint16_t) result);    /* Add explicit type cast here */
+    return ((uint16_t) result);    /* Add explicit type cast here */
 }
 
 
@@ -840,8 +844,8 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDRT(volatile uint32_t
 {
     uint32_t result;
 
-   __ASM volatile ("ldrt %0, %1" : "=r" (result) : "Q" (*addr) );
-   return(result);
+    __ASM volatile("ldrt %0, %1" : "=r"(result) : "Q"(*addr));
+    return(result);
 }
 
 
@@ -854,7 +858,7 @@ __attribute__((always_inline)) __STATIC_INLINE uint32_t __LDRT(volatile uint32_t
  */
 __attribute__((always_inline)) __STATIC_INLINE void __STRBT(uint8_t value, volatile uint8_t *addr)
 {
-   __ASM volatile ("strbt %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+    __ASM volatile("strbt %1, %0" : "=Q"(*addr) : "r"((uint32_t)value));
 }
 
 
@@ -867,7 +871,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRBT(uint8_t value, volat
  */
 __attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, volatile uint16_t *addr)
 {
-   __ASM volatile ("strht %1, %0" : "=Q" (*addr) : "r" ((uint32_t)value) );
+    __ASM volatile("strht %1, %0" : "=Q"(*addr) : "r"((uint32_t)value));
 }
 
 
@@ -880,7 +884,7 @@ __attribute__((always_inline)) __STATIC_INLINE void __STRHT(uint16_t value, vola
  */
 __attribute__((always_inline)) __STATIC_INLINE void __STRT(uint32_t value, volatile uint32_t *addr)
 {
-   __ASM volatile ("strt %1, %0" : "=Q" (*addr) : "r" (value) );
+    __ASM volatile("strt %1, %0" : "=Q"(*addr) : "r"(value));
 }
 
 #endif /* (__CORTEX_M >= 0x03) || (__CORTEX_SC >= 300) */

@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    20-April-2015
-  * @brief   This file contains all the functions prototypes for the LCD firmware 
+  * @brief   This file contains all the functions prototypes for the LCD firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32L1xx_LCD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -43,27 +43,27 @@
 
 /** @addtogroup LCD
   * @{
-  */ 
+  */
 
 /* Exported types ------------------------------------------------------------*/
- 
-/** 
-  * @brief  LCD Init structure definition  
+
+/**
+  * @brief  LCD Init structure definition
   */
 
 typedef struct
 {
-  uint32_t LCD_Prescaler;     /*!< Configures the LCD Prescaler. 
+    uint32_t LCD_Prescaler;     /*!< Configures the LCD Prescaler.
                                    This parameter can be one value of @ref LCD_Prescaler */
-  uint32_t LCD_Divider;       /*!< Configures the LCD Divider.
+    uint32_t LCD_Divider;       /*!< Configures the LCD Divider.
                                   This parameter can be one value of @ref LCD_Divider */
-  uint32_t LCD_Duty;          /*!< Configures the LCD Duty.
+    uint32_t LCD_Duty;          /*!< Configures the LCD Duty.
                                   This parameter can be one value of @ref LCD_Duty */
-  uint32_t LCD_Bias;          /*!< Configures the LCD Bias.
-                                  This parameter can be one value of @ref LCD_Bias */ 
-  uint32_t LCD_VoltageSource; /*!< Selects the LCD Voltage source.
+    uint32_t LCD_Bias;          /*!< Configures the LCD Bias.
+                                  This parameter can be one value of @ref LCD_Bias */
+    uint32_t LCD_VoltageSource; /*!< Selects the LCD Voltage source.
                                   This parameter can be one value of @ref LCD_Voltage_Source */
-}LCD_InitTypeDef;
+} LCD_InitTypeDef;
 
 
 /* Exported constants --------------------------------------------------------*/
@@ -72,7 +72,7 @@ typedef struct
   * @{
   */
 
-/** @defgroup LCD_Prescaler 
+/** @defgroup LCD_Prescaler
   * @{
   */
 
@@ -113,8 +113,8 @@ typedef struct
 /**
   * @}
   */
-  
-/** @defgroup LCD_Divider 
+
+/** @defgroup LCD_Divider
   * @{
   */
 
@@ -157,10 +157,10 @@ typedef struct
   */
 
 
-/** @defgroup LCD_Duty 
+/** @defgroup LCD_Duty
   * @{
   */
-  
+
 #define LCD_Duty_Static                 ((uint32_t)0x00000000) /*!< Static duty */
 #define LCD_Duty_1_2                    ((uint32_t)0x00000004) /*!< 1/2 duty    */
 #define LCD_Duty_1_3                    ((uint32_t)0x00000008) /*!< 1/3 duty    */
@@ -175,13 +175,13 @@ typedef struct
 
 /**
   * @}
-  */ 
-  
+  */
 
-/** @defgroup LCD_Bias 
+
+/** @defgroup LCD_Bias
   * @{
   */
-  
+
 #define LCD_Bias_1_4                    ((uint32_t)0x00000000)  /*!< 1/4 Bias */
 #define LCD_Bias_1_2                    LCD_CR_BIAS_0           /*!< 1/2 Bias */
 #define LCD_Bias_1_3                    LCD_CR_BIAS_1           /*!< 1/3 Bias */
@@ -191,23 +191,23 @@ typedef struct
                            ((BIAS) == LCD_Bias_1_3))
 /**
   * @}
-  */ 
-    
-/** @defgroup LCD_Voltage_Source 
+  */
+
+/** @defgroup LCD_Voltage_Source
   * @{
   */
-  
+
 #define LCD_VoltageSource_Internal      ((uint32_t)0x00000000)  /*!< Internal voltage source for the LCD */
 #define LCD_VoltageSource_External      LCD_CR_VSEL             /*!< External voltage source for the LCD */
 
 #define IS_LCD_VOLTAGE_SOURCE(SOURCE) (((SOURCE) == LCD_VoltageSource_Internal) || \
                                        ((SOURCE) == LCD_VoltageSource_External))
-                           
+
 /**
   * @}
-  */  
+  */
 
-/** @defgroup LCD_Interrupts 
+/** @defgroup LCD_Interrupts
   * @{
   */
 #define LCD_IT_SOF                      LCD_FCR_SOFIE
@@ -216,12 +216,12 @@ typedef struct
 #define IS_LCD_IT(IT) ((((IT) & (uint32_t)0xFFFFFFF5) == 0x00) && ((IT) != 0x00))
 
 #define IS_LCD_GET_IT(IT) (((IT) == LCD_IT_SOF) || ((IT) == LCD_IT_UDD))
- 
+
 /**
   * @}
   */
 
-/** @defgroup LCD_PulseOnDuration 
+/** @defgroup LCD_PulseOnDuration
   * @{
   */
 
@@ -235,19 +235,19 @@ typedef struct
 #define LCD_PulseOnDuration_7           ((uint32_t)0x00000070) /*!< Pulse ON duration = 7/CK_PS  */
 
 #define IS_LCD_PULSE_ON_DURATION(DURATION) (((DURATION) == LCD_PulseOnDuration_0) || \
-                                            ((DURATION) == LCD_PulseOnDuration_1) || \
-                                            ((DURATION) == LCD_PulseOnDuration_2) || \
-                                            ((DURATION) == LCD_PulseOnDuration_3) || \
-                                            ((DURATION) == LCD_PulseOnDuration_4) || \
-                                            ((DURATION) == LCD_PulseOnDuration_5) || \
-                                            ((DURATION) == LCD_PulseOnDuration_6) || \
-                                            ((DURATION) == LCD_PulseOnDuration_7))
+        ((DURATION) == LCD_PulseOnDuration_1) || \
+        ((DURATION) == LCD_PulseOnDuration_2) || \
+        ((DURATION) == LCD_PulseOnDuration_3) || \
+        ((DURATION) == LCD_PulseOnDuration_4) || \
+        ((DURATION) == LCD_PulseOnDuration_5) || \
+        ((DURATION) == LCD_PulseOnDuration_6) || \
+        ((DURATION) == LCD_PulseOnDuration_7))
 /**
   * @}
   */
 
 
-/** @defgroup LCD_DeadTime 
+/** @defgroup LCD_DeadTime
   * @{
   */
 
@@ -272,7 +272,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup LCD_BlinkMode 
+/** @defgroup LCD_BlinkMode
   * @{
   */
 
@@ -288,9 +288,9 @@ typedef struct
                                  ((MODE) == LCD_BlinkMode_AllSEG_AllCOM))
 /**
   * @}
-  */    
+  */
 
-/** @defgroup LCD_BlinkFrequency 
+/** @defgroup LCD_BlinkFrequency
   * @{
   */
 
@@ -304,18 +304,18 @@ typedef struct
 #define LCD_BlinkFrequency_Div1024      ((uint32_t)0x0000E000) /*!< The Blink frequency = fLCD/1024 */
 
 #define IS_LCD_BLINK_FREQUENCY(FREQUENCY) (((FREQUENCY) == LCD_BlinkFrequency_Div8) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div16) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div32) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div64) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div128) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div256) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div512) || \
-                                           ((FREQUENCY) == LCD_BlinkFrequency_Div1024))
+        ((FREQUENCY) == LCD_BlinkFrequency_Div16) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div32) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div64) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div128) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div256) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div512) || \
+        ((FREQUENCY) == LCD_BlinkFrequency_Div1024))
 /**
   * @}
   */
 
-/** @defgroup LCD_Contrast 
+/** @defgroup LCD_Contrast
   * @{
   */
 
@@ -339,8 +339,8 @@ typedef struct
 /**
   * @}
   */
-      
-/** @defgroup LCD_Flag 
+
+/** @defgroup LCD_Flag
   * @{
   */
 
@@ -358,9 +358,9 @@ typedef struct
 #define IS_LCD_CLEAR_FLAG(FLAG) ((((FLAG) & (uint32_t)0xFFFFFFF5) == 0x00) && ((FLAG) != 0x00))
 /**
   * @}
-  */   
+  */
 
-/** @defgroup LCD_RAMRegister 
+/** @defgroup LCD_RAMRegister
   * @{
   */
 
@@ -400,8 +400,8 @@ typedef struct
 
 /**
   * @}
-  */  
-   
+  */
+
 /**
   * @}
   */

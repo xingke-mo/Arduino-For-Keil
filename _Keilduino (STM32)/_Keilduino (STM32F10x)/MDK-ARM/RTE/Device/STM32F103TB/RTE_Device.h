@@ -14,14 +14,14 @@
 
 
 #define GPIO_PORT(num) \
- ((num == 0) ? GPIOA : \
-  (num == 1) ? GPIOB : \
-  (num == 2) ? GPIOC : \
-  (num == 3) ? GPIOD : \
-  (num == 4) ? GPIOE : \
-  (num == 5) ? GPIOF : \
-  (num == 6) ? GPIOG : \
-  NULL)
+    ((num == 0) ? GPIOA : \
+     (num == 1) ? GPIOB : \
+     (num == 2) ? GPIOC : \
+     (num == 3) ? GPIOD : \
+     (num == 4) ? GPIOE : \
+     (num == 5) ? GPIOF : \
+     (num == 6) ? GPIOG : \
+     NULL)
 
 
 // <h> Clock Configuration
@@ -127,7 +127,7 @@
 #define RTE_USART1_CTS_BIT               RTE_USART1_CTS_BIT_DEF
 #define RTE_USART1_RTS_PORT              RTE_USART1_RTS_PORT_DEF
 #define RTE_USART1_RTS_BIT               RTE_USART1_RTS_BIT_DEF
-#else 
+#else
 #define RTE_USART1_AF_REMAP              AFIO_USART1_NO_REMAP
 #define RTE_USART1_TX_PORT               RTE_USART1_TX_PORT_DEF
 #define RTE_USART1_TX_BIT                RTE_USART1_TX_BIT_DEF
@@ -289,7 +289,7 @@
 #define RTE_USART2_CTS_BIT               RTE_USART2_CTS_BIT_FULL
 #define RTE_USART2_RTS_PORT              RTE_USART2_RTS_PORT_FULL
 #define RTE_USART2_RTS_BIT               RTE_USART2_RTS_BIT_FULL
-#else 
+#else
 #define RTE_USART2_AF_REMAP              AFIO_USART2_NO_REMAP
 #define RTE_USART2_TX_PORT               RTE_USART2_TX_PORT_DEF
 #define RTE_USART2_TX_BIT                RTE_USART2_TX_BIT_DEF
@@ -853,7 +853,7 @@
 #define RTE_SPI1_MISO_BIT               RTE_SPI1_MISO_BIT_FULL
 #define RTE_SPI1_MOSI_PORT              RTE_SPI1_MOSI_PORT_FULL
 #define RTE_SPI1_MOSI_BIT               RTE_SPI1_MOSI_BIT_FULL
-#else 
+#else
 #define RTE_SPI1_AF_REMAP               AFIO_SPI1_NO_REMAP
 #define RTE_SPI1_SCK_PORT               RTE_SPI1_SCK_PORT_DEF
 #define RTE_SPI1_SCK_BIT                RTE_SPI1_SCK_BIT_DEF
@@ -1053,7 +1053,7 @@
 #define RTE_SPI3_MISO_BIT               RTE_SPI3_MISO_BIT_FULL
 #define RTE_SPI3_MOSI_PORT              RTE_SPI3_MOSI_PORT_FULL
 #define RTE_SPI3_MOSI_BIT               RTE_SPI3_MOSI_BIT_FULL
-#else 
+#else
 #define RTE_SPI3_AF_REMAP               AFIO_SPI3_NO_REMAP
 #define RTE_SPI3_SCK_PORT               RTE_SPI3_SCK_PORT_DEF
 #define RTE_SPI3_SCK_BIT                RTE_SPI3_SCK_BIT_DEF

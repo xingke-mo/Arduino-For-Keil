@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.0.1
   * @date    20-April-2012
-  * @brief   This file contains all the functions prototypes for the CRC firmware 
+  * @brief   This file contains all the functions prototypes for the CRC firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32F0XX_CRC_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /*!< Includes ----------------------------------------------------------------*/
@@ -57,9 +57,9 @@
 #define CRC_ReverseInputData_32bits         CRC_CR_REV_IN          /*!< Reverse operation of Input Data on 32 bits */
 
 #define IS_CRC_REVERSE_INPUT_DATA(DATA) (((DATA) == CRC_ReverseInputData_No)     || \
-                                         ((DATA) == CRC_ReverseInputData_8bits)  || \
-                                         ((DATA) == CRC_ReverseInputData_16bits) || \
-                                         ((DATA) == CRC_ReverseInputData_32bits))
+        ((DATA) == CRC_ReverseInputData_8bits)  || \
+        ((DATA) == CRC_ReverseInputData_16bits) || \
+        ((DATA) == CRC_ReverseInputData_32bits))
 
 /**
   * @}

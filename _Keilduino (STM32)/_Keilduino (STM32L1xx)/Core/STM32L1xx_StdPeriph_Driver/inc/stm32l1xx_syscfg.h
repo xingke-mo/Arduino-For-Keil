@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    20-April-2015
-  * @brief   This file contains all the functions prototypes for the SYSCFG 
+  * @brief   This file contains all the functions prototypes for the SYSCFG
   *          firmware library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32L1xx_SYSCFG_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /*!< Includes ------------------------------------------------------------------*/
@@ -43,18 +43,18 @@
 
 /** @addtogroup SYSCFG
   * @{
-  */ 
-  
+  */
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 
 /** @defgroup SYSCFG_Exported_Constants
   * @{
-  */ 
-  
-/** @defgroup EXTI_Port_Sources 
+  */
+
+/** @defgroup EXTI_Port_Sources
   * @{
-  */ 
+  */
 #define EXTI_PortSourceGPIOA       ((uint8_t)0x00)
 #define EXTI_PortSourceGPIOB       ((uint8_t)0x01)
 #define EXTI_PortSourceGPIOC       ((uint8_t)0x02)
@@ -63,22 +63,22 @@
 #define EXTI_PortSourceGPIOH       ((uint8_t)0x05)
 #define EXTI_PortSourceGPIOF       ((uint8_t)0x06)
 #define EXTI_PortSourceGPIOG       ((uint8_t)0x07)
-                                      
+
 #define IS_EXTI_PORT_SOURCE(PORTSOURCE) (((PORTSOURCE) == EXTI_PortSourceGPIOA) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOB) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOC) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOD) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOE) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOF) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOG) || \
-                                         ((PORTSOURCE) == EXTI_PortSourceGPIOH)) 
+        ((PORTSOURCE) == EXTI_PortSourceGPIOB) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOC) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOD) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOE) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOF) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOG) || \
+        ((PORTSOURCE) == EXTI_PortSourceGPIOH))
 /**
   * @}
   */
 
-/** @defgroup EXTI_Pin_sources 
+/** @defgroup EXTI_Pin_sources
   * @{
-  */ 
+  */
 #define EXTI_PinSource0            ((uint8_t)0x00)
 #define EXTI_PinSource1            ((uint8_t)0x01)
 #define EXTI_PinSource2            ((uint8_t)0x02)
@@ -115,23 +115,23 @@
   * @}
   */
 
-/** @defgroup SYSCFG_Memory_Remap_Config 
+/** @defgroup SYSCFG_Memory_Remap_Config
   * @{
-  */ 
+  */
 #define SYSCFG_MemoryRemap_Flash       ((uint8_t)0x00)
 #define SYSCFG_MemoryRemap_SystemFlash ((uint8_t)0x01)
 #define SYSCFG_MemoryRemap_FSMC        ((uint8_t)0x02)
 #define SYSCFG_MemoryRemap_SRAM        ((uint8_t)0x03)
-   
+
 #define IS_SYSCFG_MEMORY_REMAP_CONFING(REMAP) (((REMAP) == SYSCFG_MemoryRemap_Flash) || \
-                                               ((REMAP) == SYSCFG_MemoryRemap_SystemFlash) || \
-                                               ((REMAP) == SYSCFG_MemoryRemap_FSMC) || \
-                                               ((REMAP) == SYSCFG_MemoryRemap_SRAM))
+        ((REMAP) == SYSCFG_MemoryRemap_SystemFlash) || \
+        ((REMAP) == SYSCFG_MemoryRemap_FSMC) || \
+        ((REMAP) == SYSCFG_MemoryRemap_SRAM))
 
 /**
   * @}
   */
-  
+
 /** @defgroup RI_Resistor
   * @{
   */
@@ -145,10 +145,10 @@
                                    ((RESISTOR) == COMP_CSR_400KPU) || \
                                    ((RESISTOR) == COMP_CSR_10KPD) || \
                                    ((RESISTOR) == COMP_CSR_400KPD))
- 
+
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup RI_Channel
   * @{
@@ -164,7 +164,7 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup RI_ChannelSpeed
   * @{
@@ -178,12 +178,12 @@
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup RI_InputCapture
   * @{
-  */ 
-  
+  */
+
 #define RI_InputCapture_IC1  RI_ICR_IC1    /*!< Input Capture 1 */
 #define RI_InputCapture_IC2  RI_ICR_IC2    /*!< Input Capture 2 */
 #define RI_InputCapture_IC3  RI_ICR_IC3    /*!< Input Capture 3 */
@@ -192,12 +192,12 @@
 #define IS_RI_INPUTCAPTURE(INPUTCAPTURE) ((((INPUTCAPTURE) & (uint32_t)0xFFC2FFFF) == 0x00) && ((INPUTCAPTURE) != (uint32_t)0x00))
 /**
   * @}
-  */ 
-  
+  */
+
 /** @defgroup TIM_Select
   * @{
-  */ 
-  
+  */
+
 #define TIM_Select_None  ((uint32_t)0x00000000)    /*!< None selected */
 #define TIM_Select_TIM2  ((uint32_t)0x00010000)    /*!< Timer 2 selected */
 #define TIM_Select_TIM3  ((uint32_t)0x00020000)    /*!< Timer 3 selected */
@@ -210,12 +210,12 @@
 
 /**
   * @}
-  */ 
-  
+  */
+
 /** @defgroup RI_InputCaptureRouting
   * @{
-  */ 
-                                                          /* TIMx_IC1 TIMx_IC2  TIMx_IC3  TIMx_IC4 */  
+  */
+/* TIMx_IC1 TIMx_IC2  TIMx_IC3  TIMx_IC4 */
 #define RI_InputCaptureRouting_0   ((uint32_t)0x00000000) /* PA0       PA1      PA2       PA3      */
 #define RI_InputCaptureRouting_1   ((uint32_t)0x00000001) /* PA4       PA5      PA6       PA7      */
 #define RI_InputCaptureRouting_2   ((uint32_t)0x00000002) /* PA8       PA9      PA10      PA11     */
@@ -234,30 +234,30 @@
 #define RI_InputCaptureRouting_15  ((uint32_t)0x0000000F) /* PE12      PE13     PE14      PE15     */
 
 #define IS_RI_INPUTCAPTURE_ROUTING(ROUTING) (((ROUTING) == RI_InputCaptureRouting_0) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_1) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_2) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_3) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_4) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_5) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_6) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_7) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_8) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_9) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_10) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_11) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_12) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_13) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_14) || \
-                                             ((ROUTING) == RI_InputCaptureRouting_15))
+        ((ROUTING) == RI_InputCaptureRouting_1) || \
+        ((ROUTING) == RI_InputCaptureRouting_2) || \
+        ((ROUTING) == RI_InputCaptureRouting_3) || \
+        ((ROUTING) == RI_InputCaptureRouting_4) || \
+        ((ROUTING) == RI_InputCaptureRouting_5) || \
+        ((ROUTING) == RI_InputCaptureRouting_6) || \
+        ((ROUTING) == RI_InputCaptureRouting_7) || \
+        ((ROUTING) == RI_InputCaptureRouting_8) || \
+        ((ROUTING) == RI_InputCaptureRouting_9) || \
+        ((ROUTING) == RI_InputCaptureRouting_10) || \
+        ((ROUTING) == RI_InputCaptureRouting_11) || \
+        ((ROUTING) == RI_InputCaptureRouting_12) || \
+        ((ROUTING) == RI_InputCaptureRouting_13) || \
+        ((ROUTING) == RI_InputCaptureRouting_14) || \
+        ((ROUTING) == RI_InputCaptureRouting_15))
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup RI_IOSwitch
   * @{
-  */ 
-  
+  */
+
 /* ASCR1 I/O switch: bit 31 is set to '1' to indicate that the mask is in ASCR1 register */
 #define RI_IOSwitch_CH0        ((uint32_t)0x80000001)
 #define RI_IOSwitch_CH1        ((uint32_t)0x80000002)
@@ -291,7 +291,7 @@
 #define RI_IOSwitch_CH29       ((uint32_t)0xA0000000)
 #define RI_IOSwitch_CH30       ((uint32_t)0xC0000000)
 
-/* ASCR2 IO switch: bit 31 is set to '0' to indicate that the mask is in ASCR2 register */  
+/* ASCR2 IO switch: bit 31 is set to '0' to indicate that the mask is in ASCR2 register */
 #define RI_IOSwitch_GR10_1     ((uint32_t)0x00000001)
 #define RI_IOSwitch_GR10_2     ((uint32_t)0x00000002)
 #define RI_IOSwitch_GR10_3     ((uint32_t)0x00000004)
@@ -406,7 +406,7 @@
   * @}
   */
 
-/** @defgroup RI_Pin define 
+/** @defgroup RI_Pin define
   * @{
   */
 #define RI_Pin_0                 ((uint16_t)0x0001)  /*!< Pin 0 selected */
@@ -444,13 +444,13 @@
 void SYSCFG_DeInit(void);
 void SYSCFG_RIDeInit(void);
 
-/* SYSCFG Initialization and Configuration functions **************************/ 
+/* SYSCFG Initialization and Configuration functions **************************/
 void SYSCFG_MemoryRemapConfig(uint8_t SYSCFG_MemoryRemap);
 uint32_t SYSCFG_GetBootMode(void);
 void SYSCFG_USBPuCmd(FunctionalState NewState);
 void SYSCFG_EXTILineConfig(uint8_t EXTI_PortSourceGPIOx, uint8_t EXTI_PinSourcex);
 
-/* RI Initialization and Configuration functions ******************************/ 
+/* RI Initialization and Configuration functions ******************************/
 void SYSCFG_RITIMSelect(uint32_t TIM_Select);
 void SYSCFG_RITIMInputCaptureConfig(uint32_t RI_InputCapture, uint32_t RI_InputCaptureRouting);
 void SYSCFG_RIResistorConfig(uint32_t RI_Resistor, FunctionalState NewState);
@@ -467,10 +467,10 @@ void SYSCFG_RIHysteresisConfig(uint8_t RI_Port, uint16_t RI_Pin, FunctionalState
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

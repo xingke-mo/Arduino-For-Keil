@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -166,20 +166,47 @@ void GPIOx_Init(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin_x, GPIOMode_TypeDef GPIO_
     GPIO_InitTypeDef GPIO_InitStructure;
     uint32_t RCC_APB2Periph_GPIOx;
 
-    if(GPIOx == GPIOA)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOA;
-    else if(GPIOx == GPIOB)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOB;
-    else if(GPIOx == GPIOC)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOC;
-    else if(GPIOx == GPIOD)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOD;
-    else if(GPIOx == GPIOE)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOE;
-    else if(GPIOx == GPIOF)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOF;
-    else if(GPIOx == GPIOG)RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOG;
-    else return;
+    if(GPIOx == GPIOA)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOA;
+    }
+    else if(GPIOx == GPIOB)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOB;
+    }
+    else if(GPIOx == GPIOC)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOC;
+    }
+    else if(GPIOx == GPIOD)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOD;
+    }
+    else if(GPIOx == GPIOE)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOE;
+    }
+    else if(GPIOx == GPIOF)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOF;
+    }
+    else if(GPIOx == GPIOG)
+    {
+        RCC_APB2Periph_GPIOx = RCC_APB2Periph_GPIOG;
+    }
+    else
+    {
+        return;
+    }
 
     if((GPIO_Mode_x == GPIO_Mode_AF_OD) || (GPIO_Mode_x == GPIO_Mode_AF_PP))
     {
         RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOx | RCC_APB2Periph_AFIO, ENABLE);
     }
-    else RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOx, ENABLE);
+    else
+    {
+        RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOx, ENABLE);
+    }
 
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_x;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_x;
@@ -206,14 +233,38 @@ void GPIO_JTAG_Disable(void)
   */
 uint8_t GPIO_GetPortNum(uint8_t Pin)
 {
-    if(PIN_MAP[Pin].GPIOx == GPIOA)return 0;
-    else if(PIN_MAP[Pin].GPIOx == GPIOB)return 1;
-    else if(PIN_MAP[Pin].GPIOx == GPIOC)return 2;
-    else if(PIN_MAP[Pin].GPIOx == GPIOD)return 3;
-    else if(PIN_MAP[Pin].GPIOx == GPIOE)return 4;
-    else if(PIN_MAP[Pin].GPIOx == GPIOF)return 5;
-    else if(PIN_MAP[Pin].GPIOx == GPIOG)return 6;
-    else return 0xFF;
+    if(PIN_MAP[Pin].GPIOx == GPIOA)
+    {
+        return 0;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOB)
+    {
+        return 1;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOC)
+    {
+        return 2;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOD)
+    {
+        return 3;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOE)
+    {
+        return 4;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOF)
+    {
+        return 5;
+    }
+    else if(PIN_MAP[Pin].GPIOx == GPIOG)
+    {
+        return 6;
+    }
+    else
+    {
+        return 0xFF;
+    }
 }
 
 /**
@@ -234,10 +285,12 @@ uint8_t GPIO_GetPinNum(uint8_t Pin)
 uint8_t GPIO_GetPinSource(uint16_t GPIO_Pin_x)
 {
     uint16_t PinSource = 0;
+
     while(GPIO_Pin_x > 1)
     {
         GPIO_Pin_x >>= 1;
         PinSource++;
     }
+
     return PinSource;
 }

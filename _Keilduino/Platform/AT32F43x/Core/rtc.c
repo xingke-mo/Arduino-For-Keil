@@ -100,18 +100,18 @@ static void ertc_config(void)
     /* set time: 12:00:00 */
     ertc_time_set(12, 0, 0, ERTC_AM);
 
-//    /* set the alarm 12:00:10 */
-//    ertc_alarm_mask_set(ERTC_ALA, ERTC_ALARM_MASK_DATE_WEEK);
-//    ertc_alarm_week_date_select(ERTC_ALA, ERTC_SLECT_DATE);
-//    ertc_alarm_set(ERTC_ALA, 1, 12, 0, 10, ERTC_AM);
+    //    /* set the alarm 12:00:10 */
+    //    ertc_alarm_mask_set(ERTC_ALA, ERTC_ALARM_MASK_DATE_WEEK);
+    //    ertc_alarm_week_date_select(ERTC_ALA, ERTC_SLECT_DATE);
+    //    ertc_alarm_set(ERTC_ALA, 1, 12, 0, 10, ERTC_AM);
 
-//    /* enable ertc alarm a interrupt */
-//    ertc_interrupt_enable(ERTC_ALA_INT, TRUE);
+    //    /* enable ertc alarm a interrupt */
+    //    ertc_interrupt_enable(ERTC_ALA_INT, TRUE);
 
-//    /* enable the alarm */
-//    ertc_alarm_enable(ERTC_ALA, TRUE);
+    //    /* enable the alarm */
+    //    ertc_alarm_enable(ERTC_ALA, TRUE);
 
-//    ertc_flag_clear(ERTC_ALAF_FLAG);
+    //    ertc_flag_clear(ERTC_ALAF_FLAG);
 
     /* indicator for the ertc configuration */
     ertc_bpr_data_write(ERTC_DT1, 0x1234);
@@ -130,7 +130,7 @@ void RTC_Init(void)
     /* allow access to ertc */
     pwc_battery_powered_domain_access(TRUE);
 
-    if (ertc_bpr_data_read(ERTC_DT1) != 0x1234)
+    if(ertc_bpr_data_read(ERTC_DT1) != 0x1234)
     {
         /* ertc configuration */
         ertc_config();
@@ -140,11 +140,11 @@ void RTC_Init(void)
         /* wait for ertc registers update */
         ertc_wait_update();
 
-//        /* clear the ertc alarm flag */
-//        ertc_flag_clear(ERTC_ALAF_FLAG);
+        //        /* clear the ertc alarm flag */
+        //        ertc_flag_clear(ERTC_ALAF_FLAG);
 
-//        /* clear the exint line 17 pending bit */
-//        exint_flag_clear(EXINT_LINE_17);
+        //        /* clear the exint line 17 pending bit */
+        //        exint_flag_clear(EXINT_LINE_17);
     }
 }
 
@@ -184,11 +184,20 @@ uint8_t RTC_GetWeek(uint16_t year, uint8_t month, uint8_t day)
 
     yearH = year / 100;
     yearL = year % 100;
-    if (yearH > 19)yearL += 100;
+
+    if(yearH > 19)
+    {
+        yearL += 100;
+    }
+
     temp2 = yearL + yearL / 4;
     temp2 = temp2 % 7;
     temp2 = temp2 + day + table_week[month - 1];
-    if (yearL % 4 == 0 && month < 3)
+
+    if(yearL % 4 == 0 && month < 3)
+    {
         temp2--;
+    }
+
     return(temp2 % 7);
 }

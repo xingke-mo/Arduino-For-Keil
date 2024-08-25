@@ -104,6 +104,7 @@ void delay_us(uint32_t us)
 start:
     now = SysTick->VAL;
     diff = last - now;
+
     if(diff > 0)
     {
         total += diff;
@@ -112,10 +113,12 @@ start:
     {
         total += diff + SYSTICK_LOAD_VALUE;
     }
+
     if(total > target)
     {
         return;
     }
+
     last = now;
     goto start;
 }

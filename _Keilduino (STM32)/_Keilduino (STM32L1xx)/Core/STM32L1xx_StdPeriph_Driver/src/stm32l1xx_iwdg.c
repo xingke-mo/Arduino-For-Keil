@@ -4,44 +4,44 @@
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    20-April-2015
-  * @brief   This file provides firmware functions to manage the following 
-  *          functionalities of the Independent watchdog (IWDG) peripheral:           
+  * @brief   This file provides firmware functions to manage the following
+  *          functionalities of the Independent watchdog (IWDG) peripheral:
   *           + Prescaler and Counter configuration
   *           + IWDG activation
   *           + Flag management
   *
-  *  @verbatim  
-  *  
-  ============================================================================== 
+  *  @verbatim
+  *
+  ==============================================================================
                           ##### IWDG features #####
-  ============================================================================== 
+  ==============================================================================
     [..] The IWDG can be started by either software or hardware (configurable
          through option byte).
-             
+
     [..] The IWDG is clocked by its own dedicated low-speed clock (LSI) and
          thus stays active even if the main clock fails.
          Once the IWDG is started, the LSI is forced ON and cannot be disabled
-         (LSI cannot be disabled too), and the counter starts counting down from 
+         (LSI cannot be disabled too), and the counter starts counting down from
          the reset value of 0xFFF. When it reaches the end of count value (0x000)
          a system reset is generated.
          The IWDG counter should be reloaded at regular intervals to prevent
          an MCU reset.
-                             
+
     [..] The IWDG is implemented in the VDD voltage domain that is still functional
          in STOP and STANDBY mode (IWDG reset can wake-up from STANDBY).
-              
+
     [..] IWDGRST flag in RCC_CSR register can be used to inform when a IWDG
          reset occurs.
-              
+
     [..] Min-max timeout value @37KHz (LSI): ~108us / ~28.3s
          The IWDG timeout may vary due to LSI frequency dispersion. STM32L1xx
          devices provide the capability to measure the LSI frequency (LSI clock
          connected internally to TIM10 CH1 input capture). The measured value
-         can be used to have an IWDG timeout with an acceptable accuracy. 
+         can be used to have an IWDG timeout with an acceptable accuracy.
          For more information, please refer to the STM32L1xx Reference manual.
-            
-                          ##### How to use this driver ##### 
-  ============================================================================== 
+
+                          ##### How to use this driver #####
+  ==============================================================================
     [..]
     (#) Enable write access to IWDG_PR and IWDG_RLR registers using
         IWDG_WriteAccessCmd(IWDG_WriteAccess_Enable) function.
@@ -60,7 +60,7 @@
         IWDG_ReloadCounter() function.
 
     @endverbatim
-  *    
+  *
   ******************************************************************************
   * @attention
   *
@@ -72,8 +72,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -88,10 +88,10 @@
   * @{
   */
 
-/** @defgroup IWDG 
+/** @defgroup IWDG
   * @brief IWDG driver modules
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -112,10 +112,10 @@
 /** @defgroup IWDG_Group1 Prescaler and Counter configuration functions
  *  @brief   Prescaler and Counter configuration functions
  *
-@verbatim   
+@verbatim
   ==============================================================================
             ##### Prescaler and Counter configuration functions #####
-  ==============================================================================  
+  ==============================================================================
 
 @endverbatim
   * @{
@@ -131,9 +131,9 @@
   */
 void IWDG_WriteAccessCmd(uint16_t IWDG_WriteAccess)
 {
-  /* Check the parameters */
-  assert_param(IS_IWDG_WRITE_ACCESS(IWDG_WriteAccess));
-  IWDG->KR = IWDG_WriteAccess;
+    /* Check the parameters */
+    assert_param(IS_IWDG_WRITE_ACCESS(IWDG_WriteAccess));
+    IWDG->KR = IWDG_WriteAccess;
 }
 
 /**
@@ -151,9 +151,9 @@ void IWDG_WriteAccessCmd(uint16_t IWDG_WriteAccess)
   */
 void IWDG_SetPrescaler(uint8_t IWDG_Prescaler)
 {
-  /* Check the parameters */
-  assert_param(IS_IWDG_PRESCALER(IWDG_Prescaler));
-  IWDG->PR = IWDG_Prescaler;
+    /* Check the parameters */
+    assert_param(IS_IWDG_PRESCALER(IWDG_Prescaler));
+    IWDG->PR = IWDG_Prescaler;
 }
 
 /**
@@ -164,9 +164,9 @@ void IWDG_SetPrescaler(uint8_t IWDG_Prescaler)
   */
 void IWDG_SetReload(uint16_t Reload)
 {
-  /* Check the parameters */
-  assert_param(IS_IWDG_RELOAD(Reload));
-  IWDG->RLR = Reload;
+    /* Check the parameters */
+    assert_param(IS_IWDG_RELOAD(Reload));
+    IWDG->RLR = Reload;
 }
 
 /**
@@ -177,7 +177,7 @@ void IWDG_SetReload(uint16_t Reload)
   */
 void IWDG_ReloadCounter(void)
 {
-  IWDG->KR = KR_KEY_RELOAD;
+    IWDG->KR = KR_KEY_RELOAD;
 }
 
 /**
@@ -185,12 +185,12 @@ void IWDG_ReloadCounter(void)
   */
 
 /** @defgroup IWDG_Group2 IWDG activation function
- *  @brief   IWDG activation function 
+ *  @brief   IWDG activation function
  *
-@verbatim   
+@verbatim
   ==============================================================================
                           ##### IWDG activation function #####
-  ==============================================================================  
+  ==============================================================================
 
 @endverbatim
   * @{
@@ -203,20 +203,20 @@ void IWDG_ReloadCounter(void)
   */
 void IWDG_Enable(void)
 {
-  IWDG->KR = KR_KEY_ENABLE;
+    IWDG->KR = KR_KEY_ENABLE;
 }
 
 /**
   * @}
   */
 
-/** @defgroup IWDG_Group3 Flag management function 
- *  @brief  Flag management function  
+/** @defgroup IWDG_Group3 Flag management function
+ *  @brief  Flag management function
  *
-@verbatim   
+@verbatim
  ===============================================================================
-                      ##### Flag management function ##### 
- ===============================================================================  
+                      ##### Flag management function #####
+ ===============================================================================
 
 @endverbatim
   * @{
@@ -232,19 +232,21 @@ void IWDG_Enable(void)
   */
 FlagStatus IWDG_GetFlagStatus(uint16_t IWDG_FLAG)
 {
-  FlagStatus bitstatus = RESET;
-  /* Check the parameters */
-  assert_param(IS_IWDG_FLAG(IWDG_FLAG));
-  if ((IWDG->SR & IWDG_FLAG) != (uint32_t)RESET)
-  {
-    bitstatus = SET;
-  }
-  else
-  {
-    bitstatus = RESET;
-  }
-  /* Return the flag status */
-  return bitstatus;
+    FlagStatus bitstatus = RESET;
+    /* Check the parameters */
+    assert_param(IS_IWDG_FLAG(IWDG_FLAG));
+
+    if((IWDG->SR & IWDG_FLAG) != (uint32_t)RESET)
+    {
+        bitstatus = SET;
+    }
+    else
+    {
+        bitstatus = RESET;
+    }
+
+    /* Return the flag status */
+    return bitstatus;
 }
 
 /**

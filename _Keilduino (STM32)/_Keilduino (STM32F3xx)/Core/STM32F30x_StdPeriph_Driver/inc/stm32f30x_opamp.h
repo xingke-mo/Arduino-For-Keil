@@ -5,7 +5,7 @@
   * @version V1.2.3
   * @date    10-July-2015
   * @brief   This file contains all the functions prototypes for the operational
-  *          amplifiers (OPAMP) firmware library.         
+  *          amplifiers (OPAMP) firmware library.
   ******************************************************************************
   * @attention
   *
@@ -17,21 +17,21 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F30x_OPAMP_H
 #define __STM32F30x_OPAMP_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -47,26 +47,26 @@
 
 /* Exported types ------------------------------------------------------------*/
 
-/** 
-  * @brief  OPAMP Init structure definition  
+/**
+  * @brief  OPAMP Init structure definition
   */
-  
+
 typedef struct
 {
 
-  uint32_t OPAMP_InvertingInput;     /*!< Selects the inverting input of the operational amplifier.
+    uint32_t OPAMP_InvertingInput;     /*!< Selects the inverting input of the operational amplifier.
                                           This parameter can be a value of @ref OPAMP_InvertingInput */
 
-  uint32_t OPAMP_NonInvertingInput;  /*!< Selects the non inverting input of the operational amplifier.
+    uint32_t OPAMP_NonInvertingInput;  /*!< Selects the non inverting input of the operational amplifier.
                                          This parameter can be a value of @ref OPAMP_NonInvertingInput */
 
-}OPAMP_InitTypeDef;
+} OPAMP_InitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 
 /** @defgroup OPAMP_Exported_Constants
   * @{
-  */ 
+  */
 
 /** @defgroup OPAMP_Selection
   * @{
@@ -81,7 +81,7 @@ typedef struct
                                      ((PERIPH) == OPAMP_Selection_OPAMP2) || \
                                      ((PERIPH) == OPAMP_Selection_OPAMP3) || \
                                      ((PERIPH) == OPAMP_Selection_OPAMP4))
- 
+
 /**
   * @}
   */
@@ -98,9 +98,9 @@ typedef struct
 #define OPAMP_InvertingInput_Vout         OPAMP_CSR_VMSEL        /*!< Vout connected to OPAMPx inverting input (follower mode) */
 
 #define IS_OPAMP_INVERTING_INPUT(INPUT) (((INPUT) == OPAMP_InvertingInput_IO1) || \
-                                         ((INPUT) == OPAMP_InvertingInput_IO2) || \
-                                         ((INPUT) == OPAMP_InvertingInput_PGA) || \
-                                         ((INPUT) == OPAMP_InvertingInput_Vout))
+        ((INPUT) == OPAMP_InvertingInput_IO2) || \
+        ((INPUT) == OPAMP_InvertingInput_PGA) || \
+        ((INPUT) == OPAMP_InvertingInput_Vout))
 /**
   * @}
   */
@@ -119,9 +119,9 @@ typedef struct
                                                                          connected to OPAMPx non inverting input */
 
 #define IS_OPAMP_NONINVERTING_INPUT(INPUT) (((INPUT) == OPAMP_NonInvertingInput_IO1) || \
-                                            ((INPUT) == OPAMP_NonInvertingInput_IO2) || \
-                                            ((INPUT) == OPAMP_NonInvertingInput_IO3) || \
-                                            ((INPUT) == OPAMP_NonInvertingInput_IO4))
+        ((INPUT) == OPAMP_NonInvertingInput_IO2) || \
+        ((INPUT) == OPAMP_NonInvertingInput_IO3) || \
+        ((INPUT) == OPAMP_NonInvertingInput_IO4))
 /**
   * @}
   */
@@ -163,7 +163,7 @@ typedef struct
   */
 
 #define IS_OPAMP_SECONDARY_INVINPUT(INVINPUT) (((INVINPUT) == OPAMP_InvertingInput_IO1) || \
-                                               ((INVINPUT) == OPAMP_InvertingInput_IO2))
+        ((INVINPUT) == OPAMP_InvertingInput_IO2))
 /**
   * @}
   */
@@ -180,7 +180,7 @@ typedef struct
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_Vref
   * @{
@@ -211,7 +211,7 @@ typedef struct
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup OPAMP_TrimValue
   * @{
@@ -268,7 +268,7 @@ void OPAMP_LockConfig(uint32_t OPAMP_Selection);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

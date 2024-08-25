@@ -26,9 +26,11 @@
 
 // A class to make it easier to handle and pass around IP addresses
 
-class IPAddress : public Printable {
+class IPAddress : public Printable
+{
 private:
-    union {
+    union
+    {
         uint8_t bytes[4];  // IPv4 address
         uint32_t dword;
     } _address;
@@ -37,7 +39,8 @@ private:
     // to the internal structure rather than a copy of the address this function should only
     // be used when you know that the usage of the returned uint8_t* will be transient and not
     // stored.
-    uint8_t* raw_address() {
+    uint8_t* raw_address()
+    {
         return _address.bytes;
     };
 
@@ -49,25 +52,30 @@ public:
     IPAddress(const uint8_t *address);
 
     bool fromString(const char *address);
-    bool fromString(const String &address) {
+    bool fromString(const String &address)
+    {
         return fromString(address.c_str());
     }
 
     // Overloaded cast operator to allow IPAddress objects to be used where a pointer
     // to a four-byte uint8_t array is expected
-    operator uint32_t() const {
+    operator uint32_t() const
+    {
         return _address.dword;
     };
-    bool operator==(const IPAddress& addr) const {
+    bool operator==(const IPAddress& addr) const
+    {
         return _address.dword == addr._address.dword;
     };
     bool operator==(const uint8_t* addr) const;
 
     // Overloaded index operator to allow getting and setting individual octets of the address
-    uint8_t operator[](int index) const {
+    uint8_t operator[](int index) const
+    {
         return _address.bytes[index];
     };
-    uint8_t& operator[](int index) {
+    uint8_t& operator[](int index)
+    {
         return _address.bytes[index];
     };
 

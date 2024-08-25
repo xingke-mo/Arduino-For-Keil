@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_dma.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the dma firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -54,17 +52,17 @@
   */
 void dma_reset(dma_channel_type* dmax_channely)
 {
-  uint32_t temp = 0;
-  dmax_channely->ctrl_bit.chen = FALSE;
-  dmax_channely->ctrl = 0;
-  dmax_channely->dtcnt = 0;
-  dmax_channely->paddr = 0;
-  dmax_channely->maddr = 0;
+    uint32_t temp = 0;
+    dmax_channely->ctrl_bit.chen = FALSE;
+    dmax_channely->ctrl = 0;
+    dmax_channely->dtcnt = 0;
+    dmax_channely->paddr = 0;
+    dmax_channely->maddr = 0;
 
-  temp = (uint32_t)dmax_channely;
+    temp = (uint32_t)dmax_channely;
 
-  /* dma1 channel */
-  DMA1->clr |= (uint32_t)(0x0f << ((((temp & 0xff) - 0x08) / 0x14) * 4));
+    /* dma1 channel */
+    DMA1->clr |= (uint32_t)(0x0f << ((((temp & 0xff) - 0x08) / 0x14) * 4));
 }
 
 /**
@@ -82,7 +80,7 @@ void dma_reset(dma_channel_type* dmax_channely)
   */
 void dma_data_number_set(dma_channel_type* dmax_channely, uint16_t data_number)
 {
-  dmax_channely->dtcnt = data_number;
+    dmax_channely->dtcnt = data_number;
 }
 
 /**
@@ -98,7 +96,7 @@ void dma_data_number_set(dma_channel_type* dmax_channely, uint16_t data_number)
   */
 uint16_t dma_data_number_get(dma_channel_type* dmax_channely)
 {
-  return (uint16_t)dmax_channely->dtcnt;
+    return (uint16_t)dmax_channely->dtcnt;
 }
 
 /**
@@ -120,14 +118,14 @@ uint16_t dma_data_number_get(dma_channel_type* dmax_channely)
   */
 void dma_interrupt_enable(dma_channel_type* dmax_channely, uint32_t dma_int, confirm_state new_state)
 {
-  if (new_state != FALSE)
-  {
-    dmax_channely->ctrl |= dma_int;
-  }
-  else
-  {
-    dmax_channely->ctrl &= ~dma_int;
-  }
+    if(new_state != FALSE)
+    {
+        dmax_channely->ctrl |= dma_int;
+    }
+    else
+    {
+        dmax_channely->ctrl &= ~dma_int;
+    }
 }
 
 /**
@@ -144,7 +142,37 @@ void dma_interrupt_enable(dma_channel_type* dmax_channely, uint32_t dma_int, con
   */
 void dma_channel_enable(dma_channel_type* dmax_channely, confirm_state new_state)
 {
-  dmax_channely->ctrl_bit.chen = new_state;
+    dmax_channely->ctrl_bit.chen = new_state;
+}
+
+/**
+  * @brief  get dma interrupt flag
+  * @param  dmax_flag
+  *         this parameter can be one of the following values:
+  *         - DMA1_FDT1_FLAG        - DMA1_HDT1_FLAG        - DMA1_DTERR1_FLAG
+  *         - DMA1_FDT2_FLAG        - DMA1_HDT2_FLAG        - DMA1_DTERR2_FLAG
+  *         - DMA1_FDT3_FLAG        - DMA1_HDT3_FLAG        - DMA1_DTERR3_FLAG
+  *         - DMA1_FDT4_FLAG        - DMA1_HDT4_FLAG        - DMA1_DTERR4_FLAG
+  *         - DMA1_FDT5_FLAG        - DMA1_HDT5_FLAG        - DMA1_DTERR5_FLAG
+  * @retval state of dma flag
+  */
+flag_status dma_interrupt_flag_get(uint32_t dmax_flag)
+{
+    flag_status status = RESET;
+    uint32_t temp = 0;
+
+    temp = DMA1->sts;
+
+    if((temp & dmax_flag) != (uint16_t)RESET)
+    {
+        status = SET;
+    }
+    else
+    {
+        status = RESET;
+    }
+
+    return status;
 }
 
 /**
@@ -160,21 +188,21 @@ void dma_channel_enable(dma_channel_type* dmax_channely, confirm_state new_state
   */
 flag_status dma_flag_get(uint32_t dmax_flag)
 {
-  flag_status status = RESET;
-  uint32_t temp = 0;
+    flag_status status = RESET;
+    uint32_t temp = 0;
 
-  temp = DMA1->sts;
+    temp = DMA1->sts;
 
-  if ((temp & dmax_flag) != (uint16_t)RESET)
-  {
-    status = SET;
-  }
-  else
-  {
-    status = RESET;
-  }
+    if((temp & dmax_flag) != (uint16_t)RESET)
+    {
+        status = SET;
+    }
+    else
+    {
+        status = RESET;
+    }
 
-  return status;
+    return status;
 }
 
 /**
@@ -201,16 +229,16 @@ void dma_flag_clear(uint32_t dmax_flag)
   */
 void dma_default_para_init(dma_init_type* dma_init_struct)
 {
-  dma_init_struct->peripheral_base_addr = 0x0;
-  dma_init_struct->memory_base_addr = 0x0;
-  dma_init_struct->direction = DMA_DIR_PERIPHERAL_TO_MEMORY;
-  dma_init_struct->buffer_size = 0x0;
-  dma_init_struct->peripheral_inc_enable = FALSE;
-  dma_init_struct->memory_inc_enable = FALSE;
-  dma_init_struct->peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_BYTE;
-  dma_init_struct->memory_data_width = DMA_MEMORY_DATA_WIDTH_BYTE;
-  dma_init_struct->loop_mode_enable = FALSE;
-  dma_init_struct->priority = DMA_PRIORITY_LOW;
+    dma_init_struct->peripheral_base_addr = 0x0;
+    dma_init_struct->memory_base_addr = 0x0;
+    dma_init_struct->direction = DMA_DIR_PERIPHERAL_TO_MEMORY;
+    dma_init_struct->buffer_size = 0x0;
+    dma_init_struct->peripheral_inc_enable = FALSE;
+    dma_init_struct->memory_inc_enable = FALSE;
+    dma_init_struct->peripheral_data_width = DMA_PERIPHERAL_DATA_WIDTH_BYTE;
+    dma_init_struct->memory_data_width = DMA_MEMORY_DATA_WIDTH_BYTE;
+    dma_init_struct->loop_mode_enable = FALSE;
+    dma_init_struct->priority = DMA_PRIORITY_LOW;
 }
 
 /**
@@ -227,19 +255,19 @@ void dma_default_para_init(dma_init_type* dma_init_struct)
   */
 void dma_init(dma_channel_type* dmax_channely, dma_init_type* dma_init_struct)
 {
-  /* clear ctrl register dtd bit and m2m bit */
-  dmax_channely->ctrl &= 0xbfef;
-  dmax_channely->ctrl |= dma_init_struct->direction;
+    /* clear ctrl register dtd bit and m2m bit */
+    dmax_channely->ctrl &= 0xbfef;
+    dmax_channely->ctrl |= dma_init_struct->direction;
 
-  dmax_channely->ctrl_bit.chpl =  dma_init_struct->priority;
-  dmax_channely->ctrl_bit.mwidth = dma_init_struct->memory_data_width;
-  dmax_channely->ctrl_bit.pwidth = dma_init_struct->peripheral_data_width;
-  dmax_channely->ctrl_bit.mincm = dma_init_struct->memory_inc_enable;
-  dmax_channely->ctrl_bit.pincm = dma_init_struct->peripheral_inc_enable;
-  dmax_channely->ctrl_bit.lm = dma_init_struct->loop_mode_enable;
-  dmax_channely->dtcnt = dma_init_struct->buffer_size;
-  dmax_channely->paddr = dma_init_struct->peripheral_base_addr;
-  dmax_channely->maddr = dma_init_struct->memory_base_addr;
+    dmax_channely->ctrl_bit.chpl =  dma_init_struct->priority;
+    dmax_channely->ctrl_bit.mwidth = dma_init_struct->memory_data_width;
+    dmax_channely->ctrl_bit.pwidth = dma_init_struct->peripheral_data_width;
+    dmax_channely->ctrl_bit.mincm = dma_init_struct->memory_inc_enable;
+    dmax_channely->ctrl_bit.pincm = dma_init_struct->peripheral_inc_enable;
+    dmax_channely->ctrl_bit.lm = dma_init_struct->loop_mode_enable;
+    dmax_channely->dtcnt = dma_init_struct->buffer_size;
+    dmax_channely->paddr = dma_init_struct->peripheral_base_addr;
+    dmax_channely->maddr = dma_init_struct->memory_base_addr;
 }
 
 /**

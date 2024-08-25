@@ -1,17 +1,17 @@
 /*
  * MIT License
  * Copyright (c) 2017 - 2023 _VIFEXTech
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,10 +36,12 @@ static void TIMx_OCxInit(TIM_TypeDef* TIMx, uint16_t arr, uint16_t psc, uint8_t 
 {
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     TIM_OCInitTypeDef TIM_OCInitStructure;
-    
+
     if(!IS_TIM_ALL_PERIPH(TIMx))
+    {
         return;
-    
+    }
+
     Timer_ClockCmd(TIMx, ENABLE);
 
     TIM_TimeBaseStructure.TIM_Period = arr;
@@ -51,20 +53,24 @@ static void TIMx_OCxInit(TIM_TypeDef* TIMx, uint16_t arr, uint16_t psc, uint8_t 
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+
     switch(TimerChannel)
     {
     case 1:
         TIM_OC1Init(TIMx, &TIM_OCInitStructure);
         TIM_OC1PreloadConfig(TIMx, TIM_OCPreload_Enable);
         break;
+
     case 2:
         TIM_OC2Init(TIMx, &TIM_OCInitStructure);
         TIM_OC2PreloadConfig(TIMx, TIM_OCPreload_Enable);
         break;
+
     case 3:
         TIM_OC3Init(TIMx, &TIM_OCInitStructure);
         TIM_OC3PreloadConfig(TIMx, TIM_OCPreload_Enable);
         break;
+
     case 4:
         TIM_OC4Init(TIMx, &TIM_OCInitStructure);
         TIM_OC4PreloadConfig(TIMx, TIM_OCPreload_Enable);
@@ -85,12 +91,16 @@ static void TIMx_OCxInit(TIM_TypeDef* TIMx, uint16_t arr, uint16_t psc, uint8_t 
 uint8_t PWM_Init(uint8_t Pin, uint16_t PWM_DutyCycle, uint32_t PWM_Frequency)
 {
     uint32_t arr, psc;
-    
+
     if(!IS_PWM_PIN(Pin))
+    {
         return 0;
-    
+    }
+
     if(PWM_DutyCycle == 0 || PWM_Frequency == 0 || (PWM_DutyCycle * PWM_Frequency) > F_CPU)
+    {
         return 0;
+    }
 
     pinMode(Pin, OUTPUT_AF);
     GPIO_PinAFConfig(PIN_MAP[Pin].GPIOx, GPIO_GetPinSource(Pin), Timer_GetGPIO_AF(Pin));
@@ -116,15 +126,19 @@ uint16_t PWM_Write(uint8_t Pin, uint16_t val)
     case 1:
         PIN_MAP[Pin].TIMx->CCR1 = val;
         break;
+
     case 2:
         PIN_MAP[Pin].TIMx->CCR2 = val;
         break;
+
     case 3:
         PIN_MAP[Pin].TIMx->CCR3 = val;
         break;
+
     case 4:
         PIN_MAP[Pin].TIMx->CCR4 = val;
         break;
     }
+
     return val;
 }

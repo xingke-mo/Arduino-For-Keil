@@ -1,8 +1,6 @@
 /**
   **************************************************************************
   * @file     at32f421_wwdt.c
-  * @version  v2.0.7
-  * @date     2022-06-28
   * @brief    contains all the functions for the wwdt firmware library
   **************************************************************************
   *                       Copyright notice & Disclaimer
@@ -47,8 +45,8 @@
   */
 void wwdt_reset(void)
 {
-  crm_periph_reset(CRM_WWDT_PERIPH_RESET, TRUE);
-  crm_periph_reset(CRM_WWDT_PERIPH_RESET, FALSE);
+    crm_periph_reset(CRM_WWDT_PERIPH_RESET, TRUE);
+    crm_periph_reset(CRM_WWDT_PERIPH_RESET, FALSE);
 }
 
 /**
@@ -63,7 +61,7 @@ void wwdt_reset(void)
   */
 void wwdt_divider_set(wwdt_division_type division)
 {
-  WWDT->cfg_bit.div = division;
+    WWDT->cfg_bit.div = division;
 }
 
 /**
@@ -73,7 +71,7 @@ void wwdt_divider_set(wwdt_division_type division)
   */
 void wwdt_flag_clear(void)
 {
-  WWDT->sts = 0;
+    WWDT->sts = 0;
 }
 
 /**
@@ -83,7 +81,7 @@ void wwdt_flag_clear(void)
   */
 void wwdt_enable(uint8_t wwdt_cnt)
 {
-  WWDT->ctrl = wwdt_cnt | WWDT_EN_BIT;
+    WWDT->ctrl = wwdt_cnt | WWDT_EN_BIT;
 }
 
 /**
@@ -93,7 +91,7 @@ void wwdt_enable(uint8_t wwdt_cnt)
   */
 void wwdt_interrupt_enable(void)
 {
-  WWDT->cfg_bit.rldien = TRUE;
+    WWDT->cfg_bit.rldien = TRUE;
 }
 
 /**
@@ -103,7 +101,17 @@ void wwdt_interrupt_enable(void)
   */
 flag_status wwdt_flag_get(void)
 {
-  return (flag_status)WWDT->sts_bit.rldf;
+    return (flag_status)WWDT->sts_bit.rldf;
+}
+
+/**
+  * @brief  wwdt reload counter interrupt flag get
+  * @param  none
+  * @retval state of reload counter interrupt flag
+  */
+flag_status wwdt_interrupt_flag_get(void)
+{
+    return (flag_status)(WWDT->sts_bit.rldf && WWDT->cfg_bit.rldien);
 }
 
 /**
@@ -113,7 +121,7 @@ flag_status wwdt_flag_get(void)
   */
 void wwdt_counter_set(uint8_t wwdt_cnt)
 {
-  WWDT->ctrl_bit.cnt = wwdt_cnt;
+    WWDT->ctrl_bit.cnt = wwdt_cnt;
 }
 
 /**
@@ -123,7 +131,7 @@ void wwdt_counter_set(uint8_t wwdt_cnt)
   */
 void wwdt_window_counter_set(uint8_t window_cnt)
 {
-  WWDT->cfg_bit.win = window_cnt;
+    WWDT->cfg_bit.win = window_cnt;
 }
 
 /**

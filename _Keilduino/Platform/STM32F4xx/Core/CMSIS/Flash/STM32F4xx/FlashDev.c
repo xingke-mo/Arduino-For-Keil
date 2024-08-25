@@ -40,7 +40,8 @@
 #ifdef FLASH_MEM
 
 #ifdef STM32F4xx_128
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 128kB Flash",    // Device Name (128kB)
     ONCHIP,                     // Device Type
@@ -55,11 +56,12 @@
     0x04000, 0x000000,          // Sector Size  16kB (4 Sectors)
     0x10000, 0x010000,          // Sector Size  64kB (1 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_128
 
 #ifdef STM32F4xx_256
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 256kB Flash",    // Device Name (256kB)
     ONCHIP,                     // Device Type
@@ -75,11 +77,12 @@
     0x10000, 0x010000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x020000,          // Sector Size 128kB (1 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_256
 
 #ifdef STM32F4xx_384
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 384kB Flash",    // Device Name (384kB)
     ONCHIP,                     // Device Type
@@ -95,11 +98,12 @@
     0x10000, 0x010000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x020000,          // Sector Size 128kB (2 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_384
 
 #ifdef STM32F4xx_512
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 512kB Flash",    // Device Name (512kB)
     ONCHIP,                     // Device Type
@@ -115,11 +119,12 @@
     0x10000, 0x010000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x020000,          // Sector Size 128kB (3 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_512
 
 #ifdef STM32F4xx_1024
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 1MB Flash",      // Device Name (1024kB/512kB)
     ONCHIP,                     // Device Type
@@ -135,11 +140,12 @@
     0x10000, 0x010000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x020000,          // Sector Size 128kB (7/3 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_1024
 
 #if defined STM32F4xx_1024dual
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 1MB dual bank Flash",     // Device Name
     ONCHIP,                     // Device Type
@@ -158,11 +164,12 @@
     0x10000, 0x090000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x0A0000,          // Sector Size 128kB (3 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F7x_1024dual
 
 #ifdef STM32F4xx_2048
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx 2MB Flash",      // Device Name (2048kB)
     ONCHIP,                     // Device Type
@@ -181,7 +188,7 @@
     0x10000, 0x110000,          // Sector Size  64kB (1 Sectors)
     0x20000, 0x120000,          // Sector Size 128kB (7 Sectors)
     SECTOR_END
-  };
+};
 #endif // STM32F2xx_2048
 
 #endif // FLASH_MEM
@@ -190,7 +197,8 @@
 #ifdef FLASH_OPT
 
 #if   defined STM32F401xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F401xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -204,10 +212,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F40xxx_41xxx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F40xxx/41xxx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -221,10 +230,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F411xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F411xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -238,10 +248,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F410xx_412xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F410xx/412xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -255,10 +266,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F413xx_423xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F413xx/423xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -272,10 +284,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F446xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F446xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -289,10 +302,11 @@
     // Specify Size and Address of Sectors
     0x0004, 0x000000,           // Sector Size 4B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F42xxx_43xxx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F42xxx/43xxx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -306,10 +320,11 @@
     // Specify Size and Address of Sectors
     0x0008, 0x000000,           // Sector Size 8B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F469xx_479xx
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F469xx/479xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -323,10 +338,11 @@
     // Specify Size and Address of Sectors
     0x0008, 0x000000,           // Sector Size 8B
     SECTOR_END
-  };
+};
 
 #elif defined STM32F4xx        // depricated algorithm
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx Flash Options",  // Device Name
     ONCHIP,                     // Device Type
@@ -340,16 +356,17 @@
     // Specify Size and Address of Sectors
     0x0010, 0x000000,           // Sector Size 16B
     SECTOR_END
-  };
+};
 
 #else
-  #error Device not selected!
+#error Device not selected!
 #endif
 
 #endif
 
 #ifdef FLASH_OTP
-  struct FlashDevice const FlashDevice  =  {
+struct FlashDevice const FlashDevice  =
+{
     FLASH_DRV_VERS,             // Driver Version, do not modify!
     "STM32F4xx Flash OTP",      // Device Name
     ONCHIP,                     // Device Type
@@ -363,5 +380,5 @@
     // Specify Size and Address of Sectors
     0x0210, 0x000000,           // Sector Size 528B
     SECTOR_END
-  };
+};
 #endif

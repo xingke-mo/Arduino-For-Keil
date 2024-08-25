@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    20-April-2015
-  * @brief   This file contains all the functions prototypes for the COMP firmware 
+  * @brief   This file contains all the functions prototypes for the COMP firmware
   *          library.
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
@@ -31,7 +31,7 @@
 #define __STM32L1xx_COMP_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -47,26 +47,26 @@
 
 /* Exported types ------------------------------------------------------------*/
 
-/** 
-  * @brief  COMP Init structure definition  
+/**
+  * @brief  COMP Init structure definition
   */
-  
+
 typedef struct
 {
-  uint32_t COMP_Speed;               /*!< Defines the speed of comparator 2.
+    uint32_t COMP_Speed;               /*!< Defines the speed of comparator 2.
                                           This parameter can be a value of @ref COMP_Speed */
-  uint32_t COMP_InvertingInput;      /*!< Selects the inverting input of the comparator 2.
+    uint32_t COMP_InvertingInput;      /*!< Selects the inverting input of the comparator 2.
                                           This parameter can be a value of @ref COMP_InvertingInput */
-  uint32_t COMP_OutputSelect;        /*!< Selects the output redirection of the comparator 2.
+    uint32_t COMP_OutputSelect;        /*!< Selects the output redirection of the comparator 2.
                                           This parameter can be a value of @ref COMP_OutputSelect */
-   
-}COMP_InitTypeDef;
+
+} COMP_InitTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
-   
+
 /** @defgroup COMP_Exported_Constants
   * @{
-  */ 
+  */
 
 #define COMP_OutputLevel_High                   ((uint32_t)0x00000001)
 #define COMP_OutputLevel_Low                    ((uint32_t)0x00000000)
@@ -80,10 +80,10 @@ typedef struct
 
 #define IS_COMP_ALL_PERIPH(PERIPH) (((PERIPH) == COMP_Selection_COMP1) || \
                                     ((PERIPH) == COMP_Selection_COMP2))
- 
+
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup COMP_InvertingInput
   * @{
@@ -108,7 +108,7 @@ typedef struct
                                         ((INPUT) == COMP_InvertingInput_DAC2))
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup COMP_OutputSelect
   * @{
@@ -133,8 +133,8 @@ typedef struct
                                 ((OUTPUT) == COMP_OutputSelect_None))
 /**
   * @}
-  */ 
-  
+  */
+
 /** @defgroup COMP_Speed
   * @{
   */
@@ -147,10 +147,10 @@ typedef struct
 /**
   * @}
   */
-  
+
 /**
   * @}
-  */ 
+  */
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
@@ -178,7 +178,7 @@ void COMP_VrefintOutputCmd(FunctionalState NewState);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

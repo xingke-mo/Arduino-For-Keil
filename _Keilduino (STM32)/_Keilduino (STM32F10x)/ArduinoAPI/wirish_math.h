@@ -79,7 +79,8 @@ long random(long max);
  * @return the mapped value.
  */
 static inline long map(long value, long fromStart, long fromEnd,
-                       long toStart, long toEnd) {
+                       long toStart, long toEnd)
+{
     return (value - fromStart) * (toEnd - toStart) / (fromEnd - fromStart) +
            toStart;
 }

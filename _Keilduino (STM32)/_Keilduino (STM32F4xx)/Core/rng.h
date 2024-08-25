@@ -8,7 +8,7 @@ extern "C" {
 #include "mcu_type.h"
 
 uint32_t RNG_GetRandNum(void);
-    
+
 #ifdef __cplusplus
 }
 #endif
