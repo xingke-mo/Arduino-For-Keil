@@ -338,7 +338,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>ARDUINO=111</Define>
               <Undefine></Undefine>
-              <IncludePath>..\ArduinoAPI;..\Core;..\Libraries;..\USER</IncludePath>
+              <IncludePath>..\ArduinoAPI;..\Core;..\Libraries;..\USER;..\Libraries\EEPROM;..\Libraries\SD\src;..\Libraries\SD\src\utility</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -447,6 +447,83 @@
         </Group>
         <Group>
           <GroupName>Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>EEPROM.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\EEPROM\EEPROM.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>EEPROM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\EEPROM\EEPROM.h</FilePath>
+            </File>
+            <File>
+              <FileName>File.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\SD\src\File.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SD.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\SD\src\SD.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\SD.h</FilePath>
+            </File>
+            <File>
+              <FileName>FatStructs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\FatStructs.h</FilePath>
+            </File>
+            <File>
+              <FileName>Sd2Card.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\SD\src\utility\Sd2Card.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Sd2Card.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\Sd2Card.h</FilePath>
+            </File>
+            <File>
+              <FileName>Sd2PinMap.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\Sd2PinMap.h</FilePath>
+            </File>
+            <File>
+              <FileName>SdFat.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdFat.h</FilePath>
+            </File>
+            <File>
+              <FileName>SdFatmainpage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdFatmainpage.h</FilePath>
+            </File>
+            <File>
+              <FileName>SdFatUtil.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdFatUtil.h</FilePath>
+            </File>
+            <File>
+              <FileName>SdFile.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdFile.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>SdInfo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdInfo.h</FilePath>
+            </File>
+            <File>
+              <FileName>SdVolume.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\Libraries\SD\src\utility\SdVolume.cpp</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>ArduinoAPI</GroupName>
