@@ -2,7 +2,7 @@
  * @Author: xingke.mo xingke.mo
  * @Date: 2025-02-18 11:43:35
  * @LastEditors: xingke.mo xingke.mo
- * @LastEditTime: 2025-02-18 15:44:50
+ * @LastEditTime: 2025-02-18 16:13:54
  */
 
 /*
@@ -100,6 +100,8 @@ SPI
 
 #define KEY_Pin PA1
 
+unsigned long lasttime;
+
 void LED_Toogle()
 {
     Serial.println("KEY is pressed!");
@@ -128,6 +130,8 @@ void Serial_EventHandler()
 
 void setup()
 {
+    lasttime = millis();
+
     Serial.begin(115200);
     Serial.printf("C++ Version: %d\r\n", __cplusplus);
     Serial.printf("Compiling Time: %s %s\r\n", __DATE__, __TIME__);
@@ -183,6 +187,16 @@ void setup()
 
 void loop()
 {
+    if(millis() - lasttime >=5000){
+        lasttime = millis();
+        if(digitalRead(LED_Pin)==HIGH){
+        digitalWrite(LED_Pin, LOW);
+        }
+        else{
+        digitalWrite(LED_Pin, HIGH);
+        }
+      }
+
     Serial.println("Serial Test!");
     delay(2000);
 
