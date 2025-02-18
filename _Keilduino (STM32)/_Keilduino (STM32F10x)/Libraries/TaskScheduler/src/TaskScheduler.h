@@ -250,6 +250,8 @@ v3.8.5:
 
 #include <Arduino.h>
 
+# define UINT32_MAX         (4294967295)
+
 #ifdef _TASK_DEFINE_MILLIS
 extern "C" {
     unsigned long micros(void);
@@ -1363,6 +1365,7 @@ bool Scheduler::execute() {
     unsigned long tStart;
     unsigned long tIdleStart = 0;
 #endif  // _TASK_SLEEP_ON_IDLE_RUN
+    
 
 
     Task *nextTask;     // support for deleting the task in the onDisable method

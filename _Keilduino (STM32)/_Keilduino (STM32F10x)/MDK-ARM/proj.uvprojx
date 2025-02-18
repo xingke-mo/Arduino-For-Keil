@@ -338,7 +338,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>ARDUINO=111</Define>
               <Undefine></Undefine>
-              <IncludePath>..\ArduinoAPI;..\Core;..\Libraries;..\USER;..\Libraries\EEPROM;..\Libraries\SD\src;..\Libraries\SD\src\utility</IncludePath>
+              <IncludePath>..\ArduinoAPI;..\Core;..\Libraries;..\USER;..\Libraries\EEPROM;..\Libraries\SD\src;..\Libraries\SD\src\utility;..\Libraries\TaskScheduler\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -632,6 +632,26 @@
               <FileName>README.md</FileName>
               <FileType>5</FileType>
               <FilePath>..\README.md</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>TaskScheduler</GroupName>
+          <Files>
+            <File>
+              <FileName>TaskScheduler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\TaskScheduler\src\TaskScheduler.h</FilePath>
+            </File>
+            <File>
+              <FileName>TaskSchedulerDeclarations.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\TaskScheduler\src\TaskSchedulerDeclarations.h</FilePath>
+            </File>
+            <File>
+              <FileName>TaskSchedulerSleepMethods.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Libraries\TaskScheduler\src\TaskSchedulerSleepMethods.h</FilePath>
             </File>
           </Files>
         </Group>
