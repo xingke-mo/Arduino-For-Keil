@@ -12,7 +12,7 @@ void setup()
 void loop()
 {
     int value = digitalRead_FAST(Read_Pin);
-    
+
     digitalWrite_HIGH(Write_Pin);
     digitalWrite_LOW(Write_Pin);
 }
