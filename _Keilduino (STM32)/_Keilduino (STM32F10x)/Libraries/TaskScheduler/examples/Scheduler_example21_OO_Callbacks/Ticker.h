@@ -12,14 +12,15 @@
 
 #include <TaskSchedulerDeclarations.h>
 
-class Ticker : public Task {
-  public:
+class Ticker : public Task
+{
+public:
     Ticker(Scheduler* aS, Task* aCalc, StatusRequest* aM);
     ~Ticker() {};
 
     bool Callback();
 
-  private:
+private:
     Task  *iCalc;
     StatusRequest* iMeasure;
 };

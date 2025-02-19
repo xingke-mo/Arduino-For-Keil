@@ -48,7 +48,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_128</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -444,7 +444,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_256</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -840,7 +840,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_384</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -1236,7 +1236,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_512</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -1632,7 +1632,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_1024</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -2028,7 +2028,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_1024dual</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -2424,7 +2424,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_2048</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -2820,7 +2820,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F401xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -3216,7 +3216,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F411xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -3612,7 +3612,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F40xxx_41xxx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -4008,7 +4008,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F42xxx_43xxx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -4404,7 +4404,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F410xx_412xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -4800,7 +4800,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F413xx_423xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -5196,7 +5196,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F446xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -5592,7 +5592,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F469xx_479xx_OPT</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
@@ -5988,7 +5988,7 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\Out\</OutputDirectory>
+          <OutputDirectory>R:\TEMP\</OutputDirectory>
           <OutputName>STM32F4xx_OTP</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>

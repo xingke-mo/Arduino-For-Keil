@@ -12,9 +12,10 @@
 
 #include <TaskSchedulerDeclarations.h>
 
-class Calculator : public Task {
-  public:
-    Calculator( Scheduler* aS, Scheduler* aSensors);
+class Calculator : public Task
+{
+public:
+    Calculator(Scheduler* aS, Scheduler* aSensors);
 
     void reportDistance(long aD);
 
@@ -22,7 +23,7 @@ class Calculator : public Task {
     bool OnEnable();
     void OnDisable();
 
-  private:
+private:
     Scheduler*  iS;
 
     long distance;

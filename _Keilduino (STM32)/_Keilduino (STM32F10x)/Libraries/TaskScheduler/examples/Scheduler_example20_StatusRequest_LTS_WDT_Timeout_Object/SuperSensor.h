@@ -5,8 +5,9 @@
 #include "Arduino.h"
 #include <TaskSchedulerDeclarations.h>
 
-class SuperSensor {
-  public:
+class SuperSensor
+{
+public:
     SuperSensor(int aPin);
     ~SuperSensor();
     void begin();
@@ -15,7 +16,7 @@ class SuperSensor {
     bool measurementReady();
     long value();
 
-  private: 
+private:
     long  iDelay;
     long  iValue;
     int   iPin;

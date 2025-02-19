@@ -16,9 +16,10 @@
 
 //class Calculator;
 
-class SuperSensor : public Task {
+class SuperSensor : public Task
+{
 
-  public:
+public:
     SuperSensor(Scheduler* aScheduler, int aPin, Calculator* aC, StatusRequest* aS);
     ~SuperSensor();
 
@@ -32,7 +33,7 @@ class SuperSensor : public Task {
     bool OnEnable();
     void OnDisable();
 
-  private:
+private:
     long  iDelay;
     long  iValue;
     int   iPin;

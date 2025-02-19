@@ -39,9 +39,9 @@ class Scheduler;
 #define TASK_INTERVAL       2   // interval (always in the future)
 
 #ifdef _TASK_DEBUG
-    #define _TASK_SCOPE  public
+#define _TASK_SCOPE  public
 #else
-    #define _TASK_SCOPE  private
+#define _TASK_SCOPE  private
 #endif
 
 //  task scheduling iteration common options
@@ -59,7 +59,7 @@ class Scheduler;
 #endif
 
 #ifdef _TASK_PRIORITY
-    extern Scheduler* iCurrentScheduler;
+extern Scheduler* iCurrentScheduler;
 #endif // _TASK_PRIORITY
 
 #ifdef _TASK_INLINE
@@ -106,13 +106,14 @@ uint32_t external_micros();
 #define TASK_SR_CANCEL      (-32766)
 #define TASK_SR_ABORT       (-32767)
 #define TASK_SR_TIMEOUT     (-32768)
- 
+
 #define _TASK_SR_NODELAY    1
 #define _TASK_SR_DELAY      2
 
-class StatusRequest {
-  friend class Scheduler;
-  public:
+class StatusRequest
+{
+    friend class Scheduler;
+public:
     INLINE StatusRequest();
     INLINE void setWaiting(unsigned int aCount = 1);
     INLINE bool signal(int aStatus = 0);
@@ -121,15 +122,21 @@ class StatusRequest {
     INLINE bool completed();
     INLINE int  getStatus();
     INLINE int  getCount();
-    
+
 #ifdef _TASK_TIMEOUT
-    INLINE void setTimeout(unsigned long aTimeout) { iTimeout = aTimeout; };
-    INLINE unsigned long getTimeout() { return iTimeout; };
+    INLINE void setTimeout(unsigned long aTimeout)
+    {
+        iTimeout = aTimeout;
+    };
+    INLINE unsigned long getTimeout()
+    {
+        return iTimeout;
+    };
     INLINE void resetTimeout();
     INLINE long untilTimeout();
 #endif
 
-  _TASK_SCOPE:
+_TASK_SCOPE:
     unsigned int  iCount;          // number of statuses to wait for. waiting for more that 65000 events seems unreasonable: unsigned int should be sufficient
     int           iStatus;         // status of the last completed request. negative = error;  zero = OK; positive = OK with a specific status (see TASK_SR_ constants)
 
@@ -153,13 +160,14 @@ typedef bool (*TaskOnEnable)();
 
 
 #ifdef _TASK_SLEEP_ON_IDLE_RUN
-  typedef void (*SleepCallback)( unsigned long aDuration );
+typedef void (*SleepCallback)(unsigned long aDuration);
 
-  extern Scheduler* iSleepScheduler;
-  extern SleepCallback iSleepMethod;
+extern Scheduler* iSleepScheduler;
+extern SleepCallback iSleepMethod;
 #endif  // _TASK_SLEEP_ON_IDLE_RUN
 
-typedef struct  {
+typedef struct
+{
     bool  enabled       : 1;           // indicates that task is enabled or not.
     bool  inonenable    : 1;           // indicates that task execution is inside OnEnable method (preventing infinite loops)
     bool  canceled      : 1;           // indication that task has been canceled prior to normal end of all iterations or regular call to disable()
@@ -177,41 +185,42 @@ typedef struct  {
 } __task_status;
 
 
-class Task {
-  friend class Scheduler;
-  public:
+class Task
+{
+    friend class Scheduler;
+public:
 
 #ifdef _TASK_OO_CALLBACKS
-    INLINE Task(unsigned long aInterval=0, long aIterations=0, Scheduler* aScheduler=NULL, bool aEnable=false
+    INLINE Task(unsigned long aInterval = 0, long aIterations = 0, Scheduler* aScheduler = NULL, bool aEnable = false
 #ifdef _TASK_SELF_DESTRUCT
-    , bool aSelfDestruct=false);
+                , bool aSelfDestruct = false);
 #else
-    );
+               );
 #endif  // #ifdef _TASK_SELF_DESTRUCT
 #else
-    INLINE Task(unsigned long aInterval=0, long aIterations=0, TaskCallback aCallback=NULL, Scheduler* aScheduler=NULL, bool aEnable=false, TaskOnEnable aOnEnable=NULL, TaskOnDisable aOnDisable=NULL
+    INLINE Task(unsigned long aInterval = 0, long aIterations = 0, TaskCallback aCallback = NULL, Scheduler* aScheduler = NULL, bool aEnable = false, TaskOnEnable aOnEnable = NULL, TaskOnDisable aOnDisable = NULL
 #ifdef _TASK_SELF_DESTRUCT
-  , bool aSelfDestruct=false);
+                , bool aSelfDestruct = false);
 #else
-  );
+               );
 #endif  // #ifdef _TASK_SELF_DESTRUCT
 #endif // _TASK_OO_CALLBACKS
 
 
 #ifdef _TASK_STATUS_REQUEST
 #ifdef _TASK_OO_CALLBACKS
-//    INLINE Task(Scheduler* aScheduler=NULL);
+    //    INLINE Task(Scheduler* aScheduler=NULL);
     INLINE Task(Scheduler* aScheduler);
 #else
-//    INLINE Task(TaskCallback aCallback=NULL, Scheduler* aScheduler=NULL, TaskOnEnable aOnEnable=NULL, TaskOnDisable aOnDisable=NULL);
-    INLINE Task(TaskCallback aCallback, Scheduler* aScheduler, TaskOnEnable aOnEnable=NULL, TaskOnDisable aOnDisable=NULL);
+    //    INLINE Task(TaskCallback aCallback=NULL, Scheduler* aScheduler=NULL, TaskOnEnable aOnEnable=NULL, TaskOnDisable aOnDisable=NULL);
+    INLINE Task(TaskCallback aCallback, Scheduler* aScheduler, TaskOnEnable aOnEnable = NULL, TaskOnDisable aOnDisable = NULL);
 #endif // _TASK_OO_CALLBACKS
 #endif  // _TASK_STATUS_REQUEST
 
     virtual INLINE ~Task();
 
 #ifdef _TASK_TIMEOUT
-    INLINE void setTimeout(unsigned long aTimeout, bool aReset=false);
+    INLINE void setTimeout(unsigned long aTimeout, bool aReset = false);
     INLINE void resetTimeout();
     INLINE unsigned long getTimeout();
     INLINE long untilTimeout();
@@ -220,11 +229,11 @@ class Task {
 
     INLINE bool enable();
     INLINE bool enableIfNot();
-    INLINE bool enableDelayed(unsigned long aDelay=0);
+    INLINE bool enableDelayed(unsigned long aDelay = 0);
     INLINE bool restart();
-    INLINE bool restartDelayed(unsigned long aDelay=0);
+    INLINE bool restartDelayed(unsigned long aDelay = 0);
 
-    INLINE void delay(unsigned long aDelay=0);
+    INLINE void delay(unsigned long aDelay = 0);
     INLINE void adjust(long aInterval);
     INLINE void forceNextIteration();
     INLINE bool disable();
@@ -234,14 +243,20 @@ class Task {
     INLINE bool canceled();
 
 #ifdef _TASK_SCHEDULING_OPTIONS
-    INLINE unsigned int getSchedulingOption() { return iOption; }
-    INLINE void setSchedulingOption(unsigned int aOption) {  iOption = aOption; }
+    INLINE unsigned int getSchedulingOption()
+    {
+        return iOption;
+    }
+    INLINE void setSchedulingOption(unsigned int aOption)
+    {
+        iOption = aOption;
+    }
 #endif  //_TASK_SCHEDULING_OPTIONS
 
 #ifdef _TASK_OO_CALLBACKS
     INLINE void set(unsigned long aInterval, long aIterations);
 #else
-    INLINE void set(unsigned long aInterval, long aIterations, TaskCallback aCallback,TaskOnEnable aOnEnable=NULL, TaskOnDisable aOnDisable=NULL);
+    INLINE void set(unsigned long aInterval, long aIterations, TaskCallback aCallback, TaskOnEnable aOnEnable = NULL, TaskOnDisable aOnDisable = NULL);
 #endif // _TASK_OO_CALLBACKS
     INLINE void setInterval(unsigned long aInterval);
     INLINE void setIntervalNodelay(unsigned long aInterval, unsigned int aOption = TASK_INTERVAL_KEEP);
@@ -249,14 +264,20 @@ class Task {
     INLINE void setIterations(long aIterations);
     INLINE long getIterations();
     INLINE unsigned long getRunCounter();
-    
+
 #ifdef _TASK_SELF_DESTRUCT
-    INLINE void setSelfDestruct(bool aSelfDestruct=true) { iStatus.selfdestruct = aSelfDestruct; }
-    INLINE bool getSelfDestruct() { return iStatus.selfdestruct; }
+    INLINE void setSelfDestruct(bool aSelfDestruct = true)
+    {
+        iStatus.selfdestruct = aSelfDestruct;
+    }
+    INLINE bool getSelfDestruct()
+    {
+        return iStatus.selfdestruct;
+    }
 #endif  //  #ifdef _TASK_SELF_DESTRUCT
 
 #ifdef _TASK_OO_CALLBACKS
-    virtual INLINE bool Callback() =0;  // return true if run was "productive - this will disable sleep on the idle run for next pass
+    virtual INLINE bool Callback() = 0; // return true if run was "productive - this will disable sleep on the idle run for next pass
     virtual INLINE bool OnEnable();  // return true if task should be enabled, false if it should remain disabled
     virtual INLINE void OnDisable();
 #else
@@ -295,12 +316,18 @@ class Task {
 #endif  // _TASK_LTS_POINTER
 
 #ifdef _TASK_EXPOSE_CHAIN
-    INLINE Task*  getPreviousTask() { return iPrev; };  // pointer to the previous task in the chain, NULL if first or not set
-    INLINE Task*  getNextTask()     { return iNext; };  // pointer to the next task in the chain, NULL if last or not set
+    INLINE Task*  getPreviousTask()
+    {
+        return iPrev;
+    };  // pointer to the previous task in the chain, NULL if first or not set
+    INLINE Task*  getNextTask()
+    {
+        return iNext;
+    };  // pointer to the next task in the chain, NULL if last or not set
 #endif // _TASK_EXPOSE_CHAIN
 
 
-  _TASK_SCOPE:
+_TASK_SCOPE:
     INLINE void reset();
 
     volatile __task_status    iStatus;
@@ -355,18 +382,31 @@ class Task {
 #endif
 };
 
-class Scheduler {
-  friend class Task;
-  public:
+class Scheduler
+{
+    friend class Task;
+public:
     INLINE Scheduler();
-//  ~Scheduler();
+    //  ~Scheduler();
     INLINE void init();
     INLINE void addTask(Task& aTask);
     INLINE void deleteTask(Task& aTask);
-    INLINE void pause() { iPaused = true; };
-    INLINE void resume() { iPaused = false; };
-    INLINE void enable() { iEnabled = true; };
-    INLINE void disable() { iEnabled = false; };
+    INLINE void pause()
+    {
+        iPaused = true;
+    };
+    INLINE void resume()
+    {
+        iPaused = false;
+    };
+    INLINE void enable()
+    {
+        iEnabled = true;
+    };
+    INLINE void disable()
+    {
+        iEnabled = false;
+    };
 #ifdef _TASK_PRIORITY
     INLINE void disableAll(bool aRecursive = true);
     INLINE void enableAll(bool aRecursive = true);
@@ -383,16 +423,28 @@ class Scheduler {
     INLINE Task* getCurrentTask() ;                     // Returns pointer to the currently active task
     INLINE long timeUntilNextIteration(Task& aTask);    // return number of ms until next iteration of a given Task
 
-    INLINE unsigned long getActiveTasks() { return iActiveTasks; }
-    INLINE unsigned long getTotalTasks() { return iTotalTasks; }
-    INLINE unsigned long getInvokedTasks() { return iInvokedTasks; }
+    INLINE unsigned long getActiveTasks()
+    {
+        return iActiveTasks;
+    }
+    INLINE unsigned long getTotalTasks()
+    {
+        return iTotalTasks;
+    }
+    INLINE unsigned long getInvokedTasks()
+    {
+        return iInvokedTasks;
+    }
 #ifdef _TASK_TICKLESS
-    INLINE unsigned long getNextRun() { return iNextRun; }
+    INLINE unsigned long getNextRun()
+    {
+        return iNextRun;
+    }
 #endif
 
 #ifdef _TASK_SLEEP_ON_IDLE_RUN
     INLINE void allowSleep(bool aState = true);
-    INLINE void setSleepMethod( SleepCallback aCallback );
+    INLINE void setSleepMethod(SleepCallback aCallback);
 #endif  // _TASK_SLEEP_ON_IDLE_RUN
 
 #ifdef _TASK_LTS_POINTER
@@ -402,22 +454,37 @@ class Scheduler {
 #ifdef _TASK_TIMECRITICAL
     INLINE bool isOverrun();
     INLINE void cpuLoadReset();
-    INLINE unsigned long getCpuLoadCycle(){ return iCPUCycle; };
-    INLINE unsigned long getCpuLoadIdle() { return iCPUIdle; };
+    INLINE unsigned long getCpuLoadCycle()
+    {
+        return iCPUCycle;
+    };
+    INLINE unsigned long getCpuLoadIdle()
+    {
+        return iCPUIdle;
+    };
     INLINE unsigned long getCpuLoadTotal();
 #endif  // _TASK_TIMECRITICAL
 
 #ifdef _TASK_PRIORITY
     INLINE void setHighPriorityScheduler(Scheduler* aScheduler);
-    INLINE static Scheduler& currentScheduler() { return *(iCurrentScheduler); };
+    INLINE static Scheduler& currentScheduler()
+    {
+        return *(iCurrentScheduler);
+    };
 #endif  // _TASK_PRIORITY
 
 #ifdef _TASK_EXPOSE_CHAIN
-    INLINE Task*  getFirstTask() { return iFirst; };       // pointer to the previous task in the chain, NULL if first or not set
-    INLINE Task*  getLastTask()  { return iLast;  };       // pointer to the next task in the chain, NULL if last or not set
+    INLINE Task*  getFirstTask()
+    {
+        return iFirst;
+    };       // pointer to the previous task in the chain, NULL if first or not set
+    INLINE Task*  getLastTask()
+    {
+        return iLast;
+    };       // pointer to the next task in the chain, NULL if last or not set
 #endif // _TASK_EXPOSE_CHAIN
 
-  _TASK_SCOPE:
+_TASK_SCOPE:
     Task          *iFirst, *iLast, *iCurrent;        // pointers to first, last and current tasks in the chain
 
     volatile bool iPaused, iEnabled;
