@@ -47,4 +47,10 @@ del *.sct /s
 
 del *.map /s
 
+del *.mo /s
+
+del *.workspace /s
+
+del *.pdsbak /s
+
 exit
