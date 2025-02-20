@@ -288,7 +288,7 @@ void ADCx_Init(ADC_TypeDef* ADCx)
     ADC_Cmd(ADCx, ENABLE);
     ADC_ResetCalibration(ADCx);
 
-    while(ADC_GetResetCalibrationStatus(ADCx));
+    ///while(ADC_GetResetCalibrationStatus(ADCx));
 
     ADC_StartCalibration(ADCx);
 

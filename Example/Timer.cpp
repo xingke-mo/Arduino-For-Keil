@@ -1,3 +1,10 @@
+/*
+ * @Author: xingke.mo xingke.mo
+ * @Date: 2025-02-18 11:43:35
+ * @LastEditors: xingke.mo xingke.mo
+ * @LastEditTime: 2025-02-18 16:13:54
+ */
+ 
 #include "Arduino.h"
 
 /*
@@ -67,7 +74,9 @@ void setup()
     /*PWM DutyCycle: 0~1000 -> 0~100%*/
     /*PWM Frequency: 10KHz*/
     //pinMode(PWM_Pin, PWM);
-    //PWM_Init(PWM_Pin, 1000, 10000);    
+    //PWM_Init(PWM_Pin, 1000, 10000);  
+
+    Serial.println("Starting");
 }
 
 void loop()
@@ -87,8 +96,8 @@ void loop()
             digitalWrite_LOW(Write_Pin);    
             
             Serial.println("ADC_Pin Analog Read TEST:");
-            //uint16_t ADC_Val = analogRead(ADC_Pin);
-            //Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);            
+            uint16_t ADC_Val = analogRead(ADC_Pin);
+            Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);            
             delay(200);            
         }
         
@@ -115,7 +124,7 @@ int main(void)
     GPIO_JTAG_Disable();
     SysClock_Init(F_CPU_24MHz);    
     Delay_Init();
-    //ADCx_Init(ADC1);
+    ADCx_Init(ADC1);
     setup();
     for(;;)loop();
 }

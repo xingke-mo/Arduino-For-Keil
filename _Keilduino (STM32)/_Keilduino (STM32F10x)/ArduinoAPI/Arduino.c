@@ -44,6 +44,15 @@ void pinMode(uint8_t Pin, uint8_t GPIO_Mode_x)
             GPIO_Speed_50MHz
         );
     }
+    else if(GPIO_Mode_x == INPUT_ANALOG)
+    {
+        if(!IS_ADC_PIN(Pin))
+        {
+            return;
+        }
+
+        pinMode(Pin, INPUT_ANALOG);
+    }    
     else if(GPIO_Mode_x == INPUT_ANALOG_DMA)
     {
         if(!IS_ADC_PIN(Pin))
