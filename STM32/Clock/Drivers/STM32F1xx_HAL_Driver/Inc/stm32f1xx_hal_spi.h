@@ -33,18 +33,18 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32F1xx_HAL_SPI_H
 #define __STM32F1xx_HAL_SPI_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal_def.h"  
+#include "stm32f1xx_hal_def.h"
 
 /** @addtogroup STM32F1xx_HAL_Driver
   * @{
@@ -59,102 +59,102 @@
   * @{
   */
 
-/** 
-  * @brief  SPI Configuration Structure definition  
+/**
+  * @brief  SPI Configuration Structure definition
   */
 typedef struct
 {
-  uint32_t Mode;               /*!< Specifies the SPI operating mode.
+    uint32_t Mode;               /*!< Specifies the SPI operating mode.
                                     This parameter can be a value of @ref SPI_mode */
 
-  uint32_t Direction;          /*!< Specifies the SPI Directional mode state.
+    uint32_t Direction;          /*!< Specifies the SPI Directional mode state.
                                     This parameter can be a value of @ref SPI_Direction_mode */
 
-  uint32_t DataSize;           /*!< Specifies the SPI data size.
+    uint32_t DataSize;           /*!< Specifies the SPI data size.
                                     This parameter can be a value of @ref SPI_data_size */
 
-  uint32_t CLKPolarity;        /*!< Specifies the serial clock steady state.
+    uint32_t CLKPolarity;        /*!< Specifies the serial clock steady state.
                                     This parameter can be a value of @ref SPI_Clock_Polarity */
 
-  uint32_t CLKPhase;           /*!< Specifies the clock active edge for the bit capture.
+    uint32_t CLKPhase;           /*!< Specifies the clock active edge for the bit capture.
                                     This parameter can be a value of @ref SPI_Clock_Phase */
 
-  uint32_t NSS;                /*!< Specifies whether the NSS signal is managed by
+    uint32_t NSS;                /*!< Specifies whether the NSS signal is managed by
                                     hardware (NSS pin) or by software using the SSI bit.
                                     This parameter can be a value of @ref SPI_Slave_Select_management */
 
-  uint32_t BaudRatePrescaler;  /*!< Specifies the Baud Rate prescaler value which will be
+    uint32_t BaudRatePrescaler;  /*!< Specifies the Baud Rate prescaler value which will be
                                     used to configure the transmit and receive SCK clock.
                                     This parameter can be a value of @ref SPI_BaudRate_Prescaler
                                     @note The communication clock is derived from the master
                                     clock. The slave clock does not need to be set */
 
-  uint32_t FirstBit;           /*!< Specifies whether data transfers start from MSB or LSB bit.
+    uint32_t FirstBit;           /*!< Specifies whether data transfers start from MSB or LSB bit.
                                     This parameter can be a value of @ref SPI_MSB_LSB_transmission */
 
-  uint32_t TIMode;             /*!< Specifies if the TI mode is enabled or not.
+    uint32_t TIMode;             /*!< Specifies if the TI mode is enabled or not.
                                     This parameter can be a value of @ref SPI_TI_mode */
 
-  uint32_t CRCCalculation;     /*!< Specifies if the CRC calculation is enabled or not.
+    uint32_t CRCCalculation;     /*!< Specifies if the CRC calculation is enabled or not.
                                     This parameter can be a value of @ref SPI_CRC_Calculation */
 
-  uint32_t CRCPolynomial;      /*!< Specifies the polynomial used for the CRC calculation.
+    uint32_t CRCPolynomial;      /*!< Specifies the polynomial used for the CRC calculation.
                                     This parameter must be a number between Min_Data = 0 and Max_Data = 65535 */
 
-}SPI_InitTypeDef;
+} SPI_InitTypeDef;
 
 /**
   * @brief  HAL SPI State structure definition
   */
 typedef enum
 {
-  HAL_SPI_STATE_RESET      = 0x00,  /*!< SPI not yet initialized or disabled                */
-  HAL_SPI_STATE_READY      = 0x01,  /*!< SPI initialized and ready for use                  */
-  HAL_SPI_STATE_BUSY       = 0x02,  /*!< SPI process is ongoing                             */
-  HAL_SPI_STATE_BUSY_TX    = 0x12,  /*!< Data Transmission process is ongoing               */
-  HAL_SPI_STATE_BUSY_RX    = 0x22,  /*!< Data Reception process is ongoing                  */
-  HAL_SPI_STATE_BUSY_TX_RX = 0x32,  /*!< Data Transmission and Reception process is ongoing */
-  HAL_SPI_STATE_ERROR      = 0x03   /*!< SPI error state                                    */
-    
-}HAL_SPI_StateTypeDef;
+    HAL_SPI_STATE_RESET      = 0x00,  /*!< SPI not yet initialized or disabled                */
+    HAL_SPI_STATE_READY      = 0x01,  /*!< SPI initialized and ready for use                  */
+    HAL_SPI_STATE_BUSY       = 0x02,  /*!< SPI process is ongoing                             */
+    HAL_SPI_STATE_BUSY_TX    = 0x12,  /*!< Data Transmission process is ongoing               */
+    HAL_SPI_STATE_BUSY_RX    = 0x22,  /*!< Data Reception process is ongoing                  */
+    HAL_SPI_STATE_BUSY_TX_RX = 0x32,  /*!< Data Transmission and Reception process is ongoing */
+    HAL_SPI_STATE_ERROR      = 0x03   /*!< SPI error state                                    */
+
+} HAL_SPI_StateTypeDef;
 
 
-/** 
+/**
   * @brief  SPI handle Structure definition
   */
 typedef struct __SPI_HandleTypeDef
 {
-  SPI_TypeDef                *Instance;    /*!< SPI registers base address */
+    SPI_TypeDef                *Instance;    /*!< SPI registers base address */
 
-  SPI_InitTypeDef            Init;         /*!< SPI communication parameters */
+    SPI_InitTypeDef            Init;         /*!< SPI communication parameters */
 
-  uint8_t                    *pTxBuffPtr;  /*!< Pointer to SPI Tx transfer Buffer */
+    uint8_t                    *pTxBuffPtr;  /*!< Pointer to SPI Tx transfer Buffer */
 
-  uint16_t                   TxXferSize;   /*!< SPI Tx transfer size */
-  
-  uint16_t                   TxXferCount;  /*!< SPI Tx Transfer Counter */
+    uint16_t                   TxXferSize;   /*!< SPI Tx transfer size */
 
-  uint8_t                    *pRxBuffPtr;  /*!< Pointer to SPI Rx transfer Buffer */
+    uint16_t                   TxXferCount;  /*!< SPI Tx Transfer Counter */
 
-  uint16_t                   RxXferSize;   /*!< SPI Rx transfer size */
+    uint8_t                    *pRxBuffPtr;  /*!< Pointer to SPI Rx transfer Buffer */
 
-  uint16_t                   RxXferCount;  /*!< SPI Rx Transfer Counter */
+    uint16_t                   RxXferSize;   /*!< SPI Rx transfer size */
 
-  DMA_HandleTypeDef          *hdmatx;      /*!< SPI Tx DMA handle parameters */
+    uint16_t                   RxXferCount;  /*!< SPI Rx Transfer Counter */
 
-  DMA_HandleTypeDef          *hdmarx;      /*!< SPI Rx DMA handle parameters */
+    DMA_HandleTypeDef          *hdmatx;      /*!< SPI Tx DMA handle parameters */
 
-  void                       (*RxISR)(struct __SPI_HandleTypeDef * hspi); /*!< function pointer on Rx ISR */
+    DMA_HandleTypeDef          *hdmarx;      /*!< SPI Rx DMA handle parameters */
 
-  void                       (*TxISR)(struct __SPI_HandleTypeDef * hspi); /*!< function pointer on Tx ISR */
+    void (*RxISR)(struct __SPI_HandleTypeDef * hspi);                       /*!< function pointer on Rx ISR */
 
-  HAL_LockTypeDef            Lock;         /*!< SPI locking object */
+    void (*TxISR)(struct __SPI_HandleTypeDef * hspi);                       /*!< function pointer on Tx ISR */
 
-  __IO HAL_SPI_StateTypeDef  State;        /*!< SPI communication state */
+    HAL_LockTypeDef            Lock;         /*!< SPI locking object */
 
-  __IO uint32_t  ErrorCode;    /*!< SPI Error code */
+    __IO HAL_SPI_StateTypeDef  State;        /*!< SPI communication state */
 
-}SPI_HandleTypeDef;
+    __IO uint32_t  ErrorCode;    /*!< SPI Error code */
+
+} SPI_HandleTypeDef;
 /**
   * @}
   */
@@ -168,7 +168,7 @@ typedef struct __SPI_HandleTypeDef
 
 /** @defgroup SPI_Error_Codes SPI Error Codes
   * @{
-  */ 
+  */
 #define HAL_SPI_ERROR_NONE      ((uint32_t)0x00)    /*!< No error             */
 #define HAL_SPI_ERROR_MODF      ((uint32_t)0x01)    /*!< MODF error           */
 #define HAL_SPI_ERROR_CRC       ((uint32_t)0x02)    /*!< CRC error            */
@@ -211,7 +211,7 @@ typedef struct __SPI_HandleTypeDef
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup SPI_Clock_Polarity SPI Clock Polarity
   * @{
@@ -242,7 +242,7 @@ typedef struct __SPI_HandleTypeDef
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup SPI_BaudRate_Prescaler SPI BaudRate Prescaler
   * @{
@@ -258,7 +258,7 @@ typedef struct __SPI_HandleTypeDef
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup SPI_MSB_LSB_transmission SPI MSB LSB transmission
   * @{
@@ -271,7 +271,7 @@ typedef struct __SPI_HandleTypeDef
   */
 
 /** @defgroup SPI_TI_mode SPI TI mode disable
-  * @brief  SPI TI Mode not supported for STM32F1xx family 
+  * @brief  SPI TI Mode not supported for STM32F1xx family
   * @{
   */
 #define SPI_TIMODE_DISABLE             ((uint32_t)0x00000000)
@@ -279,7 +279,7 @@ typedef struct __SPI_HandleTypeDef
 /**
   * @}
   */
-  
+
 /** @defgroup SPI_CRC_Calculation SPI CRC Calculation
   * @{
   */
@@ -327,7 +327,7 @@ typedef struct __SPI_HandleTypeDef
 #define SPI_VALID_CRC_ERROR       1          /* CRC error is true */
 /**
   * @}
-  */ 
+  */
 
 
 /* Exported macro ------------------------------------------------------------*/
@@ -402,43 +402,43 @@ typedef struct __SPI_HandleTypeDef
 
 /** @brief  Clear the SPI MODF pending flag.
   * @param  __HANDLE__: specifies the SPI handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral. 
+  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_MODFFLAG(__HANDLE__)                      \
-do{                                                               \
-    __IO uint32_t tmpreg;                                         \
-    tmpreg = (__HANDLE__)->Instance->SR;                          \
-    tmpreg = CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE); \
-    UNUSED(tmpreg);                                               \
-}while(0) 
+    do{                                                               \
+        __IO uint32_t tmpreg;                                         \
+        tmpreg = (__HANDLE__)->Instance->SR;                          \
+        tmpreg = CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE); \
+        UNUSED(tmpreg);                                               \
+    }while(0)
 
 /** @brief  Clear the SPI OVR pending flag.
   * @param  __HANDLE__: specifies the SPI handle.
-  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral. 
+  *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
   */
 #define __HAL_SPI_CLEAR_OVRFLAG(__HANDLE__)                \
-do{                                                        \
-    __IO uint32_t tmpreg;                                  \
-    tmpreg = (__HANDLE__)->Instance->DR;                   \
-    tmpreg = (__HANDLE__)->Instance->SR;                   \
-    UNUSED(tmpreg);                                        \
-}while(0)  
+    do{                                                        \
+        __IO uint32_t tmpreg;                                  \
+        tmpreg = (__HANDLE__)->Instance->DR;                   \
+        tmpreg = (__HANDLE__)->Instance->SR;                   \
+        UNUSED(tmpreg);                                        \
+    }while(0)
 
 
 /** @brief  Enables the SPI.
   * @param  __HANDLE__: specifies the SPI Handle.
   *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
-  */                                                 
+  */
 #define __HAL_SPI_ENABLE(__HANDLE__)  SET_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE)
-                                                 
+
 /** @brief  Disables the SPI.
   * @param  __HANDLE__: specifies the SPI Handle.
   *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
-  */                                           
+  */
 #define __HAL_SPI_DISABLE(__HANDLE__) CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_SPE)
 
 /**
@@ -464,15 +464,15 @@ do{                                                        \
   * @retval None
   */
 #define IS_SPI_DIRECTION_MODE(__MODE__) (((__MODE__) == SPI_DIRECTION_2LINES)        || \
-                                         ((__MODE__) == SPI_DIRECTION_2LINES_RXONLY) || \
-                                         ((__MODE__) == SPI_DIRECTION_1LINE))
+        ((__MODE__) == SPI_DIRECTION_2LINES_RXONLY) || \
+        ((__MODE__) == SPI_DIRECTION_1LINE))
 
 /** @brief  Checks if SPI Direction Mode parameter is 1 or 2 lines.
   * @param  __MODE__: specifies the SPI Direction Mode.
   * @retval None
   */
 #define IS_SPI_DIRECTION_2LINES_OR_1LINE(__MODE__) (((__MODE__) == SPI_DIRECTION_2LINES)  || \
-                                                    ((__MODE__) == SPI_DIRECTION_1LINE))
+        ((__MODE__) == SPI_DIRECTION_1LINE))
 
 /** @brief  Checks if SPI Direction Mode parameter is 2 lines.
   * @param  __MODE__: specifies the SPI Direction Mode.
@@ -519,13 +519,13 @@ do{                                                        \
   * @retval None
   */
 #define IS_SPI_BAUDRATE_PRESCALER(__PRESCALER__) (((__PRESCALER__) == SPI_BAUDRATEPRESCALER_2)   || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_4)   || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_8)   || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_16)  || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_32)  || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_64)  || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_128) || \
-                                                  ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_256))
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_4)   || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_8)   || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_16)  || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_32)  || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_64)  || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_128) || \
+        ((__PRESCALER__) == SPI_BAUDRATEPRESCALER_256))
 
 /** @brief  Checks if SPI MSB LSB transmission parameter is in allowed range.
   * @param  __BIT__: specifies the SPI MSB LSB transmission (whether data transfer starts from MSB or LSB bit).
@@ -548,11 +548,11 @@ do{                                                        \
   * @retval None
   */
 #define IS_SPI_CRC_CALCULATION(__CALCULATION__) (((__CALCULATION__) == SPI_CRCCALCULATION_DISABLE) || \
-                                                 ((__CALCULATION__) == SPI_CRCCALCULATION_ENABLE))
+        ((__CALCULATION__) == SPI_CRCCALCULATION_ENABLE))
 
 /** @brief  Checks if SPI polynomial value to be used for the CRC calculation, is in allowed range.
   * @param  __POLYNOMIAL__: specifies the SPI polynomial value to be used for the CRC calculation.
-  *         This parameter must be a number between Min_Data = 0 and Max_Data = 65535 
+  *         This parameter must be a number between Min_Data = 0 and Max_Data = 65535
   * @retval None
   */
 #define IS_SPI_CRC_POLYNOMIAL(__POLYNOMIAL__) (((__POLYNOMIAL__) >= 0x1) && ((__POLYNOMIAL__) <= 0xFFFF))
@@ -568,8 +568,8 @@ do{                                                        \
   * @param  __HANDLE__: specifies the SPI Handle.
   *         This parameter can be SPI where x: 1, 2, or 3 to select the SPI peripheral.
   * @retval None
-  */               
-#define SPI_1LINE_RX(__HANDLE__)  CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_BIDIOE) 
+  */
+#define SPI_1LINE_RX(__HANDLE__)  CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_BIDIOE)
 
 /** @brief  Resets the CRC calculation of the SPI.
   * @param  __HANDLE__: specifies the SPI Handle.
@@ -577,7 +577,7 @@ do{                                                        \
   * @retval None
   */
 #define SPI_RESET_CRC(__HANDLE__) do{CLEAR_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_CRCEN);\
-                                     SET_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_CRCEN);}while(0)
+        SET_BIT((__HANDLE__)->Instance->CR1, SPI_CR1_CRCEN);}while(0)
 
 /**
   * @}
@@ -593,7 +593,7 @@ do{                                                        \
   * @{
   */
 HAL_StatusTypeDef HAL_SPI_Init(SPI_HandleTypeDef *hspi);
-HAL_StatusTypeDef HAL_SPI_DeInit (SPI_HandleTypeDef *hspi);
+HAL_StatusTypeDef HAL_SPI_DeInit(SPI_HandleTypeDef *hspi);
 void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi);
 void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi);
 /**
@@ -659,12 +659,12 @@ uint8_t SPI_ISCRCErrorValid(SPI_HandleTypeDef *hspi);
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
   */
-  
+
 #ifdef __cplusplus
 }
 #endif

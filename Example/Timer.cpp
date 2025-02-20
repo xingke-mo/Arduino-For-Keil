@@ -104,16 +104,15 @@ void loop()
         
         value_last = value;
     }
-#if 1    
+ 
     //指数式增加亮度，适合驱动LED，看起来亮度更线性
     for (int i = 0; i < 64; i++)
     {
         delay(20);
         analogWrite(PWM_Pin, i * i);
     }
-#endif  
+
     togglePin(LED2_Pin);   
-    delay(50);   
 }
 #if 1
 /**

@@ -52,7 +52,7 @@ void pinMode(uint8_t Pin, uint8_t GPIO_Mode_x)
         }
 
         pinMode(Pin, INPUT_ANALOG);
-    }    
+    }
     else if(GPIO_Mode_x == INPUT_ANALOG_DMA)
     {
         if(!IS_ADC_PIN(Pin))

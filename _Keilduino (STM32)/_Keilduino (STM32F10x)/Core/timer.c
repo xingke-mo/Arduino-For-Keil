@@ -382,9 +382,9 @@ void Timer_SetInterruptBase(
     TIMx_IRQ_DEF(1, TIM1_UP_IRQn);
     TIMx_IRQ_DEF(2, TIM2_IRQn);
     TIMx_IRQ_DEF(3, TIM3_IRQn);
-#if 0    
+#if 0
     TIMx_IRQ_DEF(4, TIM4_IRQn);
-#endif    
+#endif
 #ifdef STM32F10X_HD
     TIMx_IRQ_DEF(5, TIM5_IRQn);
     TIMx_IRQ_DEF(6, TIM6_IRQn);

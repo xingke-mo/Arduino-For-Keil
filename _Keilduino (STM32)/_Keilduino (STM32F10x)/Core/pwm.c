@@ -36,12 +36,12 @@ void TIMx_OCxInit(TIM_TypeDef* TIMx, uint16_t arr, uint16_t psc, uint8_t TimerCh
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     TIM_OCInitTypeDef  TIM_OCInitStructure;
-    
+
     if(!IS_TIM_ALL_PERIPH(TIMx))
     {
         return;
     }
-    
+
     /*Enable PeriphClock*/
     TIM_DeInit(TIMx);
     Timer_ClockCmd(TIMx, ENABLE);
@@ -124,7 +124,7 @@ uint8_t PWM_Init(uint8_t Pin, uint16_t PWM_DutyCycle, uint32_t PWM_Frequency)
 
     //TIM_Cmd(PIN_MAP[Pin].TIMx, DISABLE);
     TIMx_OCxInit(PIN_MAP[Pin].TIMx, arr - 1, psc - 1, PIN_MAP[Pin].TimerChannel);
-    
+
     return PIN_MAP[Pin].TimerChannel;
 }
 

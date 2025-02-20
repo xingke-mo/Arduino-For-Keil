@@ -92,14 +92,13 @@ SPI
 #define LED1_Pin    PC1
 #define LED2_Pin    PC2
 
-#define PWM_Pin     PC7
-
-#define ADC_Pin     PA0
-
 #define Write_Pin   PC3
 
 #define Read_Pin    PB1
-#define KEY_Pin     PB0
+#define KEY_Pin     PB2
+
+#define PWM_Pin     PA1
+#define ADC_Pin     PA2
 
 unsigned long lasttime;
 
@@ -177,7 +176,7 @@ void loop()
       }
 
     Serial.println("Serial Test!");
-    delay(2000);
+    delay(1000);
 
     Serial.println("Digital Write TEST:");
     for(int i = 0; i < 5; i++)
@@ -213,7 +212,6 @@ void loop()
     pinMode(ADC_Pin, INPUT_ANALOG);
     uint16_t ADC_Val = analogRead(ADC_Pin);
     Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);
-    pinMode(PWM_Pin, PWM);
 
     //GPIO_Fast
     int value = digitalRead_FAST(Read_Pin);

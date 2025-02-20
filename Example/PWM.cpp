@@ -7,7 +7,7 @@
  
 #include "Arduino.h"
 
-#define PWM_Pin PB0
+#define PWM_Pin   PA1
 
 void setup()
 {

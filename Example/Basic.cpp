@@ -8,8 +8,8 @@
 #include "Arduino.h"
 
 #define LED_Pin PC1
-#define PWM_Pin PA0
-#define ADC_Pin PA1
+#define PWM_Pin PA1
+#define ADC_Pin PA2
 
 void setup()
 {
@@ -59,7 +59,6 @@ void loop()
     pinMode(ADC_Pin, INPUT_ANALOG);
     uint16_t ADC_Val = analogRead(ADC_Pin);
     Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);
-    pinMode(PWM_Pin, PWM);
 }
 #if 1
 /**

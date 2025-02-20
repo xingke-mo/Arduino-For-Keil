@@ -10,39 +10,39 @@ typedef void (*FONTDRAWFN)(const struct DISPLAY_CONTEXT* ctx, char ch);
 
 struct FONT
 {
-  uint8_t cy;
-  uint8_t cx;
-  uint8_t spacex;
-  uint8_t spacey;
-  FONTDRAWFN fndraw;
+    uint8_t cy;
+    uint8_t cx;
+    uint8_t spacex;
+    uint8_t spacey;
+    FONTDRAWFN fndraw;
 };
 
 struct DISPLAY_CONTEXT
 {
-  int16_t maxx;
-  int16_t maxy;
+    int16_t maxx;
+    int16_t maxy;
 
-  int16_t x;
-  int16_t y;
-  const struct FONT* font;
+    int16_t x;
+    int16_t y;
+    const struct FONT* font;
 
-  uint32_t color_bg;
-  uint32_t color_fg;
+    uint32_t color_bg;
+    uint32_t color_fg;
 
-  uint8_t auto_line_feed;
+    uint8_t auto_line_feed;
 };
 
 struct POINT
 {
-  float x;
-  float y;
-  float z;
+    float x;
+    float y;
+    float z;
 };
 
 struct SIZE
 {
-  uint16_t cx;
-  uint16_t cy;
+    uint16_t cx;
+    uint16_t cy;
 };
 
 void init_display_context(struct DISPLAY_CONTEXT* ctx);
