@@ -36,19 +36,23 @@ void TIMx_OCxInit(TIM_TypeDef* TIMx, uint16_t arr, uint16_t psc, uint8_t TimerCh
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     TIM_OCInitTypeDef  TIM_OCInitStructure;
-
+    
     if(!IS_TIM_ALL_PERIPH(TIMx))
     {
         return;
     }
-
+    
+    /*Enable PeriphClock*/
+    TIM_DeInit(TIMx);
     Timer_ClockCmd(TIMx, ENABLE);
 
-    TIM_TimeBaseStructure.TIM_Period = arr;
-    TIM_TimeBaseStructure.TIM_Prescaler = psc;
-    TIM_TimeBaseStructure.TIM_ClockDivision = 0;
-    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseStructure.TIM_Period = arr;              //设置在下一个更新事件装入活动的自动重装载寄存器周期的值
+    TIM_TimeBaseStructure.TIM_Prescaler = psc;        //设置用来作为TIMx时钟频率除数的预分频值
+    TIM_TimeBaseStructure.TIM_ClockDivision = 0;     //设置分频
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up; //TIM向上计数模式
     TIM_TimeBaseInit(TIMx, &TIM_TimeBaseStructure);
+
+    TIM_ClearFlag(TIMx, TIM_FLAG_Update);
 
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM2;
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
@@ -118,7 +122,7 @@ uint8_t PWM_Init(uint8_t Pin, uint16_t PWM_DutyCycle, uint32_t PWM_Frequency)
 
     pinMode(Pin, GPIO_Mode_AF_PP);
 
-    TIM_Cmd(PIN_MAP[Pin].TIMx, DISABLE);
+    //TIM_Cmd(PIN_MAP[Pin].TIMx, DISABLE);
     TIMx_OCxInit(PIN_MAP[Pin].TIMx, arr - 1, psc - 1, PIN_MAP[Pin].TimerChannel);
     
     return PIN_MAP[Pin].TimerChannel;
