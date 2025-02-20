@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls>--gnu</MiscControls>
-              <Define>ARDUINO=111</Define>
+              <Define>ARDUINO=111,ARDUINO_ARCH_STM32F1</Define>
               <Undefine></Undefine>
               <IncludePath>..\ArduinoAPI;..\Core;..\Libraries;..\USER;..\Libraries\EEPROM;..\Libraries\SD\src;..\Libraries\SD\src\utility;..\Libraries\TaskScheduler\src</IncludePath>
             </VariousControls>
@@ -733,71 +733,6 @@
               <FileType>5</FileType>
               <FilePath>..\Libraries\EEPROM\EEPROM.h</FilePath>
             </File>
-            <File>
-              <FileName>File.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Libraries\SD\src\File.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SD.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Libraries\SD\src\SD.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SD.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\SD.h</FilePath>
-            </File>
-            <File>
-              <FileName>FatStructs.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\FatStructs.h</FilePath>
-            </File>
-            <File>
-              <FileName>Sd2Card.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Libraries\SD\src\utility\Sd2Card.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Sd2Card.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\Sd2Card.h</FilePath>
-            </File>
-            <File>
-              <FileName>Sd2PinMap.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\Sd2PinMap.h</FilePath>
-            </File>
-            <File>
-              <FileName>SdFat.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdFat.h</FilePath>
-            </File>
-            <File>
-              <FileName>SdFatmainpage.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdFatmainpage.h</FilePath>
-            </File>
-            <File>
-              <FileName>SdFatUtil.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdFatUtil.h</FilePath>
-            </File>
-            <File>
-              <FileName>SdFile.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdFile.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>SdInfo.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdInfo.h</FilePath>
-            </File>
-            <File>
-              <FileName>SdVolume.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\Libraries\SD\src\utility\SdVolume.cpp</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1096,6 +1031,30 @@
         <targetInfos>
           <targetInfo name="Project"/>
         </targetInfos>
+      </file>
+      <file attr="config" category="header" name="RTE_Driver\Config\RTE_Device.h" version="1.1.2">
+        <instance index="0" removed="1">RTE\Device\STM32F103T6\RTE_Device.h</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" condition="STM32F1xx LD ARMCC" name="Device\Source\ARM\startup_stm32f10x_ld.s" version="1.0.1">
+        <instance index="0" removed="1">RTE\Device\STM32F103T6\startup_stm32f10x_ld.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" name="Device\StdPeriph_Driver\templates\stm32f10x_conf.h" version="3.6.0">
+        <instance index="0" removed="1">RTE\Device\STM32F103T6\stm32f10x_conf.h</instance>
+        <component Cclass="Device" Cgroup="StdPeriph Drivers" Csub="Framework" Cvendor="Keil" Cversion="3.6.0" condition="STM32F1xx STDPERIPH"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
+        <targetInfos/>
+      </file>
+      <file attr="config" category="source" name="Device\Source\system_stm32f10x.c" version="1.0.1">
+        <instance index="0" removed="1">RTE\Device\STM32F103T6\system_stm32f10x.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="STM32F1xx CMSIS"/>
+        <package name="STM32F1xx_DFP" schemaVersion="1.7.2" url="https://www.keil.com/pack/" vendor="Keil" version="2.4.1"/>
+        <targetInfos/>
       </file>
       <file attr="config" category="header" name="RTE_Driver\Config\RTE_Device.h" version="1.0.0">
         <instance index="0" removed="1">RTE\Device\STM32F103TB\RTE_Device.h</instance>

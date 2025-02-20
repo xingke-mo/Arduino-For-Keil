@@ -1,4 +1,12 @@
 /*
+ * @Author: xingke.mo xingke.mo
+ * @Date: 2025-02-20 09:14:14
+ * @LastEditors: xingke.mo xingke.mo
+ * @LastEditTime: 2025-02-20 10:14:27
+ * @FilePath: \_Keilduino (STM32F10x)\Core\mcu_type.h
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/*
  * MIT License
  * Copyright (c) 2019 _VIFEXTech
  *
@@ -52,10 +60,11 @@ typedef struct
     uint32_t RCC_PLLMul_x;
 } SysClock_TypeDef;
 
-#define __KEILDUINO__ 780
+#define __KEILDUINO__               780
 #define __STM32__
 #define __STM32F1__
-#define F_CPU                  SystemCoreClock
-#define CYCLES_PER_MICROSECOND (F_CPU / 1000000U)
+///#define F_CPU                    SystemCoreClock
+#define F_CPU                       24000000U
+#define CYCLES_PER_MICROSECOND      (F_CPU / 1000000U)
 
 #endif

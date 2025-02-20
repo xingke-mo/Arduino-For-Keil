@@ -19,9 +19,9 @@
 #define LED_Pin  PC2
 
 #define Write_Pin PC3
-#define Read_Pin  PB0
+#define Read_Pin  PB2
 
-#define PWM_Pin   PB6
+#define PWM_Pin   PB0
 
 #define ADC_Pin   PA0
 
@@ -45,8 +45,8 @@ void LED_Toogle()
 
 void setup()
 {
-    Serial.begin(19200);
-    //Serial1.begin(115200);  //TX=PA9,RX=PA10
+    Serial.begin(19200);  //TX=PA9,RX=PA10
+
     pinMode(LED1_Pin, OUTPUT);
     pinMode(LED2_Pin, OUTPUT);
     
@@ -54,8 +54,8 @@ void setup()
     pinMode(KEY_Pin, INPUT_PULLUP);
     attachInterrupt(KEY_Pin, LED_Toogle, FALLING);
     
-    Timer_SetInterrupt(TIM1, 1000000/*@1000ms*/, Timer1_Callback);
-    Timer_SetInterrupt(TIM2, 100000 /*@100ms*/ , Timer2_Callback);
+    Timer_SetInterrupt(TIM1, 1000000 /*@1000ms*/, Timer1_Callback);
+    Timer_SetInterrupt(TIM2, 100000 /*@100ms*/, Timer2_Callback);
     TIM_Cmd(TIM1, ENABLE);
     TIM_Cmd(TIM2, ENABLE);
     
