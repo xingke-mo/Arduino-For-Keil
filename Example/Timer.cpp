@@ -28,7 +28,7 @@
 #define Write_Pin PC3
 #define Read_Pin  PB2
 
-#define PWM_Pin   PB0
+#define PWM_Pin   PA0
 
 #define ADC_Pin   PA1
 
@@ -71,12 +71,13 @@ void setup()
     
     pinMode(ADC_Pin, INPUT_ANALOG);
     
-    /*PWM DutyCycle: 0~1000 -> 0~100%*/
-    /*PWM Frequency: 10KHz*/
+    /*PWM DutyCycle: 0~500 -> 0~100%*/
+    /*PWM Frequency: 1KHz*/
     //pinMode(PWM_Pin, PWM);
-    //PWM_Init(PWM_Pin, 1000, 10000);  
+    //PWM_Init(PWM_Pin, 500, 1000);  
+    //analogWrite(PWM_Pin, 500);
 
-    Serial.println("Starting");
+    Serial.println("Starting...");
 }
 
 void loop()
@@ -110,7 +111,9 @@ void loop()
         delay(20);
         pwmWrite(PB0, i * i);
     }
-#endif   
+#endif  
+    togglePin(LED2_Pin);   
+    delay(500);   
 }
 #if 1
 /**

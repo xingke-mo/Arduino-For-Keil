@@ -120,6 +120,7 @@ uint8_t PWM_Init(uint8_t Pin, uint16_t PWM_DutyCycle, uint32_t PWM_Frequency)
 
     TIM_Cmd(PIN_MAP[Pin].TIMx, DISABLE);
     TIMx_OCxInit(PIN_MAP[Pin].TIMx, arr - 1, psc - 1, PIN_MAP[Pin].TimerChannel);
+    
     return PIN_MAP[Pin].TimerChannel;
 }
 

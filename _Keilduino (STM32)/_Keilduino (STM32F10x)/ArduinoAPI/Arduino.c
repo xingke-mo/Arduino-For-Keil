@@ -65,7 +65,8 @@ void pinMode(uint8_t Pin, uint8_t GPIO_Mode_x)
     }
     else if(GPIO_Mode_x == PWM)
     {
-        PWM_Init(Pin, 1000, 10000);
+        /*PWM Frequency: 1KHz*/
+        PWM_Init(Pin, 100, 1000);
     }
 }
 

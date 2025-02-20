@@ -148,7 +148,7 @@ void setup()
     //PWM
     /*PWM DutyCycle: 0~1000 -> 0~100%*/
     /*PWM Frequency: 10KHz*/
-    PWM_Init(PWM_Pin, 1000, 10000);
+    PWM_Init(PWM_Pin, 100, 1000);
 
     //Timer
     //Serial.println("Timer 1 Interrupt!");
