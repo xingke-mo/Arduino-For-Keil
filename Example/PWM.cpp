@@ -1,6 +1,6 @@
 #include "Arduino.h"
 
-#define PWM_Pin PA0
+#define PWM_Pin PB0
 
 void setup()
 {
@@ -16,13 +16,14 @@ void loop()
         pwmWrite(PWM_Pin, i);
         delay(1);
     }
+    
     for(int i = 1000; i > 0; i--)
     {
         analogWrite(PWM_Pin, i);
         delay(1);
     }
 }
-#if 0
+#if 1
 /**
   * @brief  Main Function
   * @param  None

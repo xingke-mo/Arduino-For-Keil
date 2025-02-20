@@ -33,12 +33,13 @@ void loop()
 }
 
 支持Arduino函数有:
-基本:
+
 时间:
 	delay(Time_ms);
 	delayMicroseconds(Time_us);
 	millis();
 	micros();
+    
 输入输出:
 	pinMode(Pin,Mode);
 	attachInterrrupt(Pin,Callback_function,Trigger_Mode);	
@@ -51,39 +52,34 @@ void loop()
 	tone(Pin,Frequency,Time_ms);
 	tone(Pin,Frequency);
 Print
-
 	Serial.print("Hello STM32");
 	Serial.printf("Hello STM%d",32);
 	Serial << "Hello STM32" << "\r\n";
 String
-
 	String s1 = "Hello";
 	String s2 = " STM32";
 	Serial.print(s1 + s2);
 Stream
-
 	Serial.begin(115200);
 	Serial.setTimeout(20);
 	if(Serial.available())
 	{
 		String s = Serial.readString();
 	}
+    
 外设:
 Serial
-
  	Serial.begin(115200);
 	while(Serial.available())
 	{
 		Serial.print(Serial.read());
 	}
 Wire
-
 	Wire.begin();
 	Wire.beginTransmission(0xFF);
 	Wire.write(0x01);
 	Wire.endTransmission();
 SPI
-
 	SPI.begin();
 	SPI.transfer(0xFF);
 */
@@ -127,8 +123,8 @@ Task t3(5000, TASK_FOREVER, &t3Callback);
 
 Scheduler runner;
 
-
-void t1Callback() {
+void t1Callback() 
+{
     Serial.print("t1: ");
     Serial.println(millis());
     
@@ -146,31 +142,35 @@ void t1Callback() {
     }
 }
 
-void t2Callback() {
+void t2Callback() 
+{
     Serial.print("t2: ");
     Serial.println(millis());
 	
 	// comment this line out if you want to test t2's 500 ms explicit delay
 	// as-is this delay tests that task in catch up mode will prevent explicit tickless delay
     delay(501);
-  
 }
 
-void t3Callback() {
+void t3Callback() 
+{
     Serial.print("t3: ");
     Serial.println(millis());
-  
 }
 
 #if 1
-#define LED_Pin PC13
-#define PWM_Pin PA0
-#define ADC_Pin PA0
+#define LED_Pin     PC0
+#define LED1_Pin    PC1
+#define LED2_Pin    PC2
 
-#define Write_Pin PA0
-#define Read_Pin  PA1
+#define PWM_Pin     PC7
 
-#define KEY_Pin PA1
+#define ADC_Pin     PA0
+
+#define Write_Pin   PC3
+
+#define Read_Pin    PB1
+#define KEY_Pin     PB0
 
 unsigned long lasttime;
 
@@ -179,9 +179,6 @@ void LED_Toogle()
     Serial.println("KEY is pressed!");
     togglePin(LED_Pin);
 }
-
-#define LED1_Pin PA0
-#define LED2_Pin PA1
 
 void Timer1_Callback()
 {
@@ -212,7 +209,6 @@ void setup()
 
     //ADC_DMA
     Serial.begin(115200);
-    pinMode(PA0, INPUT_ANALOG_DMA);
     pinMode(PA1, INPUT_ANALOG_DMA);
     pinMode(PA2, INPUT_ANALOG_DMA);
     pinMode(PA3, INPUT_ANALOG_DMA);
@@ -220,16 +216,6 @@ void setup()
     pinMode(PA5, INPUT_ANALOG_DMA);
     pinMode(PA6, INPUT_ANALOG_DMA);
     pinMode(PA7, INPUT_ANALOG_DMA);
-
-    pinMode(PB0, INPUT_ANALOG_DMA);
-    pinMode(PB1, INPUT_ANALOG_DMA);
-
-    pinMode(PC0, INPUT_ANALOG_DMA);
-    pinMode(PC1, INPUT_ANALOG_DMA);
-    pinMode(PC2, INPUT_ANALOG_DMA);
-    pinMode(PC3, INPUT_ANALOG_DMA);
-    pinMode(PC4, INPUT_ANALOG_DMA);
-    pinMode(PC5, INPUT_ANALOG_DMA);
     ADC_DMA_Init();
 
     //EXTI
@@ -255,25 +241,25 @@ void setup()
     Serial.println("Serial printing...");
     Serial.setTimeout(10);
     Serial.attachInterrupt(Serial_EventHandler);
-    
-  Serial.begin(115200);
-  Serial.println("Scheduler TEST");
 
-  runner.init();
-  Serial.println("Initialized scheduler");
+    Serial.begin(115200);
+    Serial.println("Scheduler TEST");
 
-  runner.addTask(t1);
-  Serial.println("added t1");
-  
-  runner.addTask(t2);
-  Serial.println("added t2");
+    runner.init();
+    Serial.println("Initialized scheduler");
 
-  delay(1000);
+    runner.addTask(t1);
+    Serial.println("added t1");
 
-  t1.enable();
-  Serial.println("Enabled t1");
-  t2.enable();
-  Serial.println("Enabled t2");    
+    runner.addTask(t2);
+    Serial.println("added t2");
+
+    delay(1000);
+
+    t1.enable();
+    Serial.println("Enabled t1");
+    t2.enable();
+    Serial.println("Enabled t2");    
 }
 
 unsigned long nr = 0;
@@ -329,32 +315,20 @@ void loop()
     pinMode(PWM_Pin, PWM);
 
     //ADC_DMA
-    Serial.printf(
-        "PA0=%d,PA1=%d,PA2=%d,PA3=%d,PA4=%d,PA5=%d,PA6=%d,PA7=%d ",
-        analogRead_DMA(PA0),
+    Serial.printf("PA1=%d,PA2=%d ",
         analogRead_DMA(PA1),
-        analogRead_DMA(PA2),
+        analogRead_DMA(PA2)
+    );
+
+    Serial.printf("-- PA3=%d,PA4=%d ",
         analogRead_DMA(PA3),
-        analogRead_DMA(PA4),
+        analogRead_DMA(PA4)
+    );
+
+    Serial.printf("-- PA5=%d,PA6=%d,PA7=%d\r\n",
         analogRead_DMA(PA5),
         analogRead_DMA(PA6),
         analogRead_DMA(PA7)
-    );
-
-    Serial.printf(
-        "-- PB0=%d,PB1=%d ",
-        analogRead_DMA(PB0),
-        analogRead_DMA(PB1)
-    );
-
-    Serial.printf(
-        "-- PC0=%d,PC1=%d,PC2=%d,PC3=%d,PC4=%d,PC5=%d\r\n",
-        analogRead_DMA(PC0),
-        analogRead_DMA(PC1),
-        analogRead_DMA(PC2),
-        analogRead_DMA(PC3),
-        analogRead_DMA(PC4),
-        analogRead_DMA(PC5)
     );
 
     //GPIO_Fast

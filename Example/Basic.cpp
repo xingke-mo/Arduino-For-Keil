@@ -1,12 +1,12 @@
 #include "Arduino.h"
 
-#define LED_Pin PC13
+#define LED_Pin PC1
 #define PWM_Pin PA0
-#define ADC_Pin PA0
+#define ADC_Pin PA1
 
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(19200);
     Serial.printf("C++ Version: %d\r\n", __cplusplus);
     Serial.printf("Compiling Time: %s %s\r\n", __DATE__, __TIME__);
     pinMode(LED_Pin, OUTPUT);
@@ -54,7 +54,7 @@ void loop()
     Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);
     pinMode(PWM_Pin, PWM);
 }
-
+#if 1
 /**
   * @brief  Main Function
   * @param  None
@@ -67,3 +67,4 @@ int main(void)
     setup();
     for(;;)loop();
 }
+#endif

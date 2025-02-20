@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
-#define Write_Pin PA0
-#define Read_Pin  PA1
+#define Write_Pin PC0
+#define Read_Pin  PB1
 
 void setup()
 {
@@ -13,10 +13,12 @@ void loop()
 {
     int value = digitalRead_FAST(Read_Pin);
 
-    digitalWrite_HIGH(Write_Pin);
-    digitalWrite_LOW(Write_Pin);
+    if(value)
+        digitalWrite_HIGH(Write_Pin);
+    else
+        digitalWrite_LOW(Write_Pin);
 }
-
+#if 1
 /**
   * @brief  Main Function
   * @param  None
@@ -28,3 +30,4 @@ int main(void)
     setup();
     for(;;)loop();
 }
+#endif

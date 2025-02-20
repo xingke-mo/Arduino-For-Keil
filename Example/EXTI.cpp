@@ -1,7 +1,7 @@
 #include "Arduino.h"
 
-#define LED_Pin PA0
-#define KEY_Pin PA1
+#define LED_Pin PC0
+#define KEY_Pin PB1
 
 void LED_Toogle()
 {
@@ -11,7 +11,7 @@ void LED_Toogle()
 
 void setup()
 {
-    Serial.begin(115200);
+    Serial.begin(19200);
     pinMode(LED_Pin, OUTPUT);
     pinMode(KEY_Pin, INPUT_PULLUP);
     attachInterrupt(KEY_Pin, LED_Toogle, FALLING);
@@ -20,7 +20,7 @@ void setup()
 void loop()
 {
 }
-
+#if 1
 /**
   * @brief  Main Function
   * @param  None
@@ -32,3 +32,4 @@ int main(void)
     setup();
     for(;;)loop();
 }
+#endif
