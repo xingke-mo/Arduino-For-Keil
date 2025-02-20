@@ -28,9 +28,9 @@
 #define Write_Pin PC3
 #define Read_Pin  PB2
 
-#define PWM_Pin   PA0
+#define PWM_Pin   PA1
 
-#define ADC_Pin   PA1
+#define ADC_Pin   PA2
 
 void Timer1_Callback()
 {
@@ -73,9 +73,9 @@ void setup()
     
     /*PWM DutyCycle: 0~500 -> 0~100%*/
     /*PWM Frequency: 1KHz*/
-    //pinMode(PWM_Pin, PWM);
+    pinMode(PWM_Pin, PWM);
     //PWM_Init(PWM_Pin, 500, 1000);  
-    //analogWrite(PWM_Pin, 500);
+    analogWrite(PWM_Pin, 500);
 
     Serial.println("Starting...");
 }
@@ -104,16 +104,16 @@ void loop()
         
         value_last = value;
     }
-#if 0    
+#if 1    
     //指数式增加亮度，适合驱动LED，看起来亮度更线性
-    for (int i = 0; i < 256; i++)
+    for (int i = 0; i < 64; i++)
     {
         delay(20);
-        pwmWrite(PB0, i * i);
+        analogWrite(PWM_Pin, i * i);
     }
 #endif  
     togglePin(LED2_Pin);   
-    delay(500);   
+    delay(50);   
 }
 #if 1
 /**
