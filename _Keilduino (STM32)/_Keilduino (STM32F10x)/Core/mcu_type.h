@@ -63,8 +63,7 @@ typedef struct
 #define __KEILDUINO__               780
 #define __STM32__
 #define __STM32F1__
-///#define F_CPU                    SystemCoreClock
-#define F_CPU                       24000000U
+#define F_CPU                    SystemCoreClock
 #define CYCLES_PER_MICROSECOND      (F_CPU / 1000000U)
 
 #endif

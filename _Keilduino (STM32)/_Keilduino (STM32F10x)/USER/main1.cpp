@@ -2,7 +2,7 @@
  * @Author: xingke.mo xingke.mo
  * @Date: 2025-02-18 11:43:35
  * @LastEditors: xingke.mo xingke.mo
- * @LastEditTime: 2025-02-18 16:13:54
+ * @LastEditTime: 2025-02-20 10:28:20
  */
 
 /*
@@ -227,6 +227,7 @@ void loop()
         pwmWrite(PWM_Pin, i);
         delay(1);
     }
+    
     for(int i = 1000; i > 0; i--)
     {
         analogWrite(PWM_Pin, i);
@@ -238,7 +239,7 @@ void loop()
     {
         String receivedString = Serial.readString();
         Serial.printf("Serial received:%s\r\n", receivedString.c_str());
-    } 
+    }
 }
 #else
 extern void setup() ;
@@ -254,7 +255,7 @@ int main(void)
 {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
     GPIO_JTAG_Disable();
-    SysClock_Init(F_CPU_128MHz);
+    SysClock_Init(F_CPU_24MHz);
     Delay_Init();
     ADCx_Init(ADC1);
     setup();

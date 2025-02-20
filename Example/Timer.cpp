@@ -23,7 +23,7 @@
 
 #define PWM_Pin   PB0
 
-#define ADC_Pin   PA0
+#define ADC_Pin   PA1
 
 void Timer1_Callback()
 {
@@ -54,10 +54,10 @@ void setup()
     pinMode(KEY_Pin, INPUT_PULLUP);
     attachInterrupt(KEY_Pin, LED_Toogle, FALLING);
     
-    Timer_SetInterrupt(TIM1, 1000000 /*@1000ms*/, Timer1_Callback);
-    Timer_SetInterrupt(TIM2, 100000 /*@100ms*/, Timer2_Callback);
+    Timer_SetInterrupt(TIM1, 100000 /*@100ms*/, Timer1_Callback);
+    //Timer_SetInterrupt(TIM2, 100000 /*@100ms*/, Timer2_Callback);
     TIM_Cmd(TIM1, ENABLE);
-    TIM_Cmd(TIM2, ENABLE);
+    //TIM_Cmd(TIM2, ENABLE);
     
     pinMode(Write_Pin, OUTPUT);
     pinMode(Read_Pin, INPUT);    
@@ -85,8 +85,11 @@ void loop()
         else
         {
             digitalWrite_LOW(Write_Pin);    
-            Serial.print("PA0 = "); 
-            //Serial.println(analogRead(ADC_Pin));                
+            
+            Serial.println("ADC_Pin Analog Read TEST:");
+            //uint16_t ADC_Val = analogRead(ADC_Pin);
+            //Serial.printf("ADC_Pin ADC Val is:%d\r\n", ADC_Val);            
+            delay(200);            
         }
         
         value_last = value;
@@ -108,7 +111,11 @@ void loop()
   */
 int main(void)
 {
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+    GPIO_JTAG_Disable();
+    SysClock_Init(F_CPU_24MHz);    
     Delay_Init();
+    //ADCx_Init(ADC1);
     setup();
     for(;;)loop();
 }

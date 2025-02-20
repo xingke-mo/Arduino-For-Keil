@@ -27,10 +27,10 @@
 #include "Print.h"
 #include "Stream.h"
 
-#define SERIAL_RX_BUFFER_SIZE 128
-#define SERIAL_Config_Default SERIAL_8N1
-#define USART_PreemptionPriority_Default 1
-#define USART_SubPriority_Default 3
+#define SERIAL_RX_BUFFER_SIZE               128
+#define SERIAL_Config_Default               SERIAL_8N1
+#define USART_PreemptionPriority_Default    1
+#define USART_SubPriority_Default           3
 
 #define USART_GetWordLength(SERIAL_x)    ((uint16_t)(SERIAL_x&0xF000))
 #define USART_GetParity(SERIAL_x)        ((uint16_t)(SERIAL_x&0x0F00))

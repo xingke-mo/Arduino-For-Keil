@@ -62,6 +62,8 @@ void loop()
   */
 int main(void)
 {
+    ///GPIO_JTAG_Disable();
+    SysClock_Init(F_CPU_24MHz);       
     Delay_Init();
     ADCx_Init(ADC1);
     setup();
