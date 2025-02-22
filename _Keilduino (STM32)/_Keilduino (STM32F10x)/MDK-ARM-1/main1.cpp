@@ -19,19 +19,6 @@
     10.修改示例程序里的引脚定义为STM32的引脚
     11.点击编译，如果编译无错误表示移植成功
 
-void setup()
-{
-	pinMode(PA0,OUTPUT);			//使用Arduino函数将配置PA0为输出模式
-}
-
-void loop()
-{
-	GPIOA -> BSRR = GPIO_Pin_0;		//使用寄存器将PA0电平拉高
-	delay(1000);				//延时一秒
-	GPIO_ResetBits(GPIOA, GPIO_Pin_0);	//使用标准外设库的函数将PA0电平拉低
-	delay(1000);				//延时一秒
-}
-
 支持Arduino函数有:
 
 时间:
@@ -88,11 +75,12 @@ SPI
 #include "Arduino.h"
 
 #if 1
-#define LED_Pin     PC0
+#define LED0_Pin    PC0
 #define LED1_Pin    PC1
 #define LED2_Pin    PC2
-
-#define Write_Pin   PC3
+#define LED3_Pin    PC3
+#define LED4_Pin    PC4
+#define LED5_Pin    PC5
 
 #define Read_Pin    PB1
 #define KEY_Pin     PB2
@@ -105,24 +93,18 @@ unsigned long lasttime;
 void LED_Toogle()
 {
     Serial.println("KEY is pressed!");
-    togglePin(LED_Pin);
+    togglePin(LED0_Pin);
 }
 
 void Timer1_Callback()
 {
-    Serial.println("Timer 1 Interrupt!");
+    //Serial.println("Timer 1 Interrupt!");
     togglePin(LED1_Pin);
-}
-
-void Timer2_Callback()
-{
-    Serial.println("Timer 2 Interrupt!");
-    togglePin(LED2_Pin);
 }
 
 void Serial_EventHandler()
 {
-    togglePin(LED_Pin);
+    togglePin(LED3_Pin);
 }
 
 void setup()
@@ -133,16 +115,24 @@ void setup()
     
     Serial.printf("C++ Version: %d\r\n", __cplusplus);
     Serial.printf("Compiling Time: %s %s\r\n", __DATE__, __TIME__);
-    pinMode(LED_Pin, OUTPUT);
+    pinMode(LED0_Pin, OUTPUT);
+    pinMode(LED1_Pin, OUTPUT);
+    pinMode(LED2_Pin, OUTPUT);
+    pinMode(LED3_Pin, OUTPUT);    
+    pinMode(LED5_Pin, OUTPUT);
+    pinMode(LED4_Pin, OUTPUT);    
     pinMode(PWM_Pin, PWM);
 
     //EXTI
     Serial.println("KEY is pressed!");
-    togglePin(LED_Pin);
+    togglePin(LED0_Pin);
 
     //GPIO_Fast
-    pinMode(Write_Pin, OUTPUT);
     pinMode(Read_Pin, INPUT);
+    attachInterrupt(Read_Pin, LED_Toogle, FALLING);
+    
+    Timer_SetInterrupt(TIM1, 100000 /*@100ms*/, Timer1_Callback);
+    TIM_Cmd(TIM1, ENABLE);
 
     //PWM
     /*PWM DutyCycle: 0~1000 -> 0~100%*/
@@ -154,7 +144,6 @@ void setup()
     togglePin(LED1_Pin);
 
     //USART
-    pinMode(LED_Pin, OUTPUT);
     Serial.println("Serial printing...");
     Serial.setTimeout(10);
     Serial.attachInterrupt(Serial_EventHandler);
@@ -165,13 +154,13 @@ void loop()
     if(millis() - lasttime >=5000)
     {
         lasttime = millis();
-        if(digitalRead(LED_Pin)==HIGH)
+        if(digitalRead(Read_Pin)==HIGH)
         {
-            digitalWrite(LED_Pin, LOW);
+            digitalWrite(LED2_Pin, LOW);
         }
         else
         {
-            digitalWrite(LED_Pin, HIGH);
+            digitalWrite(LED2_Pin, HIGH);
         }
       }
 
@@ -181,17 +170,15 @@ void loop()
     Serial.println("Digital Write TEST:");
     for(int i = 0; i < 5; i++)
     {
-        digitalWrite(LED_Pin, HIGH);
+        digitalWrite(LED5_Pin, HIGH);
         delay(1000);
-        digitalWrite(LED_Pin, LOW);
+        digitalWrite(LED5_Pin, LOW);
         delay(1000);
     }
 
     Serial.println("Digital Read TEST:");
-    pinMode(LED_Pin, INPUT);
-    uint8_t State = digitalRead(LED_Pin);
-    Serial.printf("LED_Pin State is:%d\r\n", State);
-    pinMode(LED_Pin, OUTPUT);
+    uint8_t State = digitalRead(KEY_Pin);
+    Serial.printf("LED0_Pin State is:%d\r\n", State);
 
     Serial.println("Analog Write TEST:");
     for(int i = 0; i < 5; i++)
@@ -217,20 +204,20 @@ void loop()
     int value = digitalRead_FAST(Read_Pin);
 
     if(value)
-        digitalWrite_HIGH(Write_Pin);
+        digitalWrite_HIGH(LED5_Pin);
     else
-        digitalWrite_LOW(Write_Pin);
+        digitalWrite_LOW(LED5_Pin);
 
     //PWM
     for(int i = 0; i <= 1000; i++)
     {
         pwmWrite(PWM_Pin, i);
-        delay(1);
+        delay(1);                       // delay 1ms
     }
     for(int i = 1000; i > 0; i--)
     {
         analogWrite(PWM_Pin, i);
-        delay(1);
+        delay(1);                       // delay 1ms
     }
 
     //USART
@@ -239,6 +226,8 @@ void loop()
         String receivedString = Serial.readString();
         Serial.printf("Serial received:%s\r\n", receivedString.c_str());
     } 
+    
+    togglePin(LED4_Pin);
 }
 #else
     extern void setup() ;
